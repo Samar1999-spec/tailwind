@@ -150,6 +150,48 @@ async function handleSubmit(request, env) {
   return json(200, { ok: true });
 }
 
+// Collected Works uploads for the Institute paper. Files go to the R2 bucket bound as WORKS;
+// until that binding exists, /api/uploads reports disabled and the page asks for links only.
+const UPLOAD_SLOTS = ["works_samples", "works_scripts", "works_documented"];
+const UPLOAD_MAX_BYTES = 25 * 1024 * 1024;
+const UPLOAD_TYPES = {
+  pdf: "application/pdf", doc: "application/msword",
+  docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  odt: "application/vnd.oasis.opendocument.text", rtf: "application/rtf", txt: "text/plain",
+  fdx: "application/xml", fountain: "text/plain", pages: "application/vnd.apple.pages",
+  jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp",
+  mp3: "audio/mpeg", m4a: "audio/mp4", wav: "audio/wav", mp4: "video/mp4", mov: "video/quicktime",
+};
+
+async function handleUpload(request, env) {
+  if (!env.WORKS || !env.DB) return json(503, { ok: false, error: "uploads_unavailable" });
+  let form;
+  try { form = await request.formData(); } catch { return json(400, { ok: false, error: "bad_request" }); }
+  const file = form.get("file");
+  const slot = String(form.get("slot") ?? "");
+  if (!file || typeof file === "string") return json(400, { ok: false, error: "no_file" });
+  if (!UPLOAD_SLOTS.includes(slot)) return json(400, { ok: false, error: "bad_slot" });
+  if (file.size > UPLOAD_MAX_BYTES) return json(413, { ok: false, error: "too_large" });
+  const name = String(file.name || "file").replace(/[\x00-\x1F\x7F/\\]/g, "").slice(-120) || "file";
+  const ext = (name.match(/\.([a-z0-9]+)$/i)?.[1] || "").toLowerCase();
+  if (!UPLOAD_TYPES[ext]) return json(415, { ok: false, error: "type_not_allowed" });
+
+  const ip = request.headers.get("CF-Connecting-IP") || "";
+  const when = new Date().toISOString();
+  const since = new Date(Date.now() - 600_000).toISOString();
+  const { n } = await env.DB.prepare("SELECT COUNT(*) AS n FROM uploads WHERE ip = ? AND submitted_at > ?").bind(ip, since).first();
+  if (n >= 30) return json(429, { ok: false, error: "rate_limited" });
+
+  const key = `institute/${when.slice(0, 10)}/${crypto.randomUUID()}/${name.replace(/[^\w.\- ]+/g, "_")}`;
+  await env.WORKS.put(key, file.stream(), {
+    httpMetadata: { contentType: UPLOAD_TYPES[ext], contentDisposition: "attachment" },
+    customMetadata: { slot, original_name: name },
+  });
+  await env.DB.prepare("INSERT INTO uploads (submitted_at, r2_key, slot, name, size, ip) VALUES (?, ?, ?, ?, ?, ?)")
+    .bind(when, key, slot, name, file.size, ip).run();
+  return json(200, { ok: true, key, name, size: file.size });
+}
+
 export default {
   async fetch(request, env) {
     const { pathname } = new URL(request.url);
@@ -159,6 +201,16 @@ export default {
         return await handleSubmit(request, env);
       } catch (err) {
         console.error("submit failed", err);
+        return json(500, { ok: false, error: "server_error" });
+      }
+    }
+    if (pathname === "/api/uploads") return json(200, { enabled: !!env.WORKS });
+    if (pathname === "/api/upload") {
+      if (request.method !== "POST") return new Response("Method Not Allowed", { status: 405, headers: { Allow: "POST" } });
+      try {
+        return await handleUpload(request, env);
+      } catch (err) {
+        console.error("upload failed", err);
         return json(500, { ok: false, error: "server_error" });
       }
     }

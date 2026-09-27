@@ -577,6 +577,25 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
   padding:5px 10px;color:var(--text-dim);
 }
 
+/* word counter + collected works */
+.count .ok{color:var(--good)}
+.count .short{color:var(--flag)}
+.works .k{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-faint);margin:0 0 6px}
+.works-link{width:100%;background:var(--surface-2);border:1px solid var(--rule);padding:9px 11px;font-size:15px}
+.works-link:focus{outline:none;border-color:var(--accent)}
+.works-upload{margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.works-upload .k{flex:1 0 100%;margin:0}
+.works-pick{position:relative;display:inline-block;border:1px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;cursor:pointer}
+.works-pick:hover{background:var(--accent-soft)}
+.works-pick input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.works-hint{font-size:12px;color:var(--text-faint)}
+.works-files{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
+.works-files li{display:flex;gap:10px;align-items:center;background:var(--surface-2);border:1px solid var(--rule);padding:7px 10px;font-size:13.5px}
+.works-files .fn{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.works-files .fs{font-family:var(--mono);font-size:10.5px;color:var(--text-faint);white-space:nowrap}
+.works-files .pending{opacity:.6}
+.works-rm{border:0;background:none;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--flag);padding:2px 4px}
+
 /* which path */
 .pathnote{padding:14px 26px;background:var(--accent-soft);border-bottom:1px solid var(--rule);font-size:13.5px;color:var(--text)}
 .pathnote b{font-weight:600}
@@ -632,7 +651,7 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
     <div class="instructions">
       <b>Instructions to the candidate.</b>
       <ol>
-        <li>Answer every question. The paper does not submit until it is complete.</li>
+        <li>Answer every question. Reflective answers must be full paragraphs, and Section F needs your collected works. The paper does not submit until it is complete.</li>
         <li>There are no wrong answers and nothing is scored against you. The paper is an instrument, not a filter.</li>
         <li>Your answers are read back to you as a Method Dossier — the eleven elements of the Method Prompt Framework, filled in about you rather than about a task.</li>
         <li>Your progress is saved in this browser as you go. When you submit, your paper and contact details are sent to the studio so admissions can read it.</li>
@@ -836,10 +855,10 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
 
   var SECTIONS = [
     {
-      letter:"A", title:"Role & Circumstance", marks:20,
+      letter:"A", title:"Role & Circumstance", marks:15,
       note:"Who is at the instrument, and what world it is played in.",
       qs:[
-        {id:"track", no:"A1", marks:6, type:"radio", element:"Role",
+        {id:"track", no:"A1", marks:4, type:"radio", element:"Role",
          text:"Which department are you sitting for?",
          opts:[
            {v:"actor",    l:"Performance",             d:"Auditions, self-tapes, character work, stage"},
@@ -847,11 +866,11 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
            {v:"director",l:"Direction",                d:"Shot design, blocking, notes, tone"},
            {v:"producer", l:"Production Intelligence", d:"Breakdowns, schedule, budget, logistics"}
          ]},
-        {id:"instrument", no:"A2", marks:8, type:"text", element:"Role",
+        {id:"instrument", no:"A2", marks:6, type:"text", element:"Role", min:40, rows:5,
          text:"Name your instrument as it stands today.",
-         hint:"What you actually do in a room, on a page, or on a set — not what you are working towards.",
+         hint:"A full paragraph. What you actually do in a room, on a page, or on a set — your training, your strongest and weakest skills — not what you are working towards.",
          ph:"e.g. Stage actor, six years in repertory. Strong on text, weak on self-tape."},
-        {id:"world", no:"A3", marks:6, type:"check", element:"Circumstances",
+        {id:"world", no:"A3", marks:5, type:"check", element:"Circumstances",
          text:"Which worlds are you working in? Select all that bind.",
          opts:[
            {v:"Theatre",l:"Theatre"},{v:"Independent film",l:"Independent film"},
@@ -861,28 +880,28 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
       ]
     },
     {
-      letter:"B", title:"Objective & Motivation", marks:25,
+      letter:"B", title:"Objective & Motivation", marks:20,
       note:"What must be achieved, and why it is worth the twelve months.",
       qs:[
-        {id:"objective", no:"B1", marks:10, type:"text", element:"Objective",
+        {id:"objective", no:"B1", marks:8, type:"text", element:"Objective", min:8, rows:2,
          text:"State the objective for the next twelve months in one sentence.",
          hint:"An objective is a thing that either happens or does not. Not a feeling, not a direction.",
          ph:"e.g. Book one speaking role on a union production, or direct a short that plays two festivals."},
-        {id:"motivation", no:"B2", marks:10, type:"text", element:"Motivation",
+        {id:"motivation", no:"B2", marks:8, type:"text", element:"Motivation", min:60, rows:6,
          text:"Why does it matter?",
-         hint:"The framework is unusable without this. A model given an objective and no motivation performs the objective literally and badly.",
+         hint:"A full paragraph. The framework is unusable without this. A model given an objective and no motivation performs the objective literally and badly.",
          ph:"What changes for you if it lands."},
-        {id:"stake", no:"B3", marks:5, type:"slide", element:"Motivation",
+        {id:"stake", no:"B3", marks:4, type:"slide", element:"Motivation",
          text:"What is riding on it?",
          ends:["Preference","Livelihood"],
          labels:["A preference","A serious want","A plan on the line","Income depends on it","Everything is staked on it"]}
       ]
     },
     {
-      letter:"C", title:"Relationships & Constraints", marks:20,
+      letter:"C", title:"Relationships & Constraints", marks:17,
       note:"Who the work is for, and what the work is fenced by.",
       qs:[
-        {id:"audience", no:"C1", marks:6, type:"radio", element:"Relationships",
+        {id:"audience", no:"C1", marks:5, type:"radio", element:"Relationships",
          text:"Who is the output for?",
          opts:[
            {v:"Casting directors and agents", l:"Casting directors & agents", d:"The work is read as evidence of you"},
@@ -890,14 +909,14 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
            {v:"An audience",                  l:"An audience",                d:"The work is read as the thing itself"},
            {v:"Collaborators and crew",       l:"Collaborators & crew",       d:"The work is read as an instruction"}
          ]},
-        {id:"constraints", no:"C2", marks:8, type:"check", element:"Constraints",
+        {id:"constraints", no:"C2", marks:7, type:"check", element:"Constraints",
          text:"Which constraints are actually binding right now?",
          opts:[
            {v:"Time",l:"Time"},{v:"Money",l:"Money"},{v:"Geography or visa status",l:"Geography / visa"},
            {v:"Union or guild rules",l:"Union / guild rules"},{v:"No reel or samples",l:"No reel or samples"},
            {v:"No team",l:"No team"},{v:"No access to decision-makers",l:"No access to decision-makers"}
          ]},
-        {id:"years", no:"C3", marks:6, type:"radio", element:"Circumstances",
+        {id:"years", no:"C3", marks:5, type:"radio", element:"Circumstances",
          text:"Years of professional experience in your craft.",
          hint:"The studio's production standard is ten years. This question decides your standing, not your admission.",
          opts:[
@@ -909,16 +928,16 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
       ]
     },
     {
-      letter:"D", title:"Action", marks:20,
+      letter:"D", title:"Action", marks:18,
       note:"The thing the framework is pointed at. Everything before this is preparation.",
       qs:[
-        {id:"action", no:"D1", marks:12, type:"text", element:"Action",
+        {id:"action", no:"D1", marks:10, type:"text", element:"Action", min:15, rows:3,
          text:"Name one thing you could put in front of a decision-maker within thirty days.",
-         hint:"One artefact. A tape, five pages, a lookbook, a breakdown, a deck.",
+         hint:"One artefact, described specifically in two or three sentences. A tape, five pages, a lookbook, a breakdown, a deck.",
          ph:"e.g. A three-minute self-tape of a contemporary scene, cut and graded."},
-        {id:"blocker", no:"D2", marks:8, type:"text", element:"Constraints",
+        {id:"blocker", no:"D2", marks:8, type:"text", element:"Constraints", min:60, rows:6,
          text:"What has stopped you making it so far?",
-         hint:"Answer this honestly; it is the question the institute actually teaches against.",
+         hint:"A full paragraph. Answer this honestly; it is the question the institute actually teaches against.",
          ph:"Be specific. \"No time\" is rarely the real answer."}
       ]
     },
@@ -942,6 +961,21 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
          text:"How much of what you learn carries into the next piece of work?",
          ends:["Starts over","Compounds"],
          labels:["Each job starts from zero","A little carries","Some carries","Most carries","I build on a system every time"]}
+      ]
+    },
+    {
+      letter:"F", title:"Collected Works", marks:15,
+      note:"The evidence behind the paper. All three are required: upload files or paste a link to each.",
+      qs:[
+        {id:"works_samples", no:"F1", marks:5, type:"works", element:"Evidence",
+         text:"Work samples.",
+         hint:"Finished pieces that show your instrument: a reel or self-tape, a short film, production stills, a breakdown or budget you built."},
+        {id:"works_scripts", no:"F2", marks:5, type:"works", element:"Evidence",
+         text:"Sample scripts and stories.",
+         hint:"Pages you wrote, or the scripts and stories you performed, directed or produced from. Screenplays, stage plays, treatments and short stories all count."},
+        {id:"works_documented", no:"F3", marks:5, type:"works", element:"Evidence",
+         text:"Collected documented works.",
+         hint:"The record of your work: CV or credits list, portfolio, press, programmes, festival selections, letters of reference."}
       ]
     }
   ];
@@ -1082,12 +1116,24 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
 
   function answered(q){
     var v = state[q.id];
-    if(q.type==="text")  return typeof v==="string" && v.trim().length>=3;
+    if(q.type==="text")  return typeof v==="string" && words(v) >= (q.min||1);
+    if(q.type==="works") return !!v && ((v.files||[]).length>0 || (v.links||[]).some(isUrl));
     if(q.type==="radio") return !!v;
     if(q.type==="check") return Array.isArray(v) && v.length>0;
     if(q.type==="slide") return !!touched[q.id];
     return false;
   }
+
+  function words(t){ return String(t||"").trim().split(/\s+/).filter(Boolean).length; }
+  function isUrl(u){ return /^https?:\/\/[^\s.]+\.[^\s]{2,}/i.test(String(u||"").trim()); }
+  function countLabel(q, v){
+    var n = words(v), ok = n >= (q.min||1);
+    return '<span class="'+(ok?'ok':'short')+'">'+n+' word'+(n===1?'':'s')+'</span> · minimum '+(q.min||1);
+  }
+  var UPLOADS = false;                          /* set true when the server reports file storage is on */
+  var ACCEPT = ".pdf,.doc,.docx,.odt,.rtf,.txt,.fdx,.fountain,.pages,.jpg,.jpeg,.png,.webp,.mp3,.m4a,.wav,.mp4,.mov";
+  var MAX_MB = 25, MAX_FILES = 5;
+  function fmtSize(b){ return b>1048576 ? (b/1048576).toFixed(1)+" MB" : Math.max(1,Math.round(b/1024))+" KB"; }
 
   /* ───────── render the paper ───────── */
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
@@ -1105,7 +1151,7 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
         if(q.hint) html += '<p class="q-hint">'+esc(q.hint)+'</p>';
         html += '<div class="q-field">';
         if(q.type==="text"){
-          html += '<textarea id="f-'+q.id+'" rows="2" placeholder="'+esc(q.ph||"")+'"></textarea><div class="count" id="c-'+q.id+'">0 characters</div>';
+          html += '<textarea id="f-'+q.id+'" rows="'+(q.rows||2)+'" placeholder="'+esc(q.ph||"")+'"></textarea><div class="count" id="c-'+q.id+'">'+countLabel(q,"")+'</div>';
         } else if(q.type==="radio"){
           html += '<div class="opts two">';
           q.opts.forEach(function(o,i){
@@ -1118,6 +1164,18 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
             html += '<label class="opt" data-v="'+esc(o.v)+'"><input type="checkbox" name="'+q.id+'" id="f-'+q.id+'-'+i+'" value="'+esc(o.v)+'"><span class="opt-l">'+esc(o.l)+'</span></label>';
           });
           html += '</div>';
+        } else if(q.type==="works"){
+          html += '<div class="works" id="w-'+q.id+'">'+
+            '<label class="k" for="l-'+q.id+'">Link</label>'+
+            '<input type="url" class="works-link" id="l-'+q.id+'" placeholder="https:// — Google Drive, Dropbox, Vimeo, YouTube, a portfolio site" inputmode="url">'+
+            '<div class="works-upload" id="u-'+q.id+'" hidden>'+
+              '<label class="k">Or upload files</label>'+
+              '<label class="works-pick"><input type="file" id="f-'+q.id+'" multiple accept="'+ACCEPT+'"><span>Choose files</span></label>'+
+              '<span class="works-hint">PDF, Word, Final Draft, Fountain, images, audio or video · up to '+MAX_MB+' MB each · '+MAX_FILES+' files</span>'+
+            '</div>'+
+            '<ul class="works-files" id="list-'+q.id+'"></ul>'+
+            '<div class="count" id="c-'+q.id+'"></div>'+
+          '</div>';
         } else if(q.type==="slide"){
           html += '<div class="slide-wrap untouched" id="w-'+q.id+'">';
           html += '<div class="slide-row"><input type="range" min="1" max="5" step="1" value="3" id="f-'+q.id+'"><div class="slide-val" id="v-'+q.id+'"><b>—</b></div></div>';
@@ -1135,9 +1193,14 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
       if(q.type==="text"){
         el.addEventListener("input", function(){
           state[q.id] = el.value;
-          document.getElementById("c-"+q.id).textContent = el.value.length + " characters";
+          document.getElementById("c-"+q.id).innerHTML = countLabel(q, el.value);
           tick();
         });
+      } else if(q.type==="works"){
+        worksOf(q);
+        var linkEl = document.getElementById("l-"+q.id);
+        linkEl.addEventListener("input", function(){ worksOf(q).links = [linkEl.value.trim()]; paintWorks(q); tick(); });
+        el.addEventListener("change", function(){ uploadFiles(q, el.files); el.value=""; });
       } else if(q.type==="radio" || q.type==="check"){
         var boxes = document.querySelectorAll('input[name="'+q.id+'"]');
         Array.prototype.forEach.call(boxes, function(b){
@@ -1161,6 +1224,48 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
         el.addEventListener("input", function(){ touched[q.id]=true; document.getElementById("w-"+q.id).classList.remove("untouched"); setv(); tick(); });
         state[q.id]=3; setv();
       }
+    });
+  }
+
+  function worksOf(q){
+    var v = state[q.id];
+    if(!v || typeof v!=="object"){ v = state[q.id] = {links:[], files:[]}; }
+    v.links = v.links || []; v.files = v.files || []; v.pending = v.pending || [];
+    return v;
+  }
+  function paintWorks(q){
+    var v = worksOf(q);
+    var list = document.getElementById("list-"+q.id);
+    list.innerHTML = (v.files||[]).map(function(f,i){
+      return '<li><span class="fn">'+esc(f.name)+'</span><span class="fs">'+fmtSize(f.size)+'</span><button type="button" class="works-rm" data-i="'+i+'" aria-label="Remove '+esc(f.name)+'">Remove</button></li>';
+    }).join("") + (v.pending||[]).map(function(n){ return '<li class="pending"><span class="fn">'+esc(n)+'</span><span class="fs">Uploading…</span></li>'; }).join("");
+    Array.prototype.forEach.call(list.querySelectorAll(".works-rm"), function(b){
+      b.addEventListener("click", function(){ v.files.splice(parseInt(b.dataset.i,10),1); paintWorks(q); tick(); });
+    });
+    var link = (v.links||[])[0] || "";
+    var c = document.getElementById("c-"+q.id);
+    if(link && !isUrl(link)) c.innerHTML = '<span class="short">Enter a full link starting with https://</span>';
+    else if(answered(q)) c.innerHTML = '<span class="ok">Provided</span> · '+((v.files||[]).length?(v.files.length+' file'+(v.files.length>1?'s':'')):'')+((v.files||[]).length&&isUrl(link)?' + ':'')+(isUrl(link)?'link':'');
+    else c.innerHTML = '<span class="short">Required</span> · '+(UPLOADS?'upload a file or paste a link':'paste a link');
+  }
+
+  function uploadFiles(q, fileList){
+    var v = worksOf(q);
+    var c = document.getElementById("c-"+q.id);
+    Array.prototype.forEach.call(fileList, function(file){
+      if((v.files.length + v.pending.length) >= MAX_FILES){ c.innerHTML='<span class="short">Up to '+MAX_FILES+' files per item.</span>'; return; }
+      if(file.size > MAX_MB*1048576){ c.innerHTML='<span class="short">'+esc(file.name)+' is over '+MAX_MB+' MB. Paste a link to it instead.</span>'; return; }
+      v.pending.push(file.name); paintWorks(q);
+      var fd = new FormData(); fd.append("file", file); fd.append("slot", q.id);
+      fetch("/api/upload",{method:"POST",body:fd,headers:{"Accept":"application/json"}})
+        .then(function(r){ return r.json().catch(function(){return {ok:false};}); })
+        .then(function(j){
+          v.pending.splice(v.pending.indexOf(file.name),1);
+          if(j && j.ok){ v.files.push({key:j.key, name:j.name, size:j.size}); paintWorks(q); }
+          else { paintWorks(q); c.innerHTML='<span class="short">'+esc(file.name)+' could not be uploaded'+(j&&j.error==="type_not_allowed"?' (file type not accepted)':'')+'. Try again or paste a link.</span>'; }
+          tick();
+        })
+        .catch(function(){ v.pending.splice(v.pending.indexOf(file.name),1); paintWorks(q); c.innerHTML='<span class="short">Upload failed. Check your connection or paste a link.</span>'; tick(); });
     });
   }
 
@@ -1596,7 +1701,8 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
     allQs().forEach(function(q){
       var v = state[q.id]; if(v===undefined || v===null) return;
       var el = document.getElementById("f-"+q.id);
-      if(q.type==="text" && el){ el.value=v; document.getElementById("c-"+q.id).textContent = v.length+" characters"; }
+      if(q.type==="text" && el){ el.value=v; document.getElementById("c-"+q.id).innerHTML = countLabel(q, v); }
+      if(q.type==="works"){ var wv = worksOf(q); wv.pending=[]; document.getElementById("l-"+q.id).value = wv.links[0]||""; }
       if(q.type==="radio"||q.type==="check"){
         var boxes = document.querySelectorAll('input[name="'+q.id+'"]');
         Array.prototype.forEach.call(boxes,function(b){
@@ -1614,7 +1720,16 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
     });
     if(prev.done){ document.getElementById("declare").checked = true; openInstitute(true); }
   }
+  allQs().forEach(function(q){ if(q.type==="works") paintWorks(q); });
   tick();
+
+  /* file uploads switch on only when the server has file storage attached */
+  fetch("/api/uploads",{headers:{"Accept":"application/json"}})
+    .then(function(r){ return r.ok ? r.json() : {enabled:false}; })
+    .then(function(j){
+      UPLOADS = !!(j && j.enabled);
+      allQs().forEach(function(q){ if(q.type==="works"){ document.getElementById("u-"+q.id).hidden = !UPLOADS; paintWorks(q); } });
+    }).catch(function(){});
 })();
 </script>
 </html>

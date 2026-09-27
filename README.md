@@ -38,6 +38,21 @@ SELECT dossier FROM institute_papers WHERE id = 1;   -- a candidate's Method Dos
 
 Cloudflare Workers can't send email on their own, so there are no email alerts yet.
 
+## Collected Works uploads (Institute paper, Section F)
+
+Section F requires work samples, sample scripts/stories and documented works. Each accepts a
+link; file uploads switch on automatically once the Worker has an R2 bucket bound as `WORKS`:
+
+1. Cloudflare dashboard → R2 → enable R2 (free tier covers 10 GB).
+2. Create a bucket named `mms-collected-works` (keep it private).
+3. Add to `wrangler.jsonc`: `"r2_buckets": [{ "binding": "WORKS", "bucket_name": "mms-collected-works" }]`, then push.
+
+Uploaded files are listed in the `uploads` table and inside each paper's `answers` JSON:
+
+```sql
+SELECT submitted_at, slot, name, size, r2_key FROM uploads ORDER BY id DESC;
+```
+
 ## Local development
 
 ```sh
