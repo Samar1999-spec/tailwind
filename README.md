@@ -12,7 +12,7 @@ Landing page, Stage 1 application, and form handling, deployed as a Cloudflare W
 
 ## Deploys
 
-Pushes to `main` deploy the live site. Other branches get a preview URL (Worker → Previews).
+Pushes to `main` deploy the live site at https://methodmachinestudio.com (and www). Other branches get a preview URL (Worker → Previews).
 
 ## Answer key (one-time setup)
 

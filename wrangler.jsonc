@@ -15,5 +15,10 @@
       "database_id": "60018151-f87c-48ff-9712-efa3a5ac5b26"
     }
   ],
+  "routes": [
+    { "pattern": "methodmachinestudio.com", "custom_domain": true },
+    { "pattern": "www.methodmachinestudio.com", "custom_domain": true }
+  ],
+  "workers_dev": true,
   "observability": { "enabled": true }
 }
