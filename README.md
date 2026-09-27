@@ -5,8 +5,8 @@ Landing page, Stage 1 application, and form handling, deployed as a Cloudflare W
 
 | Path | Purpose |
 | --- | --- |
-| `public/` | The site: `index.html`, `apply.html`, `404.html`, icon, manifest, `_headers` |
-| `src/worker.js` | Handles `POST /submit.php` (waitlist + applications), serves everything else from `public/` |
+| `public/` | The site: `index.html`, `apply.html`, `institute.html` (The Method Institute), `404.html`, icon, manifest, `_headers` |
+| `src/worker.js` | Handles `POST /submit.php` (waitlist, applications, institute papers), serves everything else from `public/` |
 | `wrangler.jsonc` | Worker config: static assets + D1 binding `DB` |
 | `schema.sql` | Tables in the D1 database `method-machine-studio` (already created) |
 
@@ -32,6 +32,8 @@ Cloudflare dashboard → Storage & Databases → D1 → `method-machine-studio` 
 SELECT submitted_at, email FROM waitlist ORDER BY id DESC;
 SELECT submitted_at, name, email, character_preferred, hard_fails, aptitude_auto FROM applications ORDER BY id DESC;
 SELECT report FROM applications WHERE id = 1;   -- full scoring report
+SELECT submitted_at, roll, name, email, track, years FROM institute_papers ORDER BY id DESC;
+SELECT dossier FROM institute_papers WHERE id = 1;   -- a candidate's Method Dossier
 ```
 
 Cloudflare Workers can't send email on their own, so there are no email alerts yet.

@@ -1,0 +1,1610 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Method Institute — Method Machine Studio</title>
+<meta name="description" content="Sit Entrance Paper I and receive your Method Dossier: the eleven elements of the Method Prompt Framework, filled in about you.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0D0F13">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Spectral:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+:root{
+  color-scheme: light;
+  --bg:#D6D5CE;
+  --bg-deep:#C7C6BD;
+  --surface:#FBF9F3;
+  --surface-2:#F1EDE3;
+  --surface-3:#E7E2D5;
+  --text:#1A1C21;
+  --text-dim:#6A6354;
+  --text-faint:#8B8475;
+  --rule:#D9D2C0;
+  --rule-strong:#B5AB93;
+  --accent:#8A6B21;
+  --accent-bright:#A9852C;
+  --accent-soft:#EFE5C9;
+  --on-accent:#FCF9F0;
+  --good:#3C7A51;
+  --flag:#8E3B2E;
+  --shadow-sheet:0 1px 1px rgba(26,28,33,.05), 0 18px 44px -18px rgba(26,28,33,.30);
+  --shadow-card:0 1px 2px rgba(26,28,33,.05);
+
+  --display:"Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --body:"Spectral", Georgia, "Times New Roman", serif;
+  --mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#0D0F13;
+    --bg-deep:#07080A;
+    --surface:#171A1F;
+    --surface-2:#1E222A;
+    --surface-3:#262B34;
+    --text:#ECE7DB;
+    --text-dim:#9B937F;
+    --text-faint:#7B7465;
+    --rule:#2A2E37;
+    --rule-strong:#3D434E;
+    --accent:#C9A24B;
+    --accent-bright:#E0BC68;
+    --accent-soft:#2B2517;
+    --on-accent:#12100A;
+    --good:#6FBE87;
+    --flag:#D2796A;
+    --shadow-sheet:0 1px 1px rgba(0,0,0,.5), 0 24px 60px -20px rgba(0,0,0,.75);
+    --shadow-card:0 1px 2px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#0D0F13;
+  --bg-deep:#07080A;
+  --surface:#171A1F;
+  --surface-2:#1E222A;
+  --surface-3:#262B34;
+  --text:#ECE7DB;
+  --text-dim:#9B937F;
+  --text-faint:#7B7465;
+  --rule:#2A2E37;
+  --rule-strong:#3D434E;
+  --accent:#C9A24B;
+  --accent-bright:#E0BC68;
+  --accent-soft:#2B2517;
+  --on-accent:#12100A;
+  --good:#6FBE87;
+  --flag:#D2796A;
+  --shadow-sheet:0 1px 1px rgba(0,0,0,.5), 0 24px 60px -20px rgba(0,0,0,.75);
+  --shadow-card:0 1px 2px rgba(0,0,0,.4);
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+body{
+  margin:0;
+  background:var(--bg);
+  background-image:radial-gradient(120% 70% at 50% -10%, var(--surface-3) 0%, var(--bg) 46%, var(--bg-deep) 100%);
+  background-attachment:fixed;
+  color:var(--text);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0;text-wrap:balance;font-weight:400}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:2px}
+
+.wrap{max-width:860px;margin:0 auto;padding-inline:18px;padding-block:0}
+
+/* ───────── marquee strip ───────── */
+.strip{
+  position:sticky;
+  top:env(safe-area-inset-top, 0px);
+  z-index:40;
+  background:var(--bg-deep);
+  border-bottom:1px solid var(--rule);
+}
+.strip-in{
+  max-width:860px;margin:0 auto;padding:9px 18px;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.mark{
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--accent);
+  white-space:nowrap;
+}
+.mark span{color:var(--text-faint);font-weight:400}
+.meter{
+  flex:1 1 130px;min-width:110px;height:3px;background:var(--rule);
+  border-radius:99px;overflow:hidden;
+}
+.meter-fill{height:100%;width:0;background:var(--accent);transition:width .45s cubic-bezier(.2,.7,.3,1)}
+.tally{font-family:var(--mono);font-size:11px;color:var(--text-dim);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tally b{color:var(--text);font-weight:500}
+
+/* ───────── the paper sheet ───────── */
+.sheet{
+  background:var(--surface);
+  border:1px solid var(--rule);
+  box-shadow:var(--shadow-sheet);
+  margin:26px 0 40px;
+  padding:0;
+}
+.sheet-head{
+  padding:30px 26px 22px;
+  border-bottom:2px solid var(--text);
+  text-align:center;
+}
+.crest{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--text-dim);margin-bottom:14px;
+}
+.sheet-head h1{
+  font-family:var(--display);
+  font-size:clamp(34px,7.4vw,52px);
+  line-height:1.04;letter-spacing:-.015em;
+}
+.sheet-head .paper-no{
+  font-family:var(--display);font-style:italic;
+  font-size:clamp(16px,3.4vw,20px);color:var(--accent);margin-top:8px;
+}
+.rubric{
+  display:flex;flex-wrap:wrap;gap:0;
+  border-bottom:1px solid var(--rule);
+}
+.rubric div{
+  flex:1 1 33%;min-width:0;padding:11px 14px;
+  border-right:1px solid var(--rule);
+  font-family:var(--mono);font-size:10px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--text-faint);
+}
+.rubric div:last-child{border-right:0}
+.rubric b{display:block;font-size:13px;letter-spacing:.02em;color:var(--text);text-transform:none;font-weight:500;margin-top:3px;font-family:var(--body)}
+.instructions{
+  padding:16px 26px;background:var(--surface-2);
+  border-bottom:1px solid var(--rule);
+  font-size:13.5px;color:var(--text-dim);
+}
+.instructions b{color:var(--text);font-weight:600}
+.instructions ol{margin:8px 0 0;padding-left:20px;display:grid;gap:4px}
+
+.body-pad{padding:0 26px 26px}
+
+/* ───────── sections & questions ───────── */
+.sect{padding-top:30px}
+.sect-bar{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  border-bottom:1px solid var(--rule-strong);padding-bottom:7px;margin-bottom:4px;
+}
+.sect-bar h2{
+  font-family:var(--display);font-size:24px;letter-spacing:-.01em;flex:1 1 auto;
+}
+.sect-bar .letter{
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;
+  color:var(--on-accent);background:var(--accent);padding:3px 7px;
+}
+.sect-bar .worth{font-family:var(--mono);font-size:11px;color:var(--text-dim);white-space:nowrap}
+.sect-note{font-size:13.5px;color:var(--text-dim);font-style:italic;margin:10px 0 0}
+
+.q{padding:20px 0;border-bottom:1px dotted var(--rule-strong)}
+.q:last-child{border-bottom:0}
+.q-top{display:flex;gap:11px;align-items:flex-start}
+.q-no{
+  font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent);
+  padding-top:2px;min-width:26px;
+}
+.q-text{flex:1 1 auto;font-size:16.5px;line-height:1.5}
+.q-marks{
+  font-family:var(--mono);font-size:10.5px;color:var(--text-faint);
+  padding-top:4px;white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+.q-hint{font-size:13px;color:var(--text-dim);margin:6px 0 0 37px;font-style:italic}
+.q-field{margin:13px 0 0 37px}
+@media (max-width:520px){ .q-field,.q-hint{margin-left:0} }
+
+textarea{
+  width:100%;background:transparent;border:0;border-bottom:1px solid var(--rule-strong);
+  padding:7px 2px;min-height:62px;resize:vertical;line-height:1.85;
+  background-image:repeating-linear-gradient(transparent,transparent 28px,var(--rule) 28px,var(--rule) 29px);
+  background-position:0 6px;
+}
+textarea:focus{outline:none;border-bottom-color:var(--accent)}
+.count{font-family:var(--mono);font-size:10px;color:var(--text-faint);text-align:right;margin-top:3px}
+
+.opts{display:grid;gap:7px}
+.opts.two{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.opt{
+  display:flex;gap:10px;align-items:flex-start;
+  border:1px solid var(--rule);background:var(--surface-2);
+  padding:10px 12px;cursor:pointer;transition:border-color .15s, background .15s;
+}
+.opt:hover{border-color:var(--rule-strong)}
+.opt input{margin:4px 0 0;accent-color:var(--accent);flex:0 0 auto}
+.opt-l{font-size:15px;line-height:1.35}
+.opt-l em{display:block;font-style:normal;font-size:12.5px;color:var(--text-dim);margin-top:2px}
+.opt.on{border-color:var(--accent);background:var(--accent-soft)}
+
+.slide-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.slide-row input[type=range]{flex:1 1 200px;accent-color:var(--accent);min-width:150px}
+.slide-val{
+  font-family:var(--mono);font-size:12px;color:var(--text-dim);
+  min-width:112px;text-align:right;
+}
+.slide-val b{color:var(--accent);font-weight:700}
+.slide-ends{
+  display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text-faint);margin-top:5px;
+}
+.untouched .slide-val b{color:var(--text-faint)}
+
+/* ───────── submit block ───────── */
+.submit-block{
+  margin:34px 0 0;border-top:2px solid var(--text);padding-top:22px;
+}
+.declaration{
+  display:flex;gap:11px;align-items:flex-start;font-size:14px;
+  color:var(--text-dim);margin-bottom:18px;cursor:pointer;
+}
+.declaration input{margin:4px 0 0;accent-color:var(--accent)}
+.outstanding{
+  font-family:var(--mono);font-size:11px;color:var(--flag);
+  margin-bottom:14px;line-height:1.7;
+}
+.outstanding.clear{color:var(--good)}
+.btn{
+  border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);
+  font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;padding:14px 26px;width:100%;
+  transition:opacity .15s, transform .08s;
+}
+.btn:hover:not(:disabled){opacity:.9}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.btn:disabled{opacity:.34;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--accent);width:auto;padding:10px 18px}
+.btn.ghost:hover{background:var(--accent-soft)}
+.foot-note{font-size:12.5px;color:var(--text-faint);margin-top:12px;text-align:center}
+
+/* ───────── assessment interstitial ───────── */
+#assessing{
+  position:fixed;inset:0;z-index:90;background:var(--bg-deep);
+  display:grid;place-items:center;padding:24px;
+}
+.assess-in{max-width:420px;width:100%;text-align:center}
+.assess-in h2{font-family:var(--display);font-size:30px;margin-bottom:22px}
+.steps{display:grid;gap:9px;text-align:left}
+.step{
+  display:flex;gap:11px;align-items:center;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;
+  color:var(--text-faint);opacity:.35;transition:opacity .3s,color .3s;
+}
+.step.on{opacity:1;color:var(--text)}
+.step .tick{color:var(--accent);width:12px}
+
+/* ───────── institute ───────── */
+.inst-head{
+  border-bottom:1px solid var(--rule);
+  background:var(--surface);
+  box-shadow:var(--shadow-card);
+}
+.inst-head-in{max-width:860px;margin:0 auto;padding:26px 18px 0}
+.parent{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--text-faint);
+}
+.inst-head h1{
+  font-family:var(--display);font-size:clamp(32px,7vw,46px);
+  line-height:1.05;margin-top:7px;
+}
+.inst-head .tagline{
+  font-family:var(--display);font-style:italic;font-size:17px;
+  color:var(--accent);margin-top:5px;
+}
+.tabs{display:flex;gap:2px;margin-top:22px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  border:0;background:transparent;padding:10px 13px;white-space:nowrap;
+  font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--text-dim);
+  border-bottom:2px solid transparent;
+}
+.tab:hover{color:var(--text)}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent);font-weight:700}
+
+.panel{padding-block:30px 56px}
+.panel h2{
+  font-family:var(--display);font-size:27px;margin-bottom:5px;
+}
+.lede{color:var(--text-dim);font-size:15px;max-width:62ch;margin-bottom:24px}
+
+.card{
+  background:var(--surface);border:1px solid var(--rule);
+  padding:20px;box-shadow:var(--shadow-card);
+}
+.grid{display:grid;gap:14px}
+.grid.c2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.grid.c3{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+
+/* candidate card */
+.candidate{
+  border:1px solid var(--accent);background:var(--surface);
+  box-shadow:var(--shadow-card);margin-bottom:22px;
+}
+.cand-top{
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding:16px 20px;border-bottom:1px dashed var(--rule-strong);
+}
+.cand-roll{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.06em}
+.cand-date{font-family:var(--mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.09em;text-transform:uppercase}
+.cand-body{display:flex;flex-wrap:wrap}
+.cand-cell{
+  flex:1 1 33%;min-width:150px;padding:15px 20px;border-right:1px solid var(--rule);
+}
+.cand-cell:last-child{border-right:0}
+.cell-k{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--text-faint);
+}
+.cell-v{font-family:var(--display);font-size:20px;line-height:1.2;margin-top:5px}
+.cell-v.sm{font-size:16px;font-family:var(--body)}
+
+.pill{
+  display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;
+  border:1px solid var(--accent);color:var(--accent);
+}
+.pill.solid{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.pill.good{border-color:var(--good);color:var(--good)}
+
+/* dossier block */
+.dossier{
+  background:var(--surface-2);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12.5px;line-height:1.8;
+  padding:18px;white-space:pre-wrap;word-break:break-word;
+}
+.dossier .k{color:var(--accent);font-weight:700}
+.copy-row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.copied{font-family:var(--mono);font-size:11px;color:var(--good)}
+
+/* loop bars */
+.bars{display:grid;gap:13px;margin-top:6px}
+.bar-row{display:grid;grid-template-columns:104px 1fr 34px;gap:11px;align-items:center}
+.bar-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim)}
+.bar-track{height:9px;background:var(--surface-3);position:relative;border:1px solid var(--rule)}
+.bar-fill{position:absolute;inset:0 auto 0 0;background:var(--accent)}
+.bar-v{font-family:var(--mono);font-size:12px;color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
+.bar-scale{
+  display:grid;grid-template-columns:104px 1fr 34px;gap:11px;
+  font-family:var(--mono);font-size:9.5px;color:var(--text-faint);margin-top:2px;
+}
+.bar-scale .ticks{display:grid;grid-template-columns:repeat(5,1fr);text-align:right}
+@media (max-width:480px){
+  .bar-row,.bar-scale{grid-template-columns:82px 1fr 30px;gap:8px}
+  .bar-k{font-size:9px}
+}
+
+/* departments */
+.dept{
+  background:var(--surface);border:1px solid var(--rule);
+  padding:19px;box-shadow:var(--shadow-card);position:relative;
+}
+.dept.admitted{border-color:var(--accent);border-left-width:4px}
+.dept h3{font-family:var(--display);font-size:21px;line-height:1.15}
+.dept .who{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
+.dept p{font-size:14.5px;color:var(--text-dim);margin-top:8px}
+.papers{list-style:none;margin:13px 0 0;padding:0;display:grid;gap:6px}
+.papers li{
+  font-size:13.5px;display:flex;gap:9px;align-items:baseline;
+  padding-top:6px;border-top:1px solid var(--rule);
+}
+.papers .code{font-family:var(--mono);font-size:10.5px;color:var(--accent);flex:0 0 auto}
+.chair{
+  margin-top:13px;padding-top:11px;border-top:1px solid var(--rule);
+  font-size:12.5px;color:var(--text-faint);font-style:italic;
+}
+
+/* rehearsal floor */
+.loop{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.loop-node{
+  background:var(--surface);border:1px solid var(--rule);padding:15px;
+  text-align:left;transition:border-color .15s,background .15s;
+}
+.loop-node:hover{border-color:var(--rule-strong)}
+.loop-node[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.loop-node .n{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.16em}
+.loop-node .t{font-family:var(--display);font-size:20px;margin-top:5px}
+.loop-node .s{font-family:var(--mono);font-size:10.5px;color:var(--text-dim);margin-top:7px}
+.loop-detail{
+  margin-top:14px;background:var(--surface);border:1px solid var(--rule);
+  border-left:3px solid var(--accent);padding:18px;
+}
+.loop-detail h4{font-family:var(--display);font-size:20px;margin-bottom:6px}
+.loop-detail p{font-size:14.5px;color:var(--text-dim);margin-top:8px}
+.loop-detail .yours{
+  margin-top:13px;padding-top:11px;border-top:1px dashed var(--rule-strong);
+  font-size:13.5px;
+}
+.loop-detail .yours b{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:3px}
+
+/* curriculum ladder */
+.term{
+  display:grid;grid-template-columns:76px 1fr;gap:16px;
+  padding:17px 0;border-top:1px solid var(--rule);
+}
+.term:first-child{border-top:0}
+.term-n{
+  font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--accent);padding-top:4px;
+}
+.term h3{font-family:var(--display);font-size:21px}
+.term p{font-size:14.5px;color:var(--text-dim);margin-top:6px}
+.gate{
+  margin-top:9px;font-family:var(--mono);font-size:11px;color:var(--text-faint);
+  display:flex;gap:8px;align-items:baseline;
+}
+.gate b{color:var(--text-dim);font-weight:500;letter-spacing:.09em;text-transform:uppercase;font-size:9.5px;flex:0 0 auto}
+@media (max-width:480px){ .term{grid-template-columns:1fr;gap:4px} }
+
+/* wings */
+.wing{
+  background:var(--surface);border:1px solid var(--rule);padding:20px;
+  box-shadow:var(--shadow-card);
+}
+.wing h3{font-family:var(--display);font-size:22px}
+.wing .sub{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:7px}
+.wing p{font-size:14.5px;color:var(--text-dim);margin-top:9px}
+.wing ul{margin:12px 0 0;padding-left:18px;display:grid;gap:5px;font-size:14px;color:var(--text-dim)}
+
+.standard{
+  margin-top:26px;border:1px solid var(--accent);background:var(--accent-soft);
+  padding:18px 20px;
+}
+.standard .sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.standard p{font-size:14.5px;margin-top:8px;color:var(--text)}
+
+.sealed{
+  text-align:center;padding:30px 0 10px;border-top:1px solid var(--rule);margin-top:34px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);
+}
+
+/* ───────── membership ───────── */
+.plans{display:grid;gap:14px;grid-template-columns:1fr}
+@media (min-width:560px){ .plans{grid-template-columns:1fr 1fr} }
+@media (min-width:900px){ .plans{grid-template-columns:repeat(4,1fr)} }
+.plan{
+  background:var(--surface);border:1px solid var(--rule);
+  display:flex;flex-direction:column;box-shadow:var(--shadow-card);
+}
+.plan.current{border-color:var(--accent);border-width:2px}
+.plan-head{padding:18px 18px 15px;border-bottom:1px solid var(--rule)}
+.plan-name{font-family:var(--display);font-size:24px;line-height:1.1}
+.plan-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-top:5px}
+.plan-price{font-family:var(--display);font-size:38px;line-height:1;margin-top:13px;font-variant-numeric:tabular-nums}
+.plan-price small{font-family:var(--mono);font-size:11px;color:var(--text-faint);letter-spacing:.06em}
+.plan-line{font-size:13.5px;color:var(--text-dim);padding:14px 18px;border-bottom:1px solid var(--rule);flex:0 0 auto}
+.plan-list{list-style:none;margin:0;padding:14px 18px;display:grid;gap:8px;flex:1 1 auto}
+.plan-list li{font-size:13.5px;display:grid;grid-template-columns:15px 1fr;gap:8px;align-items:start;line-height:1.45}
+.plan-list .y{color:var(--accent);font-family:var(--mono);font-size:11px;padding-top:2px}
+.plan-list .n{color:var(--text-faint);font-family:var(--mono);font-size:11px;padding-top:2px}
+.plan-list li.off{color:var(--text-faint)}
+.plan-list li.inherit{
+  display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-faint);padding-bottom:2px;
+}
+.plan-foot{padding:0 18px 18px}
+.plan-btn{
+  width:100%;border:1px solid var(--accent);background:transparent;color:var(--accent);
+  font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;padding:11px;
+}
+.plan-btn:hover{background:var(--accent-soft)}
+.plan-btn.on{background:var(--accent);color:var(--on-accent);cursor:default}
+.billing-note{font-size:12.5px;color:var(--text-faint);margin-top:18px;text-align:center}
+
+/* ───────── locks ───────── */
+.locked{
+  border:1px dashed var(--rule-strong);background:var(--surface-2);
+  padding:22px;text-align:center;
+}
+.locked .lk{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint)}
+.locked h3{font-family:var(--display);font-size:22px;margin:8px 0 6px}
+.locked p{font-size:14px;color:var(--text-dim);max-width:52ch;margin:0 auto 15px}
+
+/* ───────── classrooms ───────── */
+.room{
+  background:var(--surface);border:1px solid var(--rule);padding:17px;
+  box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:7px;
+}
+.room.mine{border-color:var(--accent);border-left-width:4px}
+.room-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.room-disc{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}
+.room-fee{font-family:var(--mono);font-size:12px;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}
+.room h3{font-family:var(--display);font-size:20px;line-height:1.15}
+.room p{font-size:13.5px;color:var(--text-dim)}
+.room-meta{
+  display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:auto;padding-top:10px;
+  border-top:1px solid var(--rule);font-family:var(--mono);font-size:10px;
+  letter-spacing:.06em;color:var(--text-faint);
+}
+.room-meta b{color:var(--text-dim);font-weight:500}
+
+/* builder */
+.builder{display:grid;gap:18px;grid-template-columns:1fr}
+@media (min-width:720px){ .builder{grid-template-columns:1.15fr .85fr} }
+.field{margin-bottom:16px}
+.field label.k{
+  display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--text-faint);margin-bottom:6px;
+}
+.field input[type=text], .field select{
+  width:100%;background:var(--surface-2);border:1px solid var(--rule);
+  padding:9px 11px;font-size:15px;
+}
+.field input[type=text]:focus,.field select:focus{outline:none;border-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  border:1px solid var(--rule);background:var(--surface-2);padding:7px 11px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--text-dim);
+}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:700}
+.money{
+  background:var(--surface-2);border:1px solid var(--rule);padding:16px;
+}
+.money-row{
+  display:flex;justify-content:space-between;gap:12px;padding:8px 0;
+  border-bottom:1px dotted var(--rule-strong);font-size:14px;
+}
+.money-row:last-of-type{border-bottom:0}
+.money-row b{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500}
+.money-row.total{border-top:1px solid var(--rule-strong);margin-top:6px;padding-top:12px;font-size:16px}
+.money-row.total b{color:var(--accent);font-weight:700;font-size:19px;font-family:var(--display)}
+.money-note{font-size:11.5px;color:var(--text-faint);margin-top:12px;line-height:1.5}
+
+/* agent suite */
+.agents{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));margin-top:14px}
+.agent{background:var(--surface-2);border:1px solid var(--rule);padding:13px}
+.agent .an{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.agent .ad{font-size:13px;color:var(--text-dim);margin-top:5px;line-height:1.45}
+.credits{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.credit{
+  font-family:var(--mono);font-size:10.5px;border:1px solid var(--rule-strong);
+  padding:5px 10px;color:var(--text-dim);
+}
+
+/* contact + studio link */
+.contact{display:grid;gap:0 16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-bottom:6px}
+.field input[type=email]{
+  width:100%;background:var(--surface-2);border:1px solid var(--rule);
+  padding:9px 11px;font-size:15px;
+}
+.field input[type=email]:focus{outline:none;border-color:var(--accent)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.home-link{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;white-space:nowrap}
+.home-link:hover{color:var(--accent)}
+.send-note{font-family:var(--mono);font-size:11px;color:var(--text-faint);margin-top:14px;line-height:1.6}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+</style>
+
+<div class="strip">
+  <div class="strip-in">
+    <div class="mark" id="stripMark">METHOD MACHINE STUDIO <span>/ ENTRANCE PAPER</span></div>
+    <div class="meter"><div class="meter-fill" id="meterFill"></div></div>
+    <div class="tally" id="tally"><b>0</b>/100 marks attempted</div>
+    <a class="home-link" href="/">← Studio</a>
+  </div>
+</div>
+
+<!-- ══════════════ THE QUESTION PAPER ══════════════ -->
+<div id="paperView">
+<div class="wrap">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div class="crest">Method Machine Studio &nbsp;·&nbsp; Admissions</div>
+      <h1>The Method Institute</h1>
+      <div class="paper-no">Entrance Paper I — The Candidate's Instrument</div>
+    </div>
+
+    <div class="rubric">
+      <div>Time allowed<b>No limit. Sat once.</b></div>
+      <div>Total marks<b>100</b></div>
+      <div>Admits to<b>One department</b></div>
+    </div>
+
+    <div class="instructions">
+      <b>Instructions to the candidate.</b>
+      <ol>
+        <li>Answer every question. The paper does not submit until it is complete.</li>
+        <li>There are no wrong answers and nothing is scored against you. The paper is an instrument, not a filter.</li>
+        <li>Your answers are read back to you as a Method Dossier — the eleven elements of the Method Prompt Framework, filled in about you rather than about a task.</li>
+        <li>Your progress is saved in this browser as you go. When you submit, your paper and contact details are sent to the studio so admissions can read it.</li>
+      </ol>
+    </div>
+
+    <div class="body-pad" id="sections"></div>
+
+    <div class="body-pad">
+      <div class="submit-block">
+        <div class="contact">
+          <div class="field"><label class="k" for="cName">Your name</label><input type="text" id="cName" autocomplete="name" placeholder="As you want the studio to address you"></div>
+          <div class="field"><label class="k" for="cEmail">Email</label><input type="email" id="cEmail" autocomplete="email" placeholder="you@example.com"></div>
+          <input type="text" id="cWebsite" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        </div>
+        <label class="declaration">
+          <input type="checkbox" id="declare">
+          <span>I have answered as the practitioner I am today, not the one I intend to be. I understand the institute admits on instrument and objective, not on credits.</span>
+        </label>
+        <div class="outstanding" id="outstanding"></div>
+        <button class="btn" id="submitBtn" disabled>Submit paper &amp; open the institute</button>
+        <p class="foot-note">Submission compiles your dossier and unlocks the portal.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ ASSESSMENT ══════════════ -->
+<div id="assessing" hidden>
+  <div class="assess-in">
+    <div class="crest" style="margin-bottom:10px">Paper received</div>
+    <h2>Reading the instrument</h2>
+    <div class="steps" id="steps">
+      <div class="step"><span class="tick">→</span> Parsing role and circumstance</div>
+      <div class="step"><span class="tick">→</span> Weighing objective against constraint</div>
+      <div class="step"><span class="tick">→</span> Plotting the rehearsal loop</div>
+      <div class="step"><span class="tick">→</span> Assigning department and standing</div>
+      <div class="step"><span class="tick">→</span> Compiling Method Dossier</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ THE INSTITUTE ══════════════ -->
+<div id="instituteView" hidden>
+  <div class="inst-head">
+    <div class="inst-head-in">
+      <div class="parent">A division of Method Machine Studio</div>
+      <h1>The Method Institute</h1>
+      <div class="tagline">Train the AI before you ask it to perform.</div>
+      <div class="tabs" role="tablist" id="tabs">
+        <button class="tab" role="tab" data-panel="dossier" aria-selected="true">Dossier</button>
+        <button class="tab" role="tab" data-panel="membership" aria-selected="false">Membership</button>
+        <button class="tab" role="tab" data-panel="classrooms" aria-selected="false">Classrooms</button>
+        <button class="tab" role="tab" data-panel="departments" aria-selected="false">Departments</button>
+        <button class="tab" role="tab" data-panel="floor" aria-selected="false">The Floor</button>
+        <button class="tab" role="tab" data-panel="wings" aria-selected="false">Studio Wings</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- DOSSIER -->
+    <section class="panel" id="panel-dossier">
+      <div class="candidate">
+        <div class="cand-top">
+          <div class="cand-roll" id="rollNo">—</div>
+          <div class="cand-date" id="admitDate">—</div>
+        </div>
+        <div class="cand-body">
+          <div class="cand-cell"><div class="cell-k">Department</div><div class="cell-v" id="cDept">—</div></div>
+          <div class="cand-cell"><div class="cell-k">Standing</div><div class="cell-v" id="cStanding">—</div></div>
+          <div class="cand-cell"><div class="cell-k">Working world</div><div class="cell-v sm" id="cWorld">—</div></div>
+        </div>
+      </div>
+
+      <h2>Your Method Dossier</h2>
+      <p class="lede">The eleven elements of the framework, filled in from your paper. This is the seed prompt every piece of work at the institute is built on — copy it into any model and it briefs on you before it briefs on the task.</p>
+      <div class="dossier" id="dossierText">—</div>
+      <p class="send-note" id="sendNote" hidden></p>
+      <div class="copy-row">
+        <button class="btn ghost" id="copyBtn">Copy dossier</button>
+        <span class="copied" id="copiedMsg" hidden>Copied to clipboard</span>
+        <button class="btn ghost" id="reopenBtn">Reopen paper</button>
+      </div>
+
+      <div class="card" style="margin-top:26px">
+        <div class="cell-k">Rehearsal loop profile</div>
+        <p style="font-size:14px;color:var(--text-dim);margin:8px 0 16px">Self-assessed on the four elements that make the framework a loop rather than a template. The institute teaches to the lowest of these first.</p>
+        <div class="bars" id="loopBars"></div>
+        <div class="bar-scale"><span></span><span class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></span><span></span></div>
+        <div style="margin-top:16px;padding-top:13px;border-top:1px dashed var(--rule-strong);font-size:14px" id="loopVerdict"></div>
+      </div>
+
+      <div style="margin-top:22px" id="taDesk"></div>
+    </section>
+
+    <!-- MEMBERSHIP -->
+    <section class="panel" id="panel-membership" hidden>
+      <h2>Membership</h2>
+      <p class="lede">Admission is free and permanent — the paper you sat cannot be taken away. What a plan buys is depth: the library, the teaching, the company, and eventually the right to teach here yourself.</p>
+      <div class="plans" id="plans"></div>
+      <p class="billing-note">Plans are selected here and billed at launch. No payment details are taken on this page.</p>
+      <div class="standard">
+        <div class="sub">Institutional membership</div>
+        <p>Studios, agencies, theatres, production companies and schools join as an institution rather than as individuals: seats for a whole department, a private classroom under the institution's own name, and Studio OS against a live production. Institutional terms are agreed directly with the studio.</p>
+      </div>
+    </section>
+
+    <!-- CLASSROOMS -->
+    <section class="panel" id="panel-classrooms" hidden>
+      <h2>Classrooms</h2>
+      <p class="lede">A classroom is a room a member runs: their discipline, their syllabus, their seats, their fee. The institute supplies the framework, the agent suite and the floor; the founder supplies the craft.</p>
+
+      <div class="cell-k" style="margin-bottom:10px">The directory</div>
+      <div class="grid c2" id="roomGrid"></div>
+      <p class="money-note" style="margin-top:12px">Listings shown are illustrative openings across the five founding disciplines. Rooms you found are added to the top of this directory.</p>
+
+      <h2 style="margin-top:42px">Found a classroom</h2>
+      <p class="lede">Open to actors, writers, directors, producers, and to businesses — agencies, theatres, production companies, schools. Founding requires the Founder plan, which carries the agent suite that runs the room.</p>
+      <div id="builderHost"></div>
+    </section>
+
+    <!-- DEPARTMENTS -->
+    <section class="panel" id="panel-departments" hidden>
+      <h2>Four departments</h2>
+      <p class="lede">Each department teaches the same framework against a different instrument. You are admitted to one and may audit the rest.</p>
+      <div class="grid c2" id="deptGrid"></div>
+      <div class="standard">
+        <div class="sub">The production standard</div>
+        <p>Every paper, prompt system and note issued by the institute is authored and signed off only by actors, writers and directors with ten or more years of professional experience. Craft governs the syllabus. No prompt reaches a candidate unsigned.</p>
+      </div>
+    </section>
+
+    <!-- REHEARSAL FLOOR -->
+    <section class="panel" id="panel-floor" hidden>
+      <h2>The Rehearsal Floor</h2>
+      <p class="lede">Most prompting stops at the brief. The last four elements of the framework are what make it a rehearsal: a first take, an honest note, a refinement, and memory carried forward. Select a stage.</p>
+      <div class="loop" id="loopNodes"></div>
+      <div class="loop-detail" id="loopDetail"></div>
+
+      <h2 style="margin-top:42px">Four terms</h2>
+      <p class="lede">The ladder is the same in every department and in every classroom founded here. Each term ends at a gate — a piece of work a senior creative signs or sends back.</p>
+      <div id="terms"></div>
+    </section>
+
+    <!-- WINGS -->
+    <section class="panel" id="panel-wings" hidden>
+      <h2>Two wings, one engine</h2>
+      <p class="lede">The institute is the teaching floor between the studio's two product lines. What you build here goes out through one of them.</p>
+      <div class="grid c2">
+        <div class="wing">
+          <div class="sub">Creator wing</div>
+          <h3>Method Master Prompts</h3>
+          <p>A complete personal AI system, not a prompt pack. Your dossier is the first artefact; everything below is built on it.</p>
+          <ul>
+            <li>Custom prompt systems per track</li>
+            <li>Education and training plan</li>
+            <li>Production workflows and app integration</li>
+            <li>Portfolio development and ongoing notes</li>
+            <li>Career and business strategy</li>
+          </ul>
+        </div>
+        <div class="wing">
+          <div class="sub">Production wing</div>
+          <h3>Studio OS</h3>
+          <p>Production intelligence for filmmaking — the same method-prompt architecture applied to a whole shooting company rather than one practitioner.</p>
+          <ul>
+            <li>Script breakdown and the production graph</li>
+            <li>Scheduling, stripboard and change propagation</li>
+            <li>Budgeting and cost deltas</li>
+            <li>Logistics and post metadata</li>
+            <li>Compliance ledger and consent records</li>
+          </ul>
+        </div>
+      </div>
+      <h2 style="margin-top:42px">The agent suite</h2>
+      <p class="lede">The Founder plan grants a working team rather than a single assistant. Each agent is briefed from your dossier and signed off against the department's papers.</p>
+      <div id="suiteHost"></div>
+
+      <div class="standard">
+        <div class="sub">The right door</div>
+        <p>The institute does not teach the generation of finished content. It teaches direction — how a practitioner briefs, critiques and carries a performance forward. Infrastructure and capability, not imitation.</p>
+      </div>
+      <div class="sealed">Method Machine Studio · The Method Institute · Paper I sealed on submission</div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ───────── paper definition: the 11 framework elements ───────── */
+  var TRACKS = {
+    actor:    {name:"Performance",            dept:"Department of Performance",            short:"Actor"},
+    writer:   {name:"Text",                   dept:"Department of Text",                   short:"Writer"},
+    director: {name:"Direction",              dept:"Department of Direction",              short:"Director"},
+    producer: {name:"Production Intelligence",dept:"Department of Production Intelligence",short:"Producer / Operator"}
+  };
+
+  var SECTIONS = [
+    {
+      letter:"A", title:"Role & Circumstance", marks:20,
+      note:"Who is at the instrument, and what world it is played in.",
+      qs:[
+        {id:"track", no:"A1", marks:6, type:"radio", element:"Role",
+         text:"Which department are you sitting for?",
+         opts:[
+           {v:"actor",    l:"Performance",             d:"Auditions, self-tapes, character work, stage"},
+           {v:"writer",   l:"Text",                    d:"Scripts, coverage, rewrites, story architecture"},
+           {v:"director",l:"Direction",                d:"Shot design, blocking, notes, tone"},
+           {v:"producer", l:"Production Intelligence", d:"Breakdowns, schedule, budget, logistics"}
+         ]},
+        {id:"instrument", no:"A2", marks:8, type:"text", element:"Role",
+         text:"Name your instrument as it stands today.",
+         hint:"What you actually do in a room, on a page, or on a set — not what you are working towards.",
+         ph:"e.g. Stage actor, six years in repertory. Strong on text, weak on self-tape."},
+        {id:"world", no:"A3", marks:6, type:"check", element:"Circumstances",
+         text:"Which worlds are you working in? Select all that bind.",
+         opts:[
+           {v:"Theatre",l:"Theatre"},{v:"Independent film",l:"Independent film"},
+           {v:"Streaming / episodic",l:"Streaming / episodic"},{v:"Commercial & branded",l:"Commercial & branded"},
+           {v:"Student & short form",l:"Student & short form"},{v:"Not yet working professionally",l:"Not yet working"}
+         ]}
+      ]
+    },
+    {
+      letter:"B", title:"Objective & Motivation", marks:25,
+      note:"What must be achieved, and why it is worth the twelve months.",
+      qs:[
+        {id:"objective", no:"B1", marks:10, type:"text", element:"Objective",
+         text:"State the objective for the next twelve months in one sentence.",
+         hint:"An objective is a thing that either happens or does not. Not a feeling, not a direction.",
+         ph:"e.g. Book one speaking role on a union production, or direct a short that plays two festivals."},
+        {id:"motivation", no:"B2", marks:10, type:"text", element:"Motivation",
+         text:"Why does it matter?",
+         hint:"The framework is unusable without this. A model given an objective and no motivation performs the objective literally and badly.",
+         ph:"What changes for you if it lands."},
+        {id:"stake", no:"B3", marks:5, type:"slide", element:"Motivation",
+         text:"What is riding on it?",
+         ends:["Preference","Livelihood"],
+         labels:["A preference","A serious want","A plan on the line","Income depends on it","Everything is staked on it"]}
+      ]
+    },
+    {
+      letter:"C", title:"Relationships & Constraints", marks:20,
+      note:"Who the work is for, and what the work is fenced by.",
+      qs:[
+        {id:"audience", no:"C1", marks:6, type:"radio", element:"Relationships",
+         text:"Who is the output for?",
+         opts:[
+           {v:"Casting directors and agents", l:"Casting directors & agents", d:"The work is read as evidence of you"},
+           {v:"Producers and financiers",     l:"Producers & financiers",     d:"The work is read as a risk assessment"},
+           {v:"An audience",                  l:"An audience",                d:"The work is read as the thing itself"},
+           {v:"Collaborators and crew",       l:"Collaborators & crew",       d:"The work is read as an instruction"}
+         ]},
+        {id:"constraints", no:"C2", marks:8, type:"check", element:"Constraints",
+         text:"Which constraints are actually binding right now?",
+         opts:[
+           {v:"Time",l:"Time"},{v:"Money",l:"Money"},{v:"Geography or visa status",l:"Geography / visa"},
+           {v:"Union or guild rules",l:"Union / guild rules"},{v:"No reel or samples",l:"No reel or samples"},
+           {v:"No team",l:"No team"},{v:"No access to decision-makers",l:"No access to decision-makers"}
+         ]},
+        {id:"years", no:"C3", marks:6, type:"radio", element:"Circumstances",
+         text:"Years of professional experience in your craft.",
+         hint:"The studio's production standard is ten years. This question decides your standing, not your admission.",
+         opts:[
+           {v:"under2", l:"Under two years",   d:"First Term standing"},
+           {v:"2to5",   l:"Two to five years", d:"First Term standing"},
+           {v:"5to10",  l:"Five to ten years", d:"Advanced standing"},
+           {v:"10plus", l:"Ten years or more", d:"Advanced standing, faculty track eligible"}
+         ]}
+      ]
+    },
+    {
+      letter:"D", title:"Action", marks:20,
+      note:"The thing the framework is pointed at. Everything before this is preparation.",
+      qs:[
+        {id:"action", no:"D1", marks:12, type:"text", element:"Action",
+         text:"Name one thing you could put in front of a decision-maker within thirty days.",
+         hint:"One artefact. A tape, five pages, a lookbook, a breakdown, a deck.",
+         ph:"e.g. A three-minute self-tape of a contemporary scene, cut and graded."},
+        {id:"blocker", no:"D2", marks:8, type:"text", element:"Constraints",
+         text:"What has stopped you making it so far?",
+         hint:"Answer this honestly; it is the question the institute actually teaches against.",
+         ph:"Be specific. \"No time\" is rarely the real answer."}
+      ]
+    },
+    {
+      letter:"E", title:"The Rehearsal Loop", marks:15,
+      note:"Self-assessment on the four elements that turn a brief into a rehearsal. Drag each to set.",
+      qs:[
+        {id:"performance", no:"E1", marks:4, type:"slide", element:"Performance",
+         text:"How readily do you deliver a first take without polishing it first?",
+         ends:["I withhold","I put it up"],
+         labels:["I rarely show unfinished work","I show it late","I show it when asked","I show it early","I put up a take immediately"]},
+        {id:"critique", no:"E2", marks:4, type:"slide", element:"Critique",
+         text:"How honest is your own note on your own work?",
+         ends:["Kind","Ruthless"],
+         labels:["I defend it","I find the easy notes","I find most of it","I find it before others do","I am my hardest note-giver"]},
+        {id:"adjustment", no:"E3", marks:4, type:"slide", element:"Adjustment",
+         text:"How fast do you act on a note once you have it?",
+         ends:["It sits","Same day"],
+         labels:["Notes sit for weeks","Eventually","Within a week","Within days","Same day, every time"]},
+        {id:"continuity", no:"E4", marks:3, type:"slide", element:"Continuity",
+         text:"How much of what you learn carries into the next piece of work?",
+         ends:["Starts over","Compounds"],
+         labels:["Each job starts from zero","A little carries","Some carries","Most carries","I build on a system every time"]}
+      ]
+    }
+  ];
+
+  var DEPARTMENTS = [
+    {key:"actor", name:"Department of Performance", who:"For actors",
+     blurb:"The instrument is you. The department treats a model as a scene partner that must be given circumstance before it can give you anything back.",
+     papers:[["PF-1","Circumstance before line reading"],["PF-2","The self-tape as a directed object"],["PF-3","Character continuity across a season"]],
+     chair:"Chaired by a working actor with ten or more years of professional credits."},
+    {key:"writer", name:"Department of Text", who:"For writers",
+     blurb:"The page is the instrument. The department teaches objective and motivation as the two things a draft cannot be fixed without.",
+     papers:[["TX-1","Objective, motivation, obstacle on the page"],["TX-2","Coverage you can act on"],["TX-3","Rewriting against a constraint, not a note"]],
+     chair:"Chaired by a produced writer with ten or more years of professional credits."},
+    {key:"director", name:"Department of Direction", who:"For directors",
+     blurb:"Direction is the whole framework performed out loud. The department teaches the note — the single most undertrained instrument in the craft.",
+     papers:[["DR-1","The note: critique that produces an adjustment"],["DR-2","Tone as a set of constraints"],["DR-3","Blocking, coverage and the shape of a day"]],
+     chair:"Chaired by a director with ten or more years of professional credits."},
+    {key:"producer", name:"Department of Production Intelligence", who:"For producers and operators",
+     blurb:"The instrument is the company. The department teaches the framework at the scale of a schedule, a budget and a consent record.",
+     papers:[["PI-1","Breakdown as structured circumstance"],["PI-2","Change propagation and the cost delta"],["PI-3","Compliance as a feature, not a clearance"]],
+     chair:"Chaired by a producer or line producer with ten or more years of professional credits."}
+  ];
+
+  var LOOP = [
+    {k:"performance", n:"Stage one", t:"Performance", s:"Deliver the first take",
+     d:"A take goes up before it is good. The framework treats the first output as a performance to be directed, not a draft to be judged. Withholding the take is the most common failure on the floor — nothing can be adjusted that was never put up.",
+     low:"You withhold. Term I is built on putting takes up before they are ready.",
+     high:"You put takes up readily. The loop can start immediately; the work is in the note."},
+    {k:"critique", n:"Stage two", t:"Critique", s:"Give the honest note",
+     d:"The note names what is wrong in terms the next take can act on. \"Make it better\" is not a note. \"You are playing the result instead of the want\" is. This is the element that separates direction from prompting.",
+     low:"Your note is kind. The institute will teach you to write a note you can act on.",
+     high:"Your note is hard and specific. You will be pushed towards giving notes to others."},
+    {k:"adjustment", n:"Stage three", t:"Adjustment", s:"Refine against the note",
+     d:"One adjustment per note, made deliberately. The failure here is rebuilding the whole thing instead of changing the one element the note named — which destroys your ability to tell what the change did.",
+     low:"Notes sit. The gate at the end of Term II is a same-week turnaround.",
+     high:"You turn notes fast. Your constraint is more likely to be continuity than speed."},
+    {k:"continuity", n:"Stage four", t:"Continuity", s:"Carry it forward",
+     d:"What the rehearsal learned becomes part of the next brief. Without continuity every job restarts from zero and the practitioner never compounds. Your dossier is the first continuity artefact; each term adds to it.",
+     low:"Each job restarts. This is the element the institute exists to fix.",
+     high:"You compound already. Term IV will formalise what you are doing by instinct."}
+  ];
+
+  var TIERS = [
+    {id:"student", name:"Student", price:0, rank:0, sub:"Auditing access",
+     line:"Admission itself. You sat the paper, so the framework and the floor are open to you.",
+     has:["Entrance Paper and Method Dossier","The Method Prompt Framework in full","One department's public sessions","Read-only classroom directory"],
+     hasnt:["Premium course library","Teaching Assistant","The company network","Found your own classroom"]},
+    {id:"scholar", name:"Scholar", price:19, rank:1, sub:"Premium courses",
+     line:"The whole library. Every paper in every department, with the prompt system that belongs to it.",
+     has:["Premium course library, all four departments","Downloadable prompt system per paper","Recorded master sessions","Audit any classroom's open week"],
+     hasnt:["Teaching Assistant","The company network","Found your own classroom"]},
+    {id:"company", name:"Company", price:49, rank:2, sub:"Teaching Assistant + the company",
+     line:"A teaching assistant briefed on your dossier, and the room itself — the members and the teachers in it.",
+     has:["Direct line to your Teaching Assistant","The company network: every member and teacher","Introductions, and the right to ask for them","Live note sessions with faculty","Seat priority in any classroom"],
+     hasnt:["Found your own classroom","Agent suite and Studio OS"]},
+    {id:"founder", name:"Founder", price:99, rank:3, sub:"Found your own classroom",
+     line:"You stop being taught and start teaching. The agent suite runs the room; you supply the craft.",
+     has:["Full agent suite and your own agent team","Found and run your own classrooms","Studio OS access against a live production","Monthly pooled AI filmmaking credits","70% revenue share on every seat you fill","Faculty review track"],
+     hasnt:[]}
+  ];
+
+  var SUITE = [
+    {n:"Syllabus",   d:"Builds the term structure and gates for your room from your own papers."},
+    {n:"Teaching Assistant", d:"Answers your members in your voice, briefed on your syllabus and each member's dossier."},
+    {n:"Note",       d:"Drafts the critique on submitted work. You sign it or send it back."},
+    {n:"Intake",     d:"Runs your own entrance paper on applicants and returns their dossiers."},
+    {n:"Production", d:"Studio OS: breakdown, schedule, budget, compliance, for the room's live work."},
+    {n:"Ledger",     d:"Seats, attendance, revenue share and payouts for the room."}
+  ];
+
+  var CREDITS = ["Higgsfield","Image generation","Video generation","Voice & ADR","Upscaling & restore","Music & score"];
+
+  var ROOMS = [
+    {name:"The Self-Tape Room", disc:"Performance", fee:40, seats:24, format:"Cohort term",
+     by:"Founded by an actor, 12 years' credits", entry:"Scholar",
+     blurb:"Six weeks turning a scene into a tape a casting director watches to the end. One tape a week, one note a week, no exceptions."},
+    {name:"Coverage That Lands", disc:"Text", fee:35, seats:40, format:"On-demand",
+     by:"Founded by a produced writer, 15 years' credits", entry:"Scholar",
+     blurb:"Reading a script the way a development executive reads it, and writing the note the writer can actually act on."},
+    {name:"The Note", disc:"Direction", fee:120, seats:10, format:"Studio intensive",
+     by:"Founded by a director, 18 years' credits", entry:"Company",
+     blurb:"Ten directors, four weekends. You give notes to working actors on camera and get notes on your notes."},
+    {name:"Breakdown to Stripboard", disc:"Production Intelligence", fee:60, seats:30, format:"Cohort term",
+     by:"Founded by a line producer, 20 years' credits", entry:"Scholar",
+     blurb:"A real script broken down to a board and a budget in Studio OS, then broken again when the location falls through."},
+    {name:"Brand Films on a Producer's Budget", disc:"Business & Enterprise", fee:85, seats:50, format:"Cohort term",
+     by:"Founded by an agency production lead", entry:"Scholar",
+     blurb:"For agencies and in-house teams: the method applied to a commercial brief, a client approval chain and a fixed number."},
+    {name:"Stage Management Systems", disc:"Business & Enterprise", fee:0, seats:120, format:"On-demand",
+     by:"Founded by a theatre, institutional room", entry:"Student",
+     blurb:"Free to the company and to students: calling scripts, run sheets and continuity, built as prompt systems."}
+  ];
+
+  var DISCIPLINES = ["Performance","Text","Direction","Production Intelligence","Business & Enterprise"];
+  var FORMATS = ["Cohort term","On-demand","Studio intensive","One-to-one lab"];
+  var ENTRIES = ["Student","Scholar","Company","Founder"];
+  var FOUNDER_SHARE = 0.70;
+
+  var TERMS = [
+    {n:"Term I", t:"The Instrument", p:"You are read back to yourself. The dossier from this paper is interrogated, corrected and rebuilt with a senior creative until it describes the practitioner you actually are.",
+     gate:"A dossier a stranger could direct you from."},
+    {n:"Term II", t:"Circumstance", p:"Building the world a piece of work sits in — the project, the audience, the constraints — and learning to hand that world over in full before asking for anything.",
+     gate:"One brief that produces a usable first take without a follow-up question."},
+    {n:"Term III", t:"Direction", p:"The rehearsal loop under load. Take, note, adjustment, repeated against a real deliverable until the note is specific enough to act on every time.",
+     gate:"Three takes on one artefact, each adjustment traceable to a written note."},
+    {n:"Term IV", t:"Continuity", p:"Turning a term of work into a system: the prompt architecture, the workflows, the integrations, and the portfolio piece it produced. Graduation is an artefact, not a certificate.",
+     gate:"One finished artefact in front of a decision-maker, and the system that made it."}
+  ];
+
+  /* ───────── state ───────── */
+  var TOTAL = 100;
+  var state = {};
+  var touched = {};
+  var member = {tier:"student", rooms:[]};
+  var contact = {name:"", email:""};
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var STORE = "mms-institute-paper-v2";
+
+  function save(){
+    try{ localStorage.setItem(STORE, JSON.stringify({s:state,t:touched,m:member,c:contact,sent:!!window.__sent,done:!!document.getElementById("instituteView") && !document.getElementById("instituteView").hidden})); }catch(e){}
+  }
+  function tierRank(){ var t=TIERS.filter(function(x){return x.id===member.tier;})[0]; return t?t.rank:0; }
+  function tierOf(id){ return TIERS.filter(function(x){return x.id===id;})[0]; }
+  function money(n){ return "$" + n.toLocaleString(undefined,{maximumFractionDigits:0}); }
+  function load(){
+    try{
+      var raw = localStorage.getItem(STORE);
+      if(!raw) return null;
+      return JSON.parse(raw);
+    }catch(e){ return null; }
+  }
+
+  function allQs(){
+    var out=[];
+    SECTIONS.forEach(function(s){ s.qs.forEach(function(q){ out.push(q); }); });
+    return out;
+  }
+
+  function answered(q){
+    var v = state[q.id];
+    if(q.type==="text")  return typeof v==="string" && v.trim().length>=3;
+    if(q.type==="radio") return !!v;
+    if(q.type==="check") return Array.isArray(v) && v.length>0;
+    if(q.type==="slide") return !!touched[q.id];
+    return false;
+  }
+
+  /* ───────── render the paper ───────── */
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+
+  function renderPaper(){
+    var host = document.getElementById("sections");
+    var html = "";
+    SECTIONS.forEach(function(sec){
+      html += '<div class="sect">';
+      html += '<div class="sect-bar"><span class="letter">'+sec.letter+'</span><h2>'+esc(sec.title)+'</h2><span class="worth">'+sec.marks+' marks</span></div>';
+      html += '<p class="sect-note">'+esc(sec.note)+'</p>';
+      sec.qs.forEach(function(q){
+        html += '<div class="q" data-q="'+q.id+'">';
+        html += '<div class="q-top"><div class="q-no">'+q.no+'</div><div class="q-text">'+esc(q.text)+'</div><div class="q-marks">['+q.marks+']</div></div>';
+        if(q.hint) html += '<p class="q-hint">'+esc(q.hint)+'</p>';
+        html += '<div class="q-field">';
+        if(q.type==="text"){
+          html += '<textarea id="f-'+q.id+'" rows="2" placeholder="'+esc(q.ph||"")+'"></textarea><div class="count" id="c-'+q.id+'">0 characters</div>';
+        } else if(q.type==="radio"){
+          html += '<div class="opts two">';
+          q.opts.forEach(function(o,i){
+            html += '<label class="opt" data-v="'+esc(o.v)+'"><input type="radio" name="'+q.id+'" id="f-'+q.id+'-'+i+'" value="'+esc(o.v)+'"><span class="opt-l">'+esc(o.l)+(o.d?'<em>'+esc(o.d)+'</em>':'')+'</span></label>';
+          });
+          html += '</div>';
+        } else if(q.type==="check"){
+          html += '<div class="opts two">';
+          q.opts.forEach(function(o,i){
+            html += '<label class="opt" data-v="'+esc(o.v)+'"><input type="checkbox" name="'+q.id+'" id="f-'+q.id+'-'+i+'" value="'+esc(o.v)+'"><span class="opt-l">'+esc(o.l)+'</span></label>';
+          });
+          html += '</div>';
+        } else if(q.type==="slide"){
+          html += '<div class="slide-wrap untouched" id="w-'+q.id+'">';
+          html += '<div class="slide-row"><input type="range" min="1" max="5" step="1" value="3" id="f-'+q.id+'"><div class="slide-val" id="v-'+q.id+'"><b>—</b></div></div>';
+          html += '<div class="slide-ends"><span>'+esc(q.ends[0])+'</span><span>'+esc(q.ends[1])+'</span></div>';
+          html += '</div>';
+        }
+        html += '</div></div>';
+      });
+      html += '</div>';
+    });
+    host.innerHTML = html;
+
+    allQs().forEach(function(q){
+      var el = document.getElementById("f-"+q.id);
+      if(q.type==="text"){
+        el.addEventListener("input", function(){
+          state[q.id] = el.value;
+          document.getElementById("c-"+q.id).textContent = el.value.length + " characters";
+          tick();
+        });
+      } else if(q.type==="radio" || q.type==="check"){
+        var boxes = document.querySelectorAll('input[name="'+q.id+'"]');
+        Array.prototype.forEach.call(boxes, function(b){
+          b.addEventListener("change", function(){
+            if(q.type==="radio"){ state[q.id] = b.value; }
+            else {
+              var vals=[];
+              Array.prototype.forEach.call(boxes,function(x){ if(x.checked) vals.push(x.value); });
+              state[q.id]=vals;
+            }
+            Array.prototype.forEach.call(boxes,function(x){ x.closest(".opt").classList.toggle("on", x.checked); });
+            tick();
+          });
+        });
+      } else if(q.type==="slide"){
+        var setv = function(){
+          var n = parseInt(el.value,10);
+          state[q.id]=n;
+          document.getElementById("v-"+q.id).innerHTML = touched[q.id] ? ('<b>'+n+'</b> · '+esc(q.labels[n-1])) : '<b>—</b>';
+        };
+        el.addEventListener("input", function(){ touched[q.id]=true; document.getElementById("w-"+q.id).classList.remove("untouched"); setv(); tick(); });
+        state[q.id]=3; setv();
+      }
+    });
+  }
+
+  /* ───────── progress + gate ───────── */
+  function tick(){
+    var m=0, missing=[];
+    allQs().forEach(function(q){
+      if(answered(q)) m += q.marks; else missing.push(q.no);
+    });
+    document.getElementById("meterFill").style.width = (m/TOTAL*100)+"%";
+    document.getElementById("tally").innerHTML = "<b>"+m+"</b>/"+TOTAL+" marks attempted";
+
+    var dec = document.getElementById("declare").checked;
+    var out = document.getElementById("outstanding");
+    if(!contact.name.trim()) missing.push("your name");
+    if(!EMAIL_RE.test(contact.email.trim())) missing.push("a valid email");
+    if(missing.length){
+      out.className="outstanding";
+      out.textContent = "Outstanding: " + missing.join(", ") + (dec?"":"  ·  declaration unsigned");
+    } else if(!dec){
+      out.className="outstanding";
+      out.textContent = "Paper complete. Declaration unsigned.";
+    } else {
+      out.className="outstanding clear";
+      out.textContent = "Paper complete. 100/100 attempted. Ready for submission.";
+    }
+    document.getElementById("submitBtn").disabled = !!missing.length || !dec;
+    save();
+  }
+  document.getElementById("declare").addEventListener("change", tick);
+  ["cName","cEmail"].forEach(function(id){
+    document.getElementById(id).addEventListener("input", function(e){
+      contact[id==="cName"?"name":"email"] = e.target.value; tick();
+    });
+  });
+
+  /* ───────── send the paper to the studio ───────── */
+  function sendPaper(){
+    var note = document.getElementById("sendNote");
+    note.hidden = false; note.textContent = "Sending your paper to the studio…";
+    var body = new URLSearchParams({
+      type:"institute", name:contact.name.trim(), email:contact.email.trim(),
+      roll:window.__roll||"", track:state.track||"", years:state.years||"",
+      answers:JSON.stringify(state), dossier:window.__dossier||"",
+      website:document.getElementById("cWebsite").value, page:location.pathname
+    });
+    fetch("/submit.php",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded","Accept":"application/json"},body:body.toString()})
+      .then(function(r){ return r.ok ? r.json() : {ok:false}; })
+      .then(function(j){
+        if(j && j.ok){ window.__sent = true; note.textContent = "Your paper has been received by the studio. Admissions will be in touch at " + contact.email.trim() + "."; }
+        else { note.textContent = "Your dossier is ready, but the paper could not be sent to the studio. Reopen the paper and submit again in a minute."; }
+        save();
+      })
+      .catch(function(){ note.textContent = "Your dossier is ready, but the paper could not be sent to the studio. Reopen the paper and submit again in a minute."; });
+  }
+
+  /* ───────── assessment + admission ───────── */
+  function hashStr(s){
+    var h=2166136261;
+    for(var i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); }
+    return Math.abs(h);
+  }
+
+  function admit(){
+    var t = state.track;
+    var track = TRACKS[t];
+    var yrs = state.years;
+    var standing = (yrs==="10plus") ? "Advanced" : (yrs==="5to10" ? "Advanced" : "First Term");
+    var faculty = (yrs==="10plus");
+    var seed = hashStr((state.instrument||"")+(state.objective||"")+t+yrs);
+    var roll = "MMS·INS·26·" + t.charAt(0).toUpperCase() + "·" + String(seed%9000+1000);
+    var worlds = (state.world||[]).join(", ") || "—";
+
+    document.getElementById("rollNo").textContent = roll;
+    document.getElementById("admitDate").textContent = "Admitted " + new Date().toLocaleDateString(undefined,{day:"numeric",month:"long",year:"numeric"});
+    document.getElementById("cDept").textContent = track.name;
+    document.getElementById("cStanding").innerHTML = standing + (faculty ? ' <span class="pill good" style="vertical-align:middle">Faculty track</span>' : "");
+    document.getElementById("cWorld").textContent = worlds;
+
+    /* dossier */
+    var stakeQ = SECTIONS[1].qs[2];
+    var rows = [
+      ["ROLE",          (state.instrument||"").trim() + "  ·  " + track.short + " track"],
+      ["CIRCUMSTANCES", worlds + ".  Experience: " + ({under2:"under two years","2to5":"two to five years","5to10":"five to ten years","10plus":"ten years or more"}[yrs])],
+      ["OBJECTIVE",     (state.objective||"").trim()],
+      ["MOTIVATION",    (state.motivation||"").trim() + "   [stake: " + stakeQ.labels[state.stake-1].toLowerCase() + "]"],
+      ["RELATIONSHIPS", state.audience + ". Write for how they read the work."],
+      ["CONSTRAINTS",   ((state.constraints||[]).join(", ") || "None declared") + ".  Stated blocker: " + (state.blocker||"").trim()],
+      ["ACTION",        (state.action||"").trim()],
+      ["PERFORMANCE",   "Put up a first take immediately. Candidate self-rates " + state.performance + "/5 on doing this unprompted."],
+      ["CRITIQUE",      "Give one specific, actionable note per take. Self-rates " + state.critique + "/5."],
+      ["ADJUSTMENT",    "Change only what the note named. Self-rates " + state.adjustment + "/5 on turnaround speed."],
+      ["CONTINUITY",    "Carry the note and the decision into the next brief. Self-rates " + state.continuity + "/5."]
+    ];
+    var txt = "METHOD DOSSIER — " + roll + "\n" +
+              "The Method Institute · Method Machine Studio\n" +
+              "Compiled from Entrance Paper I\n" +
+              "───────────────────────────────────────────\n\n";
+    var html = '<span class="k">METHOD DOSSIER — '+esc(roll)+'</span>\nThe Method Institute · Method Machine Studio\nCompiled from Entrance Paper I\n───────────────────────────────────────────\n\n';
+    rows.forEach(function(r){
+      txt  += r[0] + "\n  " + r[1] + "\n\n";
+      html += '<span class="k">'+r[0]+'</span>\n  '+esc(r[1])+'\n\n';
+    });
+    txt  += "───────────────────────────────────────────\nUse: brief this before briefing the task.";
+    html += '───────────────────────────────────────────\nUse: brief this before briefing the task.';
+    document.getElementById("dossierText").innerHTML = html;
+    window.__dossier = txt;
+
+    /* loop bars */
+    var bars = "";
+    LOOP.forEach(function(L){
+      var v = state[L.k];
+      bars += '<div class="bar-row"><div class="bar-k">'+L.t+'</div><div class="bar-track"><div class="bar-fill" style="width:'+(v/5*100)+'%"></div></div><div class="bar-v">'+v+'/5</div></div>';
+    });
+    document.getElementById("loopBars").innerHTML = bars;
+
+    var lowest = LOOP.slice().sort(function(a,b){ return state[a.k]-state[b.k]; })[0];
+    document.getElementById("loopVerdict").innerHTML =
+      '<span class="pill">Taught first</span> &nbsp; <b style="font-family:var(--display);font-size:19px">'+lowest.t+'</b> — ' +
+      esc(state[lowest.k] <= 3 ? lowest.low : lowest.high);
+
+    /* departments */
+    document.getElementById("deptGrid").innerHTML = DEPARTMENTS.map(function(d){
+      var mine = d.key===t;
+      return '<div class="dept'+(mine?' admitted':'')+'">'+
+        '<div class="who">'+esc(d.who)+(mine?' &nbsp;·&nbsp; <span style="color:var(--accent)">Your department</span>':'')+'</div>'+
+        '<h3>'+esc(d.name)+'</h3>'+
+        '<p>'+esc(d.blurb)+'</p>'+
+        '<ul class="papers">'+d.papers.map(function(p){ return '<li><span class="code">'+p[0]+'</span><span>'+esc(p[1])+'</span></li>'; }).join("")+'</ul>'+
+        '<div class="chair">'+esc(d.chair)+'</div>'+
+      '</div>';
+    }).join("");
+
+    /* rehearsal floor */
+    document.getElementById("loopNodes").innerHTML = LOOP.map(function(L,i){
+      return '<button class="loop-node" data-i="'+i+'" aria-pressed="'+(i===0)+'"><div class="n">'+L.n+'</div><div class="t">'+L.t+'</div><div class="s">'+esc(L.s)+' · you '+state[L.k]+'/5</div></button>';
+    }).join("");
+    function showLoop(i){
+      var L = LOOP[i], v = state[L.k];
+      document.getElementById("loopDetail").innerHTML =
+        '<h4>'+L.t+'</h4><div class="cell-k">'+esc(L.s)+'</div><p>'+esc(L.d)+'</p>'+
+        '<div class="yours"><b>Your reading — '+v+' of 5</b>'+esc(v<=3?L.low:L.high)+'</div>';
+      Array.prototype.forEach.call(document.querySelectorAll(".loop-node"), function(n){
+        n.setAttribute("aria-pressed", n.dataset.i===String(i));
+      });
+    }
+    Array.prototype.forEach.call(document.querySelectorAll(".loop-node"), function(n){
+      n.addEventListener("click", function(){ showLoop(parseInt(n.dataset.i,10)); });
+    });
+    showLoop(0);
+
+    /* curriculum */
+    document.getElementById("terms").innerHTML = TERMS.map(function(T){
+      return '<div class="term"><div class="term-n">'+T.n+'</div><div><h3>'+esc(T.t)+'</h3><p>'+esc(T.p)+'</p><div class="gate"><b>Gate</b><span>'+esc(T.gate)+'</span></div></div></div>';
+    }).join("");
+
+    window.__roll = roll;
+    window.__track = track;
+    if(!draft.touched){ draft.disc = track.name; draft.touched = true; }
+    renderPlans();
+    renderRooms();
+    renderBuilder();
+    renderTA();
+    renderSuite();
+    renderStrip();
+  }
+
+  function renderStrip(){
+    var t = tierOf(member.tier);
+    document.getElementById("stripMark").innerHTML = 'THE METHOD INSTITUTE <span>/ '+esc(window.__roll||"")+'</span>';
+    document.getElementById("tally").innerHTML = "<b>"+t.name+"</b> · " + (t.price?money(t.price)+"/mo":"free");
+    document.getElementById("meterFill").style.width = ((t.rank+1)/TIERS.length*100)+"%";
+  }
+
+  /* ── membership ── */
+  function renderPlans(){
+    document.getElementById("plans").innerHTML = TIERS.map(function(t,i){
+      var cur = t.id===member.tier;
+      var items = "";
+      if(i>0) items += '<li class="inherit">Everything in '+TIERS[i-1].name+', plus</li>';
+      items += t.has.map(function(h){ return '<li><span class="y">✓</span><span>'+esc(h)+'</span></li>'; }).join("");
+      items += t.hasnt.map(function(h){ return '<li class="off"><span class="n">·</span><span>'+esc(h)+'</span></li>'; }).join("");
+      return '<div class="plan'+(cur?' current':'')+'">'+
+        '<div class="plan-head"><div class="plan-name">'+t.name+'</div><div class="plan-sub">'+esc(t.sub)+'</div>'+
+        '<div class="plan-price">'+(t.price?'$'+t.price:'Free')+(t.price?' <small>/ month</small>':'')+'</div></div>'+
+        '<div class="plan-line">'+esc(t.line)+'</div>'+
+        '<ul class="plan-list">'+items+'</ul>'+
+        '<div class="plan-foot"><button class="plan-btn'+(cur?' on':'')+'" data-tier="'+t.id+'"'+(cur?' disabled':'')+'>'+
+          (cur?'Current plan':'Select '+t.name)+'</button></div>'+
+      '</div>';
+    }).join("");
+    Array.prototype.forEach.call(document.querySelectorAll(".plan-btn[data-tier]"), function(b){
+      b.addEventListener("click", function(){
+        member.tier = b.dataset.tier;
+        renderPlans(); renderRooms(); renderBuilder(); renderTA(); renderSuite(); renderStrip(); save();
+      });
+    });
+  }
+
+  /* ── teaching assistant desk ── */
+  function renderTA(){
+    var host = document.getElementById("taDesk");
+    if(tierRank() < 2){
+      host.innerHTML = '<div class="locked"><div class="lk">Company plan · $49</div>'+
+        '<h3>Your Teaching Assistant</h3>'+
+        '<p>A teaching assistant briefed on the dossier above and on your department\'s papers, plus the company network — the members and teachers in the room with you.</p>'+
+        '<button class="btn ghost" data-goto="membership">See plans</button></div>';
+    } else {
+      host.innerHTML = '<div class="card" style="border-color:var(--accent)">'+
+        '<span class="pill solid">Open</span>'+
+        '<h3 style="font-family:var(--display);font-size:22px;margin-top:11px">Your Teaching Assistant</h3>'+
+        '<p style="font-size:14.5px;color:var(--text-dim);margin-top:8px">Briefed on your dossier and on the papers in '+esc(window.__track.name)+'. Copy the brief below into any model to open a session, or take it to a live note session with faculty.</p>'+
+        '<div class="copy-row"><button class="btn ghost" id="taCopy">Copy TA brief</button><span class="copied" id="taMsg" hidden>Copied to clipboard</span></div>'+
+        '</div>';
+      var b = document.getElementById("taCopy");
+      if(b) b.addEventListener("click", function(){
+        var brief = "TEACHING ASSISTANT BRIEF — " + window.__roll + "\n" +
+          "You are the Teaching Assistant for " + window.__track.dept + " at The Method Institute.\n" +
+          "Direct this member using the Method Prompt Framework. Give one specific, actionable note per take.\n" +
+          "Never rewrite their work for them; name the element to change and let them change it.\n\n" + (window.__dossier||"");
+        var msg = document.getElementById("taMsg");
+        try{
+          navigator.clipboard.writeText(brief).then(function(){ msg.hidden=false; setTimeout(function(){msg.hidden=true;},2200); },
+            function(){ msg.textContent="Clipboard blocked — copy the dossier above instead"; msg.hidden=false; });
+        }catch(e){ msg.textContent="Clipboard blocked — copy the dossier above instead"; msg.hidden=false; }
+      });
+    }
+  }
+
+  /* ── agent suite ── */
+  function renderSuite(){
+    var host = document.getElementById("suiteHost");
+    var locked = tierRank() < 3;
+    var cards = '<div class="agents">' + SUITE.map(function(a){
+      return '<div class="agent"><div class="an">'+esc(a.n)+'</div><div class="ad">'+esc(a.d)+'</div></div>';
+    }).join("") + '</div>';
+    var creds = '<div class="cell-k" style="margin-top:22px">Monthly pooled credits</div>'+
+      '<p style="font-size:14px;color:var(--text-dim);margin-top:7px">A single monthly allowance spent across the studio\'s AI filmmaking partner tools, drawn down wherever the room needs it.</p>'+
+      '<div class="credits">'+CREDITS.map(function(c){ return '<span class="credit">'+esc(c)+'</span>'; }).join("")+'</div>'+
+      '<p class="money-note">Partner tools are named as the categories the allowance covers. Access to each is subject to the studio\'s agreement with that vendor.</p>';
+    host.innerHTML = locked
+      ? '<div class="locked"><div class="lk">Founder plan · $99</div><h3>Six agents, one team</h3>'+
+        '<p>The suite that runs a classroom: syllabus, teaching assistant, notes, intake, production and ledger — plus Studio OS and the monthly credit allowance.</p>'+
+        '<button class="btn ghost" data-goto="membership">See plans</button></div>' + cards + creds
+      : cards + creds;
+  }
+
+  /* ── classroom directory ── */
+  function roomCard(r, mine){
+    return '<div class="room'+(mine?' mine':'')+'">'+
+      '<div class="room-top"><span class="room-disc">'+esc(r.disc)+(mine?' · yours':'')+'</span>'+
+      '<span class="room-fee">'+(r.fee?money(r.fee)+'/mo':'Free')+'</span></div>'+
+      '<h3>'+esc(r.name)+'</h3>'+
+      '<p>'+esc(r.blurb)+'</p>'+
+      '<div class="room-meta"><span><b>'+esc(r.format)+'</b></span><span>'+r.seats+' seats</span>'+
+      '<span>Entry: '+esc(r.entry)+'+</span><span>'+esc(r.by)+'</span></div>'+
+    '</div>';
+  }
+  function renderRooms(){
+    var mine = member.rooms.map(function(r){ return roomCard(r,true); }).join("");
+    document.getElementById("roomGrid").innerHTML = mine + ROOMS.map(function(r){ return roomCard(r,false); }).join("");
+  }
+
+  /* ── classroom builder ── */
+  var draft = {name:"", disc:"Performance", format:"Cohort term", seats:24, fee:40, entry:"Scholar"};
+  function renderBuilder(){
+    var host = document.getElementById("builderHost");
+    if(tierRank() < 3){
+      host.innerHTML = '<div class="locked"><div class="lk">Founder plan · $99</div>'+
+        '<h3>Founding is closed on your plan</h3>'+
+        '<p>Running a room means running the agent suite behind it — syllabus, intake, notes, ledger — and taking a revenue share on the seats. That is what the Founder plan is.</p>'+
+        '<button class="btn ghost" data-goto="membership">See plans</button></div>';
+      bindGoto();
+      return;
+    }
+    host.innerHTML =
+      '<div class="builder">'+
+        '<div>'+
+          '<div class="field"><label class="k" for="rmName">Classroom name</label>'+
+            '<input type="text" id="rmName" placeholder="e.g. The Self-Tape Room" value="'+esc(draft.name)+'"></div>'+
+          '<div class="field"><label class="k" for="rmDisc">Discipline</label>'+
+            '<select id="rmDisc">'+DISCIPLINES.map(function(d){ return '<option'+(d===draft.disc?' selected':'')+'>'+esc(d)+'</option>'; }).join("")+'</select></div>'+
+          '<div class="field"><label class="k">Format</label><div class="chips" id="rmFormat">'+
+            FORMATS.map(function(f){ return '<button class="chip" data-f="'+esc(f)+'" aria-pressed="'+(f===draft.format)+'">'+esc(f)+'</button>'; }).join("")+'</div></div>'+
+          '<div class="field"><label class="k" for="rmSeats">Seats — <span id="rmSeatsV">'+draft.seats+'</span></label>'+
+            '<input type="range" id="rmSeats" min="6" max="200" step="2" value="'+draft.seats+'" style="width:100%;accent-color:var(--accent)"></div>'+
+          '<div class="field"><label class="k" for="rmFee">Seat fee per month — <span id="rmFeeV">'+(draft.fee?money(draft.fee):"Free")+'</span></label>'+
+            '<input type="range" id="rmFee" min="0" max="300" step="5" value="'+draft.fee+'" style="width:100%;accent-color:var(--accent)"></div>'+
+          '<div class="field"><label class="k" for="rmEntry">Minimum plan to enter</label>'+
+            '<select id="rmEntry">'+ENTRIES.map(function(e){ return '<option'+(e===draft.entry?' selected':'')+'>'+esc(e)+'</option>'; }).join("")+'</select></div>'+
+        '</div>'+
+        '<div>'+
+          '<div class="cell-k" style="margin-bottom:9px">Live preview</div>'+
+          '<div id="rmPreview"></div>'+
+          '<div class="cell-k" style="margin:20px 0 9px">If the room fills</div>'+
+          '<div class="money" id="rmMoney"></div>'+
+          '<button class="btn" id="foundBtn" style="margin-top:16px">Found this classroom</button>'+
+          '<p class="money-note" id="foundMsg"></p>'+
+        '</div>'+
+      '</div>';
+
+    var nameEl=document.getElementById("rmName"), discEl=document.getElementById("rmDisc"),
+        seatsEl=document.getElementById("rmSeats"), feeEl=document.getElementById("rmFee"),
+        entryEl=document.getElementById("rmEntry");
+
+    function paint(){
+      document.getElementById("rmSeatsV").textContent = draft.seats;
+      document.getElementById("rmFeeV").textContent = draft.fee ? money(draft.fee)+"/mo" : "Free";
+      document.getElementById("rmPreview").innerHTML = roomCard({
+        name: draft.name.trim() || "Untitled classroom",
+        disc: draft.disc, fee: draft.fee, seats: draft.seats, format: draft.format, entry: draft.entry,
+        by: "Founded by you · " + window.__roll,
+        blurb: "Your syllabus, run on the framework. The agent suite handles intake, notes and the ledger."
+      }, true);
+
+      var gross = draft.seats * draft.fee;
+      var yours = Math.round(gross * FOUNDER_SHARE);
+      var studio = gross - yours;
+      document.getElementById("rmMoney").innerHTML =
+        '<div class="money-row"><span>'+draft.seats+' seats × '+(draft.fee?money(draft.fee):"$0")+'</span><b>'+money(gross)+' / mo</b></div>'+
+        '<div class="money-row"><span>Studio share (30%)</span><b>−'+money(studio)+'</b></div>'+
+        '<div class="money-row total"><span>Your share (70%)</span><b>'+money(yours)+' / mo</b></div>'+
+        '<div class="money-row" style="border-top:1px dotted var(--rule-strong);margin-top:8px"><span>Across twelve months</span><b>'+money(yours*12)+'</b></div>'+
+        '<p class="money-note">Illustrative at full occupancy, before payment processing and tax. Your $99 plan fee is separate and is not netted here.</p>';
+    }
+
+    nameEl.addEventListener("input", function(){ draft.name=nameEl.value; paint(); });
+    discEl.addEventListener("change", function(){ draft.disc=discEl.value; paint(); });
+    entryEl.addEventListener("change", function(){ draft.entry=entryEl.value; paint(); });
+    seatsEl.addEventListener("input", function(){ draft.seats=parseInt(seatsEl.value,10); paint(); });
+    feeEl.addEventListener("input", function(){ draft.fee=parseInt(feeEl.value,10); paint(); });
+    Array.prototype.forEach.call(document.querySelectorAll("#rmFormat .chip"), function(c){
+      c.addEventListener("click", function(){
+        draft.format=c.dataset.f;
+        Array.prototype.forEach.call(document.querySelectorAll("#rmFormat .chip"), function(x){ x.setAttribute("aria-pressed", x===c); });
+        paint();
+      });
+    });
+    document.getElementById("foundBtn").addEventListener("click", function(){
+      var msg = document.getElementById("foundMsg");
+      if(!draft.name.trim()){ msg.style.color="var(--flag)"; msg.textContent="Give the classroom a name before you found it."; return; }
+      member.rooms.unshift({
+        name: draft.name.trim(), disc: draft.disc, fee: draft.fee, seats: draft.seats,
+        format: draft.format, entry: draft.entry,
+        by: "Founded by you · " + window.__roll,
+        blurb: "Your syllabus, run on the framework. The agent suite handles intake, notes and the ledger."
+      });
+      msg.style.color="var(--good)";
+      msg.textContent = "“"+draft.name.trim()+"” is founded and listed at the top of the directory. The suite has opened a syllabus and an intake paper for it.";
+      draft.name=""; document.getElementById("rmName").value="";
+      renderRooms(); paint(); save();
+      document.getElementById("roomGrid").scrollIntoView({behavior:"smooth", block:"center"});
+    });
+    paint();
+  }
+
+  function bindGoto(){ /* handled by delegation below */ }
+  document.addEventListener("click", function(ev){
+    var b = ev.target.closest ? ev.target.closest("[data-goto]") : null;
+    if(!b) return;
+    var tb = document.querySelector('.tab[data-panel="'+b.dataset.goto+'"]');
+    if(tb) tb.click();
+    window.scrollTo({top:0, behavior:"smooth"});
+  });
+
+  function openInstitute(instant){
+    admit();
+    if(instant){
+      document.getElementById("paperView").hidden = true;
+      document.getElementById("instituteView").hidden = false;
+      save();
+      return;
+    }
+    var overlay = document.getElementById("assessing");
+    overlay.hidden = false;
+    var steps = document.querySelectorAll("#steps .step");
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var gap = reduce ? 40 : 330;
+    steps.forEach(function(s,i){ setTimeout(function(){ s.classList.add("on"); }, gap*i); });
+    setTimeout(function(){
+      overlay.hidden = true;
+      document.getElementById("paperView").hidden = true;
+      document.getElementById("instituteView").hidden = false;
+      window.scrollTo(0,0);
+      save();
+    }, gap*steps.length + (reduce?60:520));
+  }
+
+  document.getElementById("submitBtn").addEventListener("click", function(){ openInstitute(false); sendPaper(); });
+
+  document.getElementById("reopenBtn").addEventListener("click", function(){
+    document.getElementById("instituteView").hidden = true;
+    document.getElementById("paperView").hidden = false;
+    document.getElementById("stripMark").innerHTML = 'METHOD MACHINE STUDIO <span>/ ENTRANCE PAPER</span>';
+    tick();
+    window.scrollTo(0,0);
+    save();
+  });
+
+  /* tabs */
+  var PANELS = ["dossier","membership","classrooms","departments","floor","wings"];
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(tb){
+    tb.addEventListener("click", function(){
+      Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(x){ x.setAttribute("aria-selected", x===tb); });
+      PANELS.forEach(function(p){ document.getElementById("panel-"+p).hidden = (p!==tb.dataset.panel); });
+    });
+  });
+
+  /* copy */
+  document.getElementById("copyBtn").addEventListener("click", function(){
+    var msg = document.getElementById("copiedMsg");
+    var done = function(){ msg.hidden=false; setTimeout(function(){ msg.hidden=true; }, 2200); };
+    try{
+      navigator.clipboard.writeText(window.__dossier).then(done, function(){ selectDossier(); });
+    }catch(e){ selectDossier(); }
+  });
+  function selectDossier(){
+    var el = document.getElementById("dossierText");
+    var r = document.createRange(); r.selectNodeContents(el);
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    var msg = document.getElementById("copiedMsg");
+    msg.textContent = "Selected — press Cmd/Ctrl+C"; msg.hidden=false;
+  }
+
+  /* ───────── boot ───────── */
+  renderPaper();
+  var prev = load();
+  if(prev && prev.s){
+    state = prev.s; touched = prev.t || {};
+    if(prev.m){ member.tier = prev.m.tier || "student"; member.rooms = prev.m.rooms || []; }
+    if(prev.c){ contact.name = prev.c.name || ""; contact.email = prev.c.email || ""; document.getElementById("cName").value = contact.name; document.getElementById("cEmail").value = contact.email; }
+    window.__sent = !!prev.sent;
+    allQs().forEach(function(q){
+      var v = state[q.id]; if(v===undefined || v===null) return;
+      var el = document.getElementById("f-"+q.id);
+      if(q.type==="text" && el){ el.value=v; document.getElementById("c-"+q.id).textContent = v.length+" characters"; }
+      if(q.type==="radio"||q.type==="check"){
+        var boxes = document.querySelectorAll('input[name="'+q.id+'"]');
+        Array.prototype.forEach.call(boxes,function(b){
+          b.checked = (q.type==="radio") ? (b.value===v) : (Array.isArray(v)&&v.indexOf(b.value)>-1);
+          b.closest(".opt").classList.toggle("on", b.checked);
+        });
+      }
+      if(q.type==="slide" && el){
+        el.value=v;
+        if(touched[q.id]){
+          document.getElementById("w-"+q.id).classList.remove("untouched");
+          document.getElementById("v-"+q.id).innerHTML = '<b>'+v+'</b> · '+esc(q.labels[v-1]);
+        }
+      }
+    });
+    if(prev.done){ document.getElementById("declare").checked = true; openInstitute(true); }
+  }
+  tick();
+})();
+</script>
+</html>

@@ -106,20 +106,30 @@ async function handleSubmit(request, env) {
   if (!EMAIL_RE.test(email) || email.length > 254) return json(422, { ok: false, error: "invalid_email" });
   if (!env.DB) return json(500, { ok: false, error: "storage_unavailable" });
 
-  const type = form.get("type") === "application" ? "application" : "waitlist";
+  const type = ["application", "institute"].includes(form.get("type")) ? form.get("type") : "waitlist";
   const ip = request.headers.get("CF-Connecting-IP") || "";
   const when = new Date().toISOString();
 
   // Simple per-IP rate limit: at most 10 submissions per 10 minutes.
   const since = new Date(Date.now() - 600_000).toISOString();
   const { n } = await env.DB.prepare(
-    "SELECT (SELECT COUNT(*) FROM waitlist WHERE ip = ?1 AND submitted_at > ?2) + (SELECT COUNT(*) FROM applications WHERE ip = ?1 AND submitted_at > ?2) AS n"
+    "SELECT (SELECT COUNT(*) FROM waitlist WHERE ip = ?1 AND submitted_at > ?2) + (SELECT COUNT(*) FROM applications WHERE ip = ?1 AND submitted_at > ?2) + (SELECT COUNT(*) FROM institute_papers WHERE ip = ?1 AND submitted_at > ?2) AS n"
   ).bind(ip, since).first();
   if (n >= 10) return json(429, { ok: false, error: "rate_limited" });
 
   if (type === "waitlist") {
     await env.DB.prepare("INSERT INTO waitlist (submitted_at, email, page, ip, user_agent) VALUES (?, ?, ?, ?, ?)")
       .bind(when, email, clean(form, "page", 200), ip, (request.headers.get("User-Agent") || "").slice(0, 300)).run();
+    return json(200, { ok: true });
+  }
+
+  if (type === "institute") {
+    await env.DB.prepare(
+      "INSERT INTO institute_papers (submitted_at, roll, name, email, track, years, answers, dossier, ip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    ).bind(
+      when, clean(form, "roll", 60), clean(form, "name", 200), email, clean(form, "track", 20), clean(form, "years", 10),
+      String(form.get("answers") ?? "").slice(0, 30000), String(form.get("dossier") ?? "").slice(0, 30000), ip
+    ).run();
     return json(200, { ok: true });
   }
 
