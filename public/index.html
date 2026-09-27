@@ -119,6 +119,10 @@
   .gate p{color:var(--ink-dim); margin:12px auto 0; max-width:56ch}
   .gate .row{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:24px}
 
+  .more-link{text-align:center; margin-top:26px; font-family:var(--f-mono); font-size:13px}
+  .more-link a{color:var(--brown-hi); border-bottom:1px solid var(--line-brown)}
+  .more-link a:hover{color:var(--ink)}
+
   /* two ways in */
   .paths{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
   @media (max-width:760px){.paths{grid-template-columns:1fr}}
@@ -174,6 +178,7 @@
     <a class="brand" href="#top"><svg class="mg"><use href="#mg"/></svg><b>Method Machine Studio</b></a>
     <button class="navtoggle" aria-expanded="false" aria-controls="links">Menu</button>
     <nav class="links" id="links">
+      <a href="/method">The Method</a>
       <a href="#how">How it works</a>
       <a href="#tracks">Tracks</a>
       <a href="#pricing">Pricing</a>
@@ -213,6 +218,7 @@
       <div class="vcard"><div class="k">Six backbones</div><h3>Direct in a master's tradition</h3><p>Hagen, Stanislavski, Meisner, Strasberg, Adler, Chekhov — each a step-by-step way to prepare the AI. Pick the one that fits the task, or let the Director choose.</p></div>
       <div class="vcard"><div class="k">Your AI company</div><h3>Agents that hand off</h3><p>A Director casts the right performer; each agent runs one method and passes its work to the next. Your studio, staffed by directed AI.</p></div>
     </div>
+    <p class="more-link"><a href="/method">Explore the method in full: the framework, the backbones, the journey and the agents →</a></p>
   </section>
 
   <!-- how -->
@@ -309,7 +315,7 @@
 <footer>
   <svg class="fmg"><use href="#mg"/></svg>
   <p class="ftag">Same human spirit, new possibilities.</p>
-  <div class="fnav"><a href="#how">How it works</a><a href="#tracks">Tracks</a><a href="#pricing">Pricing</a><a href="/institute">The Method Institute</a><a href="apply.html">Careers</a></div>
+  <div class="fnav"><a href="/method">The Method</a><a href="#how">How it works</a><a href="#tracks">Tracks</a><a href="#pricing">Pricing</a><a href="/institute">The Method Institute</a><a href="apply.html">Careers</a></div>
   <p class="fine">Method Machine Studio™ — a prompting methodology built on the “LLMs as method actors” framing from <a href="https://arxiv.org/abs/2411.05778" target="_blank" rel="noopener">Colin Doyle's 2024 paper</a>, extended with the techniques of Stanislavski, Meisner, Strasberg, Adler, Chekhov, and Uta Hagen. People · Ideas · Projects · Opportunities.</p>
 </footer>
 

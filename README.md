@@ -5,7 +5,7 @@ Landing page, Stage 1 application, and form handling, deployed as a Cloudflare W
 
 | Path | Purpose |
 | --- | --- |
-| `public/` | The site: `index.html`, `apply.html`, `institute.html` (The Method Institute), `404.html`, icon, manifest, `_headers` |
+| `public/` | The site: `index.html`, `method.html` (The Method in full), `apply.html`, `institute.html` (The Method Institute), `404.html`, icon, manifest, `_headers` |
 | `src/worker.js` | Handles `POST /submit.php` (waitlist, applications, institute papers), serves everything else from `public/` |
 | `wrangler.jsonc` | Worker config: static assets + D1 binding `DB` |
 | `schema.sql` | Tables in the D1 database `method-machine-studio` (already created) |

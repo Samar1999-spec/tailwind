@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Method — Method Machine Studio</title>
+<meta name="description" content="Inside the Method Prompt Framework: eleven elements, six master backbones, seven acts, two variable packs and the agent suite.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a0a0c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --stage:#0a0a0c; --stage-2:#101116; --panel:#15161c; --panel-2:#1c1d25;
+    --line:rgba(232,226,218,0.10); --line-gold:rgba(198,138,78,0.28);
+    --blue:#6098de; --blue-hi:#a3c3ef; --blue-deep:#3f66aa; --line-blue:rgba(96,152,222,0.32);
+    --ink:#ece6dd; --ink-dim:#a7a49c; --ink-faint:#6f6b63;
+    --gold:#c68a4e; --gold-hi:#e2b681; --gold-deep:#8f5f34;
+    --actor:#c17a45; --writer:#d8a86a; --engineer:#6098de; --founder:#5478bd; --solver:#a98a6a;
+    --maxw:1140px;
+    --f-disp:"Fraunces",Georgia,"Times New Roman",serif;
+    --f-body:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+    --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--stage); color:var(--ink);
+    font-family:var(--f-body); font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw); margin-inline:auto; padding-inline:22px}
+  h1,h2,h3,h4{font-family:var(--f-disp); font-weight:600; line-height:1.08; text-wrap:balance; margin:0}
+  p{margin:0}
+  a{color:inherit}
+  .eyebrow{font-family:var(--f-mono); font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:var(--gold); font-weight:500}
+  .mono{font-family:var(--f-mono)}
+  ::selection{background:rgba(198,138,78,.32); color:#fff}
+  :focus-visible{outline:2px solid var(--gold); outline-offset:3px; border-radius:3px}
+
+  /* ---- NAV ---- */
+  header.nav{position:sticky; top:env(safe-area-inset-top,0px); z-index:50;
+    background:rgba(11,14,22,.82); backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line)}
+  .nav-in{max-width:var(--maxw); margin-inline:auto; padding:12px 22px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px}
+  .brand{display:flex; align-items:center; gap:11px; text-decoration:none}
+  .monogram{width:34px; height:34px; flex:none}
+  .brand b{font-family:var(--f-disp); font-weight:600; font-size:16px; letter-spacing:.01em}
+  .brand span{font-family:var(--f-mono); font-size:9.5px; letter-spacing:.28em; color:var(--ink-faint); text-transform:uppercase; display:block; margin-top:1px}
+  nav.links{display:flex; gap:4px; align-items:center}
+  nav.links a{font-family:var(--f-mono); font-size:12.5px; letter-spacing:.02em; text-decoration:none;
+    color:var(--ink-dim); padding:8px 11px; border-radius:7px}
+  nav.links a:hover{color:var(--ink); background:rgba(236,231,221,.05)}
+  nav.links a.cta{color:var(--stage); background:var(--blue); font-weight:600}
+  nav.links a.cta:hover{background:var(--blue-hi)}
+  .navtoggle{display:none; background:none; border:1px solid var(--line); color:var(--ink);
+    border-radius:8px; padding:8px 10px; font-family:var(--f-mono); font-size:13px; cursor:pointer}
+
+  /* ---- HERO ---- */
+  .hero{position:relative; overflow:hidden; border-bottom:1px solid var(--line)}
+  .hero::before{content:""; position:absolute; inset:0; z-index:0;
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgba(198,138,78,.22), transparent 55%),
+      radial-gradient(90% 60% at 82% 8%, rgba(96,152,222,.18), transparent 60%),
+      radial-gradient(70% 50% at 12% 20%, rgba(96,152,222,.10), transparent 60%);
+    pointer-events:none}
+  .hero::after{content:""; position:absolute; inset:0; z-index:0; opacity:.5; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E")}
+  .hero-in{position:relative; z-index:1; max-width:var(--maxw); margin-inline:auto;
+    padding:74px 22px 66px; text-align:center}
+  .marquee-line{display:inline-flex; align-items:center; gap:14px; margin-bottom:26px}
+  .marquee-line .rule{height:1px; width:44px; background:linear-gradient(90deg,transparent,var(--gold-deep))}
+  .marquee-line .rule.r{background:linear-gradient(90deg,var(--gold-deep),transparent)}
+  h1.title{font-size:clamp(44px,9vw,92px); font-weight:600; letter-spacing:-.015em; line-height:.96}
+  h1.title .gold{display:block; color:var(--gold);
+    background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,var(--gold-deep));
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
+  .tagline{font-family:var(--f-disp); font-style:italic; font-size:clamp(19px,3vw,26px);
+    color:var(--ink); margin-top:22px; font-weight:400}
+  .lede{max-width:60ch; margin:20px auto 0; color:var(--ink-dim); font-size:17px}
+  .hero-cta{display:flex; gap:13px; justify-content:center; flex-wrap:wrap; margin-top:34px}
+  .btn{font-family:var(--f-mono); font-size:13.5px; letter-spacing:.02em; text-decoration:none;
+    padding:13px 22px; border-radius:9px; font-weight:500; display:inline-flex; align-items:center; gap:8px; cursor:pointer; border:1px solid transparent}
+  .btn.primary{background:var(--gold); color:var(--stage); font-weight:600}
+  .btn.primary:hover{background:var(--gold-hi)}
+  .btn.ghost{border-color:var(--line-blue); color:var(--ink)}
+  .btn.ghost:hover{background:rgba(96,152,222,.10); border-color:var(--blue)}
+  .quote{margin-top:46px; font-family:var(--f-disp); font-style:italic; color:var(--ink-dim); font-size:16px}
+  .quote b{color:var(--gold); font-style:normal; font-family:var(--f-mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; display:block; margin-top:8px; font-weight:500}
+
+  /* ---- SECTION ---- */
+  section{padding-block:74px; border-bottom:1px solid var(--line)}
+  .sec-head{max-width:64ch; margin-bottom:40px}
+  .sec-head h2{font-size:clamp(28px,4.4vw,40px); margin-top:14px; letter-spacing:-.01em}
+  .sec-head p{color:var(--ink-dim); margin-top:14px; font-size:16.5px}
+
+  /* premise */
+  .premise{display:grid; grid-template-columns:1.3fr 1fr; gap:30px; align-items:center}
+  .premise .card-quote{background:var(--panel); border:1px solid var(--line); border-left:2px solid var(--gold);
+    border-radius:12px; padding:26px 28px}
+  .premise .card-quote p{font-family:var(--f-disp); font-size:20px; line-height:1.4}
+  .attrib{font-size:14px; color:var(--ink-dim); background:var(--stage-2); border:1px solid var(--line);
+    border-radius:12px; padding:22px 24px}
+  .attrib a{color:var(--gold); text-decoration:none; border-bottom:1px solid var(--line-gold)}
+  .attrib .k{font-family:var(--f-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); display:block; margin-bottom:10px}
+
+  /* framework grid */
+  .fw-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:12px}
+  .fw{background:var(--panel); border:1px solid var(--line); border-radius:11px; padding:16px 17px; transition:border-color .2s,transform .2s}
+  .fw:hover{border-color:var(--line-gold); transform:translateY(-2px)}
+  .fw .n{font-family:var(--f-mono); font-size:11px; color:var(--gold-deep); font-weight:600}
+  .fw h4{font-family:var(--f-mono); font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin-top:7px; color:var(--gold); font-weight:600}
+  .fw p{font-size:13.5px; color:var(--ink-dim); margin-top:6px; line-height:1.5}
+
+  /* backbones / tabs */
+  .tabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px}
+  .tab{font-family:var(--f-mono); font-size:13px; letter-spacing:.02em; background:var(--panel);
+    border:1px solid var(--line); color:var(--ink-dim); padding:10px 15px; border-radius:9px; cursor:pointer; font-weight:500}
+  .tab:hover{color:var(--ink); border-color:var(--line-gold)}
+  .tab[aria-selected="true"]{background:var(--gold); color:var(--stage); border-color:var(--gold); font-weight:600}
+  .tab .badge{opacity:.7; font-size:11px}
+  .panel-bb{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:30px; display:grid; grid-template-columns:1fr 1fr; gap:34px}
+  .panel-bb .role{font-family:var(--f-mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--gold)}
+  .panel-bb h3{font-size:27px; margin-top:8px}
+  .panel-bb .move{color:var(--ink-dim); margin-top:12px; font-size:15.5px}
+  .panel-bb .reach{margin-top:18px; font-size:14px; color:var(--ink); background:var(--stage-2); border:1px solid var(--line); border-radius:9px; padding:12px 14px}
+  .panel-bb .reach b{color:var(--gold); font-family:var(--f-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px; font-weight:600}
+  .steps{list-style:none; margin:0; padding:0; counter-reset:s}
+  .steps li{counter-increment:s; position:relative; padding:9px 0 9px 40px; border-bottom:1px dashed var(--line); font-size:14.5px; color:var(--ink)}
+  .steps li:last-child{border-bottom:0}
+  .steps li::before{content:counter(s); position:absolute; left:0; top:8px; width:26px; height:26px;
+    display:grid; place-items:center; font-family:var(--f-mono); font-size:12px; font-weight:600;
+    color:var(--gold); border:1px solid var(--line-gold); border-radius:50%}
+  .steps li b{color:var(--gold-hi); font-weight:600; font-family:var(--f-mono); font-size:12.5px; letter-spacing:.03em}
+
+  /* backbone finder */
+  .finder{background:var(--stage-2); border:1px solid var(--line-gold); border-radius:14px; padding:26px 28px; margin-top:26px}
+  .finder .chips{display:flex; flex-wrap:wrap; gap:9px; margin-top:16px}
+  .chip{font-family:var(--f-mono); font-size:12.5px; background:var(--panel); border:1px solid var(--line);
+    color:var(--ink-dim); padding:9px 14px; border-radius:20px; cursor:pointer}
+  .chip:hover{color:var(--ink); border-color:var(--line-gold)}
+  .chip[aria-pressed="true"]{background:var(--gold); color:var(--stage); border-color:var(--gold); font-weight:600}
+  .finder-out{margin-top:20px; font-size:15px; color:var(--ink); min-height:24px}
+  .finder-out b{color:var(--gold); font-family:var(--f-disp); font-style:italic; font-size:19px}
+
+  /* tracks */
+  .tracks{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px}
+  .track{background:var(--panel); border:1px solid var(--line); border-top:3px solid var(--tc); border-radius:12px; padding:20px 20px 22px}
+  .track .tk{font-family:var(--f-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--tc); font-weight:600}
+  .track h3{font-size:20px; margin-top:9px}
+  .track ul{margin:13px 0 0; padding:0; list-style:none}
+  .track li{font-size:13.5px; color:var(--ink-dim); padding:4px 0 4px 15px; position:relative}
+  .track li::before{content:"›"; position:absolute; left:0; color:var(--tc)}
+
+  /* journey */
+  .journey{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; counter-reset:j}
+  .jstep{counter-increment:j; background:var(--panel); border:1px solid var(--line); border-radius:11px; padding:18px}
+  .jstep .jn{font-family:var(--f-disp); font-size:30px; color:var(--gold); line-height:1}
+  .jstep h4{font-family:var(--f-mono); font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; margin-top:10px; color:var(--ink)}
+  .jstep p{font-size:13px; color:var(--ink-dim); margin-top:6px}
+
+  /* packs */
+  .packs{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .pack{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:24px 26px}
+  .pack .pk{font-family:var(--f-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold)}
+  .pack h3{font-size:21px; margin-top:8px}
+  .pack p{color:var(--ink-dim); font-size:14.5px; margin-top:10px}
+  .pack .vals{display:flex; flex-wrap:wrap; gap:7px; margin-top:15px}
+  .val{font-family:var(--f-mono); font-size:11.5px; background:var(--stage-2); border:1px solid var(--line); color:var(--ink); padding:6px 11px; border-radius:6px}
+
+  /* agents */
+  .agent-lead{background:var(--stage-2); border:1px solid var(--line); border-radius:12px; padding:20px 24px; margin-bottom:20px; display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap}
+  .agent-lead .role{font-family:var(--f-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); font-weight:600}
+  .agent-lead h3{font-size:20px; margin-top:6px}
+  .agent-lead p{color:var(--ink-dim); font-size:14.5px; margin-top:8px; max-width:70ch}
+  .agents{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:13px}
+  .agent{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:19px 20px}
+  .agent .hnd{font-family:var(--f-mono); font-size:12px; color:var(--gold); font-weight:600}
+  .agent h4{font-size:18px; margin-top:7px}
+  .agent .desc{font-size:13.5px; color:var(--ink-dim); margin-top:9px}
+  .agent details{margin-top:13px}
+  .agent summary{font-family:var(--f-mono); font-size:12px; color:var(--ink); cursor:pointer; list-style:none;
+    padding:8px 11px; border:1px solid var(--line); border-radius:8px; display:inline-flex; align-items:center; gap:7px}
+  .agent summary::-webkit-details-marker{display:none}
+  .agent summary::before{content:"▸"; color:var(--gold)}
+  .agent details[open] summary::before{content:"▾"}
+  .agent pre{margin:12px 0 0; background:var(--stage); border:1px solid var(--line); border-radius:9px;
+    padding:14px; overflow-x:auto; font-family:var(--f-mono); font-size:11.5px; line-height:1.55; color:var(--ink-dim); white-space:pre-wrap}
+  .agent pre b{color:var(--gold-hi); font-weight:600}
+
+  .contract{margin-top:22px; background:var(--panel); border:1px dashed var(--line-gold); border-radius:12px; padding:20px 24px}
+  .contract .k{font-family:var(--f-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); font-weight:600}
+  .contract .flow{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:14px; font-family:var(--f-mono); font-size:13px}
+  .contract .flow span{background:var(--stage-2); border:1px solid var(--line); padding:8px 13px; border-radius:8px; color:var(--ink)}
+  .contract .flow i{color:var(--gold); font-style:normal}
+
+  /* build plan / start */
+  .phases{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px}
+  .phase{background:var(--panel); border:1px solid var(--line); border-radius:11px; padding:18px}
+  .phase .ph{font-family:var(--f-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); font-weight:600}
+  .phase h4{font-size:16px; margin-top:8px}
+  .phase p{font-size:13px; color:var(--ink-dim); margin-top:7px}
+  .start-cta{margin-top:34px; text-align:center; background:var(--stage-2);
+    border:1px solid var(--line-gold); border-radius:16px; padding:44px 26px;
+    background-image:radial-gradient(80% 120% at 50% 0%, rgba(96,152,222,.12), transparent 60%)}
+  .start-cta h3{font-size:clamp(24px,4vw,34px)}
+  .start-cta p{color:var(--ink-dim); margin:12px auto 0; max-width:52ch}
+
+  /* footer */
+  footer{padding:52px 22px 56px; text-align:center}
+  .fmono{width:46px; height:46px; margin:0 auto 16px}
+  footer .ftag{font-family:var(--f-disp); font-style:italic; color:var(--ink); font-size:19px}
+  footer .strip{font-family:var(--f-mono); font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--ink-faint); margin-top:20px}
+  footer .strip span{color:var(--gold)}
+  footer .fine{color:var(--ink-faint); font-size:12.5px; margin-top:22px; max-width:64ch; margin-inline:auto; line-height:1.6}
+  footer .fnav{display:flex; gap:18px; justify-content:center; flex-wrap:wrap; margin-top:18px; font-family:var(--f-mono); font-size:12.5px}
+  footer .fnav a{color:var(--ink-dim); text-decoration:none}
+  footer .fnav a:hover{color:var(--ink)}
+  footer .fine a{color:var(--ink-dim); text-decoration:none; border-bottom:1px solid var(--line)}
+
+  @media (max-width:820px){
+    .premise,.panel-bb,.packs{grid-template-columns:1fr}
+    nav.links{position:fixed; inset:auto 0 0 0; top:0; flex-direction:column; align-items:stretch;
+      background:var(--stage); padding:76px 22px 22px; gap:6px; transform:translateX(100%); visibility:hidden; transition:transform .28s ease, visibility 0s .28s; border-left:1px solid var(--line); z-index:55; overflow-y:auto}
+    nav.links.open{transform:none; visibility:visible; transition:transform .28s ease}
+    nav.links a{padding:13px 14px; font-size:15px; border-bottom:1px solid var(--line)}
+    .navtoggle{display:inline-block; position:relative; z-index:60}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important; scroll-behavior:auto!important}
+  }
+  html{scroll-behavior:smooth; overflow-x:clip}
+  section[id]{scroll-margin-top:74px}
+</style>
+
+<a class="brand-defs" hidden></a>
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="Method Machine Studio home">
+      <svg class="monogram" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <circle cx="20" cy="20" r="18.5" stroke="#c68a4e" stroke-width="1.4"/>
+        <path d="M11 27V14l5 8 4-8 4 8 5-8v13" stroke="#c68a4e" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      <span class="brandtxt"><b>Method Machine Studio</b><span>People · Ideas · Projects</span></span>
+    </a>
+    <button class="navtoggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
+    <nav class="links" id="nav-links">
+      <a href="/">Studio</a>
+      <a href="#framework">Framework</a>
+      <a href="#method">Backbones</a>
+      <a href="#tracks">Tracks</a>
+      <a href="#journey">Journey</a>
+      <a href="#packs">Packs</a>
+      <a href="#agents">Agents</a>
+      <a href="/#apply" class="cta">Two ways in</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-in">
+      <div class="marquee-line">
+        <span class="rule"></span>
+        <span class="eyebrow">The Method · Inside the system</span>
+        <span class="rule r"></span>
+      </div>
+      <h1 class="title">The Method<span class="gold">in full</span></h1>
+      <p class="tagline">Train the AI before you ask it to perform.</p>
+      <p class="lede">Large language models behave like method actors — they perform best when you direct them with role, circumstances, objective, and motivation. This is the system that turns acting's oldest disciplines into a modern prompting method for your creative, technical, and entrepreneurial work.</p>
+      <div class="hero-cta">
+        <a class="btn primary" href="#framework">Start with the framework</a>
+        <a class="btn ghost" href="#agents">Meet the agents</a>
+      </div>
+      <p class="quote">“Given the circumstances, do the truth.”<b>Konstantin Stanislavski</b></p>
+    </div>
+  </div>
+
+  <!-- PREMISE -->
+  <section id="premise" class="wrap">
+    <div class="premise">
+      <div class="card-quote">
+        <p>An LLM doesn't reason like a mathematician — it performs like an actor. A prompt is a script and a cue; the response is a performance. Direct the performance and the results change.</p>
+      </div>
+      <div class="attrib">
+        <span class="k">The idea, honestly sourced</span>
+        The method-actor framing comes from Colin Doyle's paper <a href="https://arxiv.org/abs/2411.05778" target="_blank" rel="noopener">“LLMs as Method Actors”</a> (2024). Method Machine Studio builds on it — replacing his engineering principles with the step-by-step preparation of real acting masters, so anyone can direct, not just engineers.
+      </div>
+    </div>
+  </section>
+
+  <!-- FRAMEWORK -->
+  <section id="framework" class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The backbone</span>
+      <h2>The Method Prompt Framework</h2>
+      <p>Eleven elements that turn a one-line question into a directed performance. Every prompt, agent, and workflow in the system is authored against them.</p>
+    </div>
+    <div class="fw-grid" id="fwgrid"></div>
+  </section>
+
+  <!-- THE METHOD / BACKBONES -->
+  <section id="method" class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Choose your backbone</span>
+      <h2>Direct the AI in a master's tradition</h2>
+      <p>Each acting master is a different step-by-step engine for preparing the AI before it performs. Pick the one whose way of working fits the task — or start with Hagen, the most complete.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Master backbones" id="bbtabs"></div>
+    <div id="bbpanel"></div>
+
+    <div class="finder">
+      <span class="eyebrow">Backbone finder</span>
+      <p style="color:var(--ink-dim); margin-top:10px; font-size:15px">What are you working on? Tap what fits and I'll cast the right master.</p>
+      <div class="chips" id="finderchips" role="group" aria-label="Task types"></div>
+      <div class="finder-out" id="finderout" aria-live="polite">Pick a task above to see the recommended backbone.</div>
+    </div>
+  </section>
+
+  <!-- TRACKS -->
+  <section id="tracks" class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Who it's for</span>
+      <h2>Inside each track</h2>
+      <p>The same method, tuned to five kinds of work. Here is what each track's prompt library covers, paired with the backbone that fits the moment.</p>
+    </div>
+    <div class="tracks" id="tracksgrid"></div>
+  </section>
+
+  <!-- JOURNEY -->
+  <section id="journey" class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The arc</span>
+      <h2>Your journey, in seven acts</h2>
+      <p>From understanding your goals to evolving your system — the same sequence whether you're preparing an audition or shipping a product.</p>
+    </div>
+    <div class="journey" id="journeygrid"></div>
+  </section>
+
+  <!-- PACKS -->
+  <section id="packs" class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Configurable variables</span>
+      <h2>Variable packs</h2>
+      <p>Reusable dropdowns that plug into any prompt — one variable, many values — so a single prompt performs in whichever tradition or method the task calls for.</p>
+    </div>
+    <div class="packs" id="packsgrid"></div>
+  </section>
+
+  <!-- AGENTS -->
+  <section id="agents" class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Company build</span>
+      <h2>The agent suite</h2>
+      <p>Every backbone becomes a deployable agent. A Director reads the task and casts the right performer; each agent runs one master's method and honors the same output contract, so they chain into workflows.</p>
+    </div>
+    <div class="agent-lead">
+      <div>
+        <span class="role">Orchestrator</span>
+        <h3>The Director</h3>
+        <p>Doesn't solve the task — casts it. Reads what kind of work it is, picks the backbone (and domain track) whose method fits, writes a one-line brief, and hands off. The entry point to the whole suite.</p>
+      </div>
+    </div>
+    <div class="agents" id="agentsgrid"></div>
+    <p style="color:var(--ink-faint); font-size:13px; margin-top:14px">The full system prompt for each agent is part of membership. The Director and the Hagen agent are free on the Audition tier.</p>
+    <div class="contract">
+      <span class="k">The shared output contract</span>
+      <div class="flow">
+        <span>Take</span><i>→</i><span>Critique</span><i>→</i><span>Adjust</span><i>→</i><span>Continuity</span>
+      </div>
+      <p style="color:var(--ink-dim); font-size:14px; margin-top:14px">Every agent, whatever its method, delivers a first take, finds its own weakest point, fixes it, and states what carries forward. One agent's <em>Continuity</em> becomes the next one's brief — that's what makes them a company, not six unrelated prompts.</p>
+    </div>
+  </section>
+
+  <!-- NEXT STEP -->
+  <section id="start" class="wrap" style="border-bottom:none">
+    <div class="start-cta">
+      <span class="eyebrow">Your next act</span>
+      <h3 style="margin-top:14px">Put the method to work.</h3>
+      <p>Form a team of your own through The Method Institute, or join Method Machine Studio and build a career with us as an Assistant, Associate and team member.</p>
+      <div class="hero-cta" style="margin-top:26px">
+        <a class="btn primary" href="/institute">Sit Entrance Paper I</a>
+        <a class="btn ghost" href="/apply">Apply to join the studio</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <svg class="fmono" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+    <circle cx="20" cy="20" r="18.5" stroke="#c68a4e" stroke-width="1.4"/>
+    <path d="M11 27V14l5 8 4-8 4 8 5-8v13" stroke="#c68a4e" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+  </svg>
+  <p class="ftag">Same human spirit, new possibilities.</p>
+  <p class="strip">Creativity <span>×</span> Technology <span>×</span> Opportunity <span>×</span> A Brighter Tomorrow</p>
+  <p class="fnav"><a href="/">Studio</a><a href="/#pricing">Pricing</a><a href="/institute">The Method Institute</a><a href="/apply">Careers</a></p>
+  <p class="fine">Method Machine Studio™ is a prompting methodology built on the “LLMs as method actors” framing from <a href="https://arxiv.org/abs/2411.05778" target="_blank" rel="noopener">Colin Doyle's 2024 paper</a>, extended with the step-by-step techniques of Stanislavski, Meisner, Strasberg, Adler, Chekhov, and Uta Hagen. People · Ideas · Projects · Opportunities.</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)};
+
+  /* ---- data ---- */
+  var framework=[
+    ["Role","Who is the AI performing as?"],["Circumstances","What is the world or project?"],
+    ["Objective","What must be achieved?"],["Motivation","Why does it matter?"],
+    ["Relationships","Who is the output for?"],["Constraints","What are the boundaries?"],
+    ["Action","What should be produced?"],["Performance","Deliver the first take."],
+    ["Critique","Evaluate the output."],["Adjustment","Refine for a stronger result."],
+    ["Continuity","What carries into the next task?"]
+  ];
+
+  var backbones=[
+    {key:"hagen",tab:"Hagen",badge:"default",role:"The Specifier",name:"Uta Hagen",
+     move:"Specify the whole performance up front by answering nine concrete questions — so the AI has no blanks left to fill badly.",
+     reach:"Briefs, documents, and anything where missing detail causes bad guesses.",
+     steps:[["Who am I","the specific expert persona to perform as."],["What time is it","the moment, deadline, and what just happened."],["Where am I","the medium, channel, and formality."],["What surrounds me","the facts, files, people, and limits present."],["Given circumstances","what has happened, is happening, will happen."],["Relationships","who it's for and the stakes between you."],["What I want","the single testable definition of success."],["What's in my way","the obstacle the output must overcome."],["What I do","produce it, critique, adjust, hand off."]]},
+    {key:"stan",tab:"Stanislavski",badge:"the system",role:"The Analyst",name:"Konstantin Stanislavski",
+     move:"Break the work into units, give each an objective and an active-verb action, and drive them all toward one super-objective.",
+     reach:"Analytical, goal-driven work that needs a logical spine — strategy, structured writing, planning.",
+     steps:[["Given circumstances","state everything true about the task."],["The magic if","reason as if you truly were this expert, here."],["Units","break the work into discrete beats."],["Objectives","give each unit a testable want."],["Actions","convert each want into an active verb."],["Super-objective","the one goal all units serve."],["Action first","do, then justify against the circumstances."]]},
+    {key:"meisner",tab:"Meisner",badge:"reacting",role:"The Responder",name:"Sanford Meisner",
+     move:"Get out of your head and react truthfully to what's actually said, moment to moment, rather than following a plan.",
+     reach:"Interactive, responsive work — dialogue, negotiation, coaching, tight critique loops.",
+     steps:[["Attention","focus on the real words, not performing knowledge."],["Preparation","begin from one honest emotional note."],["Moment to moment","respond to what just happened."],["Impulse then check","give the genuine first response, then test it."],["Repetition","iterate off the live exchange toward truth."],["Do, don't indicate","engage the specifics, never gesture vaguely."]]},
+    {key:"stras",tab:"Strasberg",badge:"the method",role:"The Feeler",name:"Lee Strasberg",
+     move:"Build genuinely felt output from concrete recalled sensory and emotional detail — not from adjectives describing an emotion.",
+     reach:"Output that must feel personally true — heartfelt or first-person writing, apology, empathy, tone.",
+     steps:[["Relax","drop the generic, defensive register."],["Substitution","anchor to a specific real experience."],["Sense memory","rebuild its concrete sensory particulars."],["Emotional truth","let tone arise from the felt experience."],["Private moment","leave unspoken what should stay unspoken."],["Safety","prefer sense memory over raw painful recall; you can stop anytime."]]},
+    {key:"adler",tab:"Adler",badge:"imagination",role:"The Imaginer",name:"Stella Adler",
+     move:"Build the world fully through imagination and researched given circumstances — you don't need to have lived it to make it true, at scale.",
+     reach:"Imaginative range beyond your direct experience — world-building, vision, ambitious creative or strategic work.",
+     steps:[["Imagine the world","construct the full context in specific detail."],["Ground it","anchor it in real, particular facts."],["Action & justification","name what's done and why the world warrants it."],["Play it large","push past small, safe, literal output."],["Serve the whole","keep every part in service of the meaning."],["Test","is it specific enough to act on? Sharpen the vaguest part."]]},
+    {key:"chekhov",tab:"Chekhov",badge:"the gesture",role:"The Essence-Finder",name:"Michael Chekhov",
+     move:"Find one psychological gesture that holds the whole intention, then radiate it from the whole to every part.",
+     reach:"Capturing a hard-to-name essence fast — brand voice, tone, mood, creative direction.",
+     steps:[["Psychological gesture","one image the whole piece performs."],["Atmosphere","the mood it all lives inside."],["Center","where its energy comes from — the register."],["Quality","the quality every part shares."],["Radiate","let the gesture shape every line, top-down."],["Check","does the result still perform the gesture?"]]}
+  ];
+
+  var tasks=[
+    {label:"Write a document or brief",key:"hagen"},
+    {label:"Plan a strategy or analysis",key:"stan"},
+    {label:"Rehearse a conversation",key:"meisner"},
+    {label:"Negotiate or handle a critique loop",key:"meisner"},
+    {label:"Write something heartfelt",key:"stras"},
+    {label:"Apologize or show empathy",key:"stras"},
+    {label:"Build a world or big vision",key:"adler"},
+    {label:"Design a scenario or future",key:"adler"},
+    {label:"Nail a brand voice or tone",key:"chekhov"},
+    {label:"Set a mood or creative direction",key:"chekhov"},
+    {label:"Specify a task with lots of detail",key:"hagen"}
+  ];
+
+  var tracks=[
+    {tk:"Actor",c:"var(--actor)",items:["Scene analysis & character work","Audition & self-tape prep","Career materials","Casting research"]},
+    {tk:"Writer / Filmmaker",c:"var(--writer)",items:["Ideation & script development","Production & scheduling","Distribution strategy","Pitch & marketing materials"]},
+    {tk:"Engineer / Tech",c:"var(--engineer)",items:["Personalized learning plans","Technical research","Coding & prototyping","Product development"]},
+    {tk:"Entrepreneur",c:"var(--founder)",items:["Market research","Business modeling","Customer discovery","Pitch & funding prep"]},
+    {tk:"Problem-Solver",c:"var(--solver)",items:["Any field, any method","Frame · diagnose · decide","Eight solving lineages","Cross-domain reasoning"]}
+  ];
+
+  var journey=[
+    ["Audition","Understand your goals."],["Character Build","Create your prompt profile."],
+    ["Rehearsal","Learn to direct AI."],["Company Build","Set up agents & workflows."],
+    ["Performance","Apply to real projects."],["Distribution","Reach audiences, clients, investors."],
+    ["Continuous Training","Evolve and grow."]
+  ];
+
+  var packs=[
+    {pk:"Variable Pack #1",name:"Acting Lineage",desc:"Direct any Actor-track prompt in a master's tradition. One [LINEAGE] slot, six values — the deep, step-by-step versions are the backbones above.",vals:["Stanislavski","Meisner","Strasberg","Adler","Chekhov","Hagen"]},
+    {pk:"Variable Pack #2",name:"Problem-Solving Lineage",desc:"Attack any problem, in any field, through a named method. Fill the [PROBLEM-SOLVING LINEAGE] slot to change how the AI thinks.",vals:["Pólya","First Principles","Systems Thinking","Design Thinking","TRIZ","Root-Cause","Socratic","Bayesian"]}
+  ];
+
+  var agents=[
+    {hnd:"@hagen",name:"The Specifier",desc:"Runs the Nine Questions to fully specify before producing. The default."},
+    {hnd:"@stanislavski",name:"The Analyst",desc:"Units, objectives, active actions, one super-objective."},
+    {hnd:"@meisner",name:"The Responder",desc:"Reacts truthfully, moment to moment. For dialogue & loops."},
+    {hnd:"@strasberg",name:"The Feeler",desc:"Genuinely felt output. Emotional-safety guardrails built in."},
+    {hnd:"@adler",name:"The Imaginer",desc:"Builds worlds and vision at scale from imagination."},
+    {hnd:"@chekhov",name:"The Essence-Finder",desc:"One psychological gesture, radiated whole-to-parts."}
+  ];
+
+[
+    {ph:"Phase 0",name:"Foundations",p:"Lock the authoring standard, metadata, and gold-standard reference prompts."},
+    {ph:"Phase 1",name:"The Spine",p:"One strong prompt in every track × stage cell — full coverage, shallow depth."},
+    {ph:"Phase 2",name:"Flagship depth",p:"Deepen the strongest track into a sellable premium bundle."},
+    {ph:"Phase 3",name:"Remaining tracks",p:"Depth pass across the rest — each finished track a launch."},
+    {ph:"Phase 4",name:"Packaging",p:"Slice the same core for product, lead magnet, and curriculum."},
+    {ph:"Phase 5",name:"Continuous Training",p:"Test, retire, and add — forever. The subscription engine."}
+  ];
+
+  /* ---- render ---- */
+  var fg=$("#fwgrid");
+  framework.forEach(function(f,i){
+    var d=document.createElement("div"); d.className="fw";
+    d.innerHTML='<div class="n">'+String(i+1).padStart(2,"0")+'</div><h4>'+f[0]+'</h4><p>'+f[1]+'</p>';
+    fg.appendChild(d);
+  });
+
+  var tabsEl=$("#bbtabs"), panelEl=$("#bbpanel");
+  function renderPanel(b){
+    var stepsHtml=b.steps.map(function(s){return '<li><b>'+s[0]+'</b> — '+s[1]+'</li>'}).join("");
+    panelEl.innerHTML=
+      '<div class="panel-bb">'+
+        '<div><div class="role">'+b.role+'</div><h3>'+b.name+'</h3>'+
+        '<p class="move">'+b.move+'</p>'+
+        '<div class="reach"><b>Reach for it when</b>'+b.reach+'</div></div>'+
+        '<div><ol class="steps">'+stepsHtml+'</ol></div>'+
+      '</div>';
+  }
+  backbones.forEach(function(b,i){
+    var t=document.createElement("button");
+    t.className="tab"; t.setAttribute("role","tab");
+    t.setAttribute("aria-selected", i===0?"true":"false");
+    t.innerHTML=b.tab+(b.badge?' <span class="badge">· '+b.badge+'</span>':'');
+    t.addEventListener("click",function(){
+      tabsEl.querySelectorAll(".tab").forEach(function(x){x.setAttribute("aria-selected","false")});
+      t.setAttribute("aria-selected","true"); renderPanel(b);
+    });
+    tabsEl.appendChild(t);
+  });
+  renderPanel(backbones[0]);
+
+  var byKey={}; backbones.forEach(function(b){byKey[b.key]=b});
+  var chipsEl=$("#finderchips"), outEl=$("#finderout");
+  tasks.forEach(function(t){
+    var c=document.createElement("button");
+    c.className="chip"; c.type="button"; c.setAttribute("aria-pressed","false"); c.textContent=t.label;
+    c.addEventListener("click",function(){
+      chipsEl.querySelectorAll(".chip").forEach(function(x){x.setAttribute("aria-pressed","false")});
+      c.setAttribute("aria-pressed","true");
+      var b=byKey[t.key];
+      outEl.innerHTML='Cast <b>'+b.name+'</b> — '+b.role+'. '+b.move;
+      // reflect in the tabs above
+      tabsEl.querySelectorAll(".tab").forEach(function(x,i){x.setAttribute("aria-selected", backbones[i].key===t.key?"true":"false")});
+      renderPanel(b);
+    });
+    chipsEl.appendChild(c);
+  });
+
+  var tg=$("#tracksgrid");
+  tracks.forEach(function(t){
+    var d=document.createElement("div"); d.className="track"; d.style.setProperty("--tc",t.c);
+    d.innerHTML='<div class="tk">'+t.tk+'</div>'+'<ul>'+t.items.map(function(i){return '<li>'+i+'</li>'}).join("")+'</ul>';
+    tg.appendChild(d);
+  });
+
+  var jg=$("#journeygrid");
+  journey.forEach(function(j,i){
+    var d=document.createElement("div"); d.className="jstep";
+    d.innerHTML='<div class="jn">'+(i+1)+'</div><h4>'+j[0]+'</h4><p>'+j[1]+'</p>';
+    jg.appendChild(d);
+  });
+
+  var pg=$("#packsgrid");
+  packs.forEach(function(p){
+    var d=document.createElement("div"); d.className="pack";
+    d.innerHTML='<div class="pk">'+p.pk+'</div><h3>'+p.name+'</h3><p>'+p.desc+'</p>'+
+      '<div class="vals">'+p.vals.map(function(v){return '<span class="val">'+v+'</span>'}).join("")+'</div>';
+    pg.appendChild(d);
+  });
+
+  var ag=$("#agentsgrid");
+  agents.forEach(function(a){
+    var d=document.createElement("div"); d.className="agent";
+    d.innerHTML='<div class="hnd">'+a.hnd+'</div><h4>'+a.name+'</h4><p class="desc">'+a.desc+'</p>'+
+      '';
+    ag.appendChild(d);
+  });
+
+
+
+  /* mobile nav */
+  var tog=$(".navtoggle"), links=$("#nav-links");
+  tog.addEventListener("click",function(){
+    var open=links.classList.toggle("open");
+    tog.setAttribute("aria-expanded",open?"true":"false");
+    tog.textContent=open?"Close":"Menu";
+  });
+  links.addEventListener("click",function(e){
+    if(e.target.tagName==="A" && links.classList.contains("open")){
+      links.classList.remove("open"); tog.setAttribute("aria-expanded","false"); tog.textContent="Menu";
+    }
+  });
+})();
+</script>
+</html>
