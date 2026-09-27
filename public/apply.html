@@ -2,8 +2,8 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stage 1 Application — Method Machine Studio</title>
-<meta name="description" content="Stage 1 application for Method Machine Studio — a short aptitude-and-character assessment.">
+<title>Careers · Stage 1 Application — Method Machine Studio</title>
+<meta name="description" content="Join Method Machine Studio as an Assistant, grow to Associate and team member. Stage 1 is an aptitude-and-character assessment.">
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#0a0a0b">
@@ -49,6 +49,11 @@
   .field input:focus, .field textarea:focus{outline:none; border-color:var(--stone)}
   .attest-box{display:flex; gap:11px; align-items:flex-start; margin-top:22px; font-size:15px; color:var(--text)}
   .attest-box input{accent-color:var(--stone); width:18px; height:18px; margin-top:3px; flex:none}
+  .ladder{list-style:none; margin:16px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:8px; counter-reset:l}
+  .ladder li{counter-increment:l; font-family:var(--grot); font-size:12.5px; letter-spacing:.04em; padding:6px 11px; border:1px solid var(--line-2); border-radius:3px; color:var(--text)}
+  .ladder li::before{content:counter(l) " · "; color:var(--stone)}
+  .other-path{font-family:var(--grot); font-size:13px; color:var(--text-dim); margin-top:14px; padding:11px 14px; border:1px solid var(--line); border-radius:3px}
+  .other-path a{color:var(--stone)}
   .hint{font-family:var(--grot); font-size:12px; color:var(--text-faint); margin-top:6px}
 
   .btn{font-family:var(--grot); font-size:13px; letter-spacing:.03em; padding:13px 22px; border-radius:3px; border:1px solid var(--stone); background:var(--stone); color:var(--bg); font-weight:600}
@@ -117,7 +122,7 @@
 
 <div class="top">
   <a class="brand" href="/" style="text-decoration:none; color:inherit"><svg><use href="#mg"/></svg><b>Method Machine Studio</b></a>
-  <div class="meta" id="topmeta">Application · Stage 1</div>
+  <div class="meta" id="topmeta">Careers · Stage 1</div>
 </div>
 
 <div class="wrap" id="app"></div>
@@ -154,11 +159,14 @@
 
   // ---- screens ----
   function renderApply(){
-    clearTimers(); topmeta.textContent="Application · Stage 1";
+    clearTimers(); topmeta.textContent="Careers · Stage 1";
     app.innerHTML=
-     '<span class="eyebrow">Application · Stage 0</span>'+
-     '<h1 style="font-size:30px; margin-top:12px">Apply to the studio</h1>'+
-     '<p class="lead" style="margin-top:10px">A closed instrument measures two things: whether you can hold a line of reasoning, and whether you choose the harder correct path when a softer wrong one is available. No résumé polish.</p>'+
+     '<span class="eyebrow">Careers · Stage 0</span>'+
+     '<h1 style="font-size:30px; margin-top:12px">Join Method Machine Studio</h1>'+
+     '<p class="lead" style="margin-top:10px">This application is for people who want to work inside the studio and build a career with us. You start as an Assistant, grow to Associate, then join the team.</p>'+
+     '<ol class="ladder"><li>Assistant</li><li>Associate</li><li>Team member</li></ol>'+
+     '<p class="lead" style="margin-top:14px">Stage 1 measures two things: whether you can hold a line of reasoning, and whether you choose the harder correct path when a softer wrong one is available. No résumé polish.</p>'+
+     '<p class="other-path">Want to form a team of your own instead? <a href="/institute">Sit Entrance Paper I at The Method Institute →</a></p>'+
      '<div class="field"><label>Name</label><input id="f-name" autocomplete="name"></div>'+
      '<div class="field"><label>Contact (email)</label><input id="f-contact" type="email" autocomplete="email"></div>'+
      '<div class="field"><label>Work URL, or a 5-line craft note</label><textarea id="f-work" placeholder="A link, or five lines on what you make and why."></textarea></div>'+

@@ -119,6 +119,24 @@
   .gate p{color:var(--ink-dim); margin:12px auto 0; max-width:56ch}
   .gate .row{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:24px}
 
+  /* two ways in */
+  .paths{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+  @media (max-width:760px){.paths{grid-template-columns:1fr}}
+  .path{background:var(--panel); border:1px solid var(--line-brown); border-radius:15px; padding:26px 24px; display:flex; flex-direction:column; background-image:radial-gradient(90% 80% at 50% 0%, rgba(198,138,78,.07), transparent 60%)}
+  .path .k{font-family:var(--f-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--brown); font-weight:600}
+  .path h3{font-size:24px; margin-top:12px}
+  .path p{color:var(--ink-dim); font-size:14.5px; margin-top:10px}
+  .path .facts{list-style:none; margin:16px 0 22px; padding:0; display:flex; flex-direction:column; gap:7px}
+  .path .facts li{font-size:13.5px; padding-left:20px; position:relative}
+  .path .facts li::before{content:"✓"; position:absolute; left:0; color:var(--blue)}
+  .path .ladder{list-style:none; margin:16px 0 22px; padding:0; display:flex; flex-wrap:wrap; gap:8px; align-items:center; counter-reset:l}
+  .path .ladder li{counter-increment:l; font-family:var(--f-mono); font-size:12.5px; padding:7px 11px; border:1px solid var(--line-blue); border-radius:8px; color:var(--ink)}
+  .path .ladder li::before{content:counter(l) " · "; color:var(--blue)}
+  .path .ladder li + li{position:relative; margin-left:14px}
+  .path .ladder li + li::after{content:"→"; position:absolute; left:-18px; top:50%; transform:translateY(-50%); color:var(--ink-faint)}
+  .path .btn{justify-content:center; margin-top:auto}
+  .paths-note{text-align:center; color:var(--ink-faint); font-size:13.5px; margin-top:22px; max-width:62ch; margin-inline:auto}
+
   /* faq */
   .faq{max-width:760px; margin-inline:auto}
   .faq details{border:1px solid var(--line); border-radius:11px; padding:4px 18px; margin-bottom:10px; background:var(--panel)}
@@ -159,8 +177,9 @@
       <a href="#how">How it works</a>
       <a href="#tracks">Tracks</a>
       <a href="#pricing">Pricing</a>
-      <a href="#apply">Apply</a>
+      <a href="#apply">Ways in</a>
       <a href="/institute">Institute</a>
+      <a href="apply.html">Careers</a>
       <a href="#top" class="cta">Join waitlist</a>
     </nav>
   </div>
@@ -237,17 +256,30 @@
     </div>
   </section>
 
-  <!-- apply gate -->
+  <!-- two ways in -->
   <section id="apply" class="wrap">
-    <div class="gate">
-      <span class="eyebrow">Closed studio</span>
-      <h2 style="margin-top:14px">Membership is by application.</h2>
-      <p>We keep the studio high-signal. Stage 1 is a short aptitude-and-character assessment — logic, patterns, probability, code, story inference — plus a read that points you to your track. No résumé polish. Just whether you can hold a line of reasoning and choose the harder correct path.</p>
-      <div class="row">
-        <a class="btn blue" href="apply.html">Request an invite</a>
-        <a class="btn ghost" href="/institute">Sit Entrance Paper I</a>
+    <div class="sec-head">
+      <span class="eyebrow">Two ways in</span>
+      <h2>Build your own team, or join ours.</h2>
+      <p>There are two question papers, and they lead to different places. Pick the one that matches what you want.</p>
+    </div>
+    <div class="paths">
+      <div class="path">
+        <div class="k">The Method Institute · Entrance Paper I</div>
+        <h3>Form a team of your own</h3>
+        <p>For actors, writers, directors, producers and businesses who want to run their own work on the method. Sit the paper, receive your Method Dossier, then build your own agent team and found your own classroom.</p>
+        <ul class="facts"><li>Open to everyone</li><li>No wrong answers, no time limit</li><li>Leads to membership and your own team</li></ul>
+        <a class="btn primary" href="/institute">Sit Entrance Paper I</a>
+      </div>
+      <div class="path">
+        <div class="k">Careers · Stage 1 Application</div>
+        <h3>Join Method Machine Studio</h3>
+        <p>For people who want to work inside the studio and build a career with us. The Stage 1 paper is a timed aptitude-and-character assessment: logic, patterns, probability, code, story inference. No résumé polish.</p>
+        <ol class="ladder"><li>Assistant</li><li>Associate</li><li>Team member</li></ol>
+        <a class="btn blue" href="apply.html">Apply to join the studio</a>
       </div>
     </div>
+    <p class="paths-note">Not sure which? If you want to lead a team of your own, sit the Institute paper. If you want to grow a career inside Method Machine Studio, apply.</p>
   </section>
 
   <!-- faq -->
@@ -256,7 +288,8 @@
     <div class="faq">
       <details><summary>Do I need to be technical?</summary><p>No. The method is a directing procedure — nine plain questions and a set of backbones. Engineers, actors, writers, founders, and problem-solvers each get a track tuned to their work.</p></details>
       <details><summary>What's actually in the membership?</summary><p>A directed prompt library for your track, six master backbones, an agent suite that chains into workflows, a community, and — on higher tiers — a verified member registry and business tools.</p></details>
-      <details><summary>Why an application and an assessment?</summary><p>A closed studio stays valuable only if the room stays sharp. Stage 1 measures reasoning and character, not polish, so the community and registry mean something.</p></details>
+      <details><summary>What's the difference between the two question papers?</summary><p>Entrance Paper I at The Method Institute is for forming a team of your own: it builds your Method Dossier and leads to membership, your own agent team and your own classroom. The Stage 1 application is for joining Method Machine Studio itself: you start as an Assistant, grow to Associate, then join the team, with a career path with us.</p></details>
+      <details><summary>Why is the careers application assessed?</summary><p>People who join the studio work on real productions with us. Stage 1 measures reasoning and character, not polish, so every Assistant starts from the same fair bar.</p></details>
       <details><summary>Where does the method come from?</summary><p>The “LLMs as method actors” framing comes from Colin Doyle's 2024 paper. We extend it with the step-by-step techniques of Stanislavski, Meisner, Strasberg, Adler, Chekhov, and Uta Hagen.</p></details>
       <details><summary>Can I cancel anytime?</summary><p>Yes. Membership is month-to-month (or annual for two months free). Your free-tier access remains.</p></details>
     </div>
@@ -276,7 +309,7 @@
 <footer>
   <svg class="fmg"><use href="#mg"/></svg>
   <p class="ftag">Same human spirit, new possibilities.</p>
-  <div class="fnav"><a href="#how">How it works</a><a href="#tracks">Tracks</a><a href="#pricing">Pricing</a><a href="#apply">Apply</a><a href="/institute">The Method Institute</a></div>
+  <div class="fnav"><a href="#how">How it works</a><a href="#tracks">Tracks</a><a href="#pricing">Pricing</a><a href="/institute">The Method Institute</a><a href="apply.html">Careers</a></div>
   <p class="fine">Method Machine Studio™ — a prompting methodology built on the “LLMs as method actors” framing from <a href="https://arxiv.org/abs/2411.05778" target="_blank" rel="noopener">Colin Doyle's 2024 paper</a>, extended with the techniques of Stanislavski, Meisner, Strasberg, Adler, Chekhov, and Uta Hagen. People · Ideas · Projects · Opportunities.</p>
 </footer>
 
