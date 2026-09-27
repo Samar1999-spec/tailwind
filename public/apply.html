@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stage 1 Application — Method Machine Studio</title>
+<meta name="description" content="Stage 1 application for Method Machine Studio — a short aptitude-and-character assessment.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400&family=Archivo:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#0a0a0b; --panel:#101011; --panel-2:#141415;
+    --line:rgba(196,184,164,0.16); --line-2:rgba(196,184,164,0.28);
+    --stone:#c4b8a4; --stone-dim:#8f8878; --stone-deep:#6b6559;
+    --text:#e7e2d6; --text-dim:#9d968a; --text-faint:#6f6a60;
+    --warn:#c9a15a; --serif:"Tinos","Times New Roman",Times,serif; --grot:"Archivo",system-ui,sans-serif;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg); color:var(--text); font-family:var(--serif); font-size:17px; line-height:1.5; -webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:var(--serif); font-weight:700; margin:0; line-height:1.15}
+  p{margin:0}
+  button{font-family:inherit; cursor:pointer}
+  .grot{font-family:var(--grot)}
+  .chrome{font-family:var(--grot); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--stone-dim)}
+  ::selection{background:rgba(196,184,164,.22)}
+  :focus-visible{outline:1px solid var(--stone); outline-offset:2px}
+
+  .top{display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:16px 24px; border-bottom:1px solid var(--line); position:sticky; top:env(safe-area-inset-top,0px); background:rgba(10,10,11,.9); backdrop-filter:blur(8px); z-index:20}
+  .top .brand{display:flex; align-items:center; gap:10px}
+  .top .brand svg{width:26px; height:26px}
+  .top .brand b{font-size:15px}
+  .top .meta{font-family:var(--grot); font-size:12px; letter-spacing:.05em; color:var(--stone-dim); font-variant-numeric:tabular-nums}
+  .top .meta .clock{color:var(--stone)}
+
+  .wrap{max-width:680px; margin-inline:auto; padding:40px 24px 80px}
+  .lead{color:var(--text-dim); font-style:italic; font-size:15.5px}
+  .eyebrow{font-family:var(--grot); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--stone-dim)}
+
+  /* forms */
+  .field{margin-top:20px}
+  .field label{display:block; font-family:var(--grot); font-size:12px; letter-spacing:.06em; color:var(--text-dim); margin-bottom:7px}
+  .field input, .field textarea{width:100%; background:var(--panel); border:1px solid var(--line); border-radius:3px; color:var(--text); font-family:var(--serif); font-size:16px; padding:12px 14px}
+  .field textarea{min-height:96px; resize:vertical}
+  .field input:focus, .field textarea:focus{outline:none; border-color:var(--stone)}
+  .attest-box{display:flex; gap:11px; align-items:flex-start; margin-top:22px; font-size:15px; color:var(--text)}
+  .attest-box input{accent-color:var(--stone); width:18px; height:18px; margin-top:3px; flex:none}
+  .hint{font-family:var(--grot); font-size:12px; color:var(--text-faint); margin-top:6px}
+
+  .btn{font-family:var(--grot); font-size:13px; letter-spacing:.03em; padding:13px 22px; border-radius:3px; border:1px solid var(--stone); background:var(--stone); color:var(--bg); font-weight:600}
+  .btn:disabled{opacity:.4; cursor:not-allowed}
+  .btn.ghost{background:none; color:var(--text); border-color:var(--line-2); font-weight:500}
+  .btn.ghost:hover{border-color:var(--stone)}
+  .btnrow{display:flex; justify-content:space-between; gap:12px; margin-top:28px}
+
+  .modes{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:22px}
+  @media (max-width:560px){.modes{grid-template-columns:1fr}}
+  .mode{text-align:left; background:var(--panel); border:1px solid var(--line); border-radius:4px; padding:18px; color:var(--text)}
+  .mode:hover{border-color:var(--line-2)}
+  .mode[aria-pressed="true"]{border-color:var(--stone); box-shadow:inset 0 0 0 1px var(--stone)}
+  .mode b{font-size:16px; display:block}
+  .mode small{display:block; color:var(--text-faint); font-family:var(--grot); font-size:12px; margin-top:6px; line-height:1.5}
+
+  /* attest screen */
+  .attest-screen{border:1px solid var(--line); border-radius:4px; background:var(--panel); padding:40px 32px; text-align:center; margin-top:10px}
+  .attest-screen p{font-size:19px; line-height:1.65; max-width:46ch; margin:0 auto}
+  .attest-screen .sub{font-family:var(--grot); font-size:12px; color:var(--stone-dim); letter-spacing:.05em; margin-top:18px}
+
+  /* runner */
+  .runner{border:1px solid var(--line); border-radius:4px; background:var(--panel); overflow:hidden}
+  .runbar{display:flex; align-items:center; justify-content:space-between; padding:12px 18px; border-bottom:1px solid var(--line); font-family:var(--grot); font-size:12px; letter-spacing:.05em; color:var(--stone-dim)}
+  .runbar .idx{color:var(--text-dim)}
+  .runbar .clock{color:var(--stone); font-variant-numeric:tabular-nums}
+  .runbar .clock.low{color:var(--warn)}
+  .progline{height:3px; background:var(--panel-2)}
+  .progline i{display:block; height:100%; background:var(--stone)}
+  .runbody{padding:28px}
+  .stem{font-size:19px; line-height:1.5}
+  .codeblk{margin-top:14px; background:#0d0d0e; border:1px solid var(--line); border-left:2px solid var(--stone-deep); border-radius:3px; padding:13px 15px; font-family:var(--grot); font-size:13.5px; color:var(--text-dim); white-space:pre; overflow-x:auto}
+  .opts{display:flex; flex-direction:column; gap:9px; margin-top:20px}
+  .opt{display:flex; gap:12px; text-align:left; background:var(--panel-2); border:1px solid var(--line); color:var(--text); padding:13px 15px; border-radius:3px; font-size:16px}
+  .opt:hover{border-color:var(--line-2)}
+  .opt[aria-pressed="true"]{border-color:var(--stone); box-shadow:inset 0 0 0 1px var(--stone)}
+  .opt .k{font-family:var(--grot); color:var(--stone); font-size:13px; width:16px; flex:none}
+  .numin{margin-top:20px}
+  .numin input, .writein textarea{width:100%; background:var(--panel-2); border:1px solid var(--line); border-radius:3px; color:var(--text); font-family:var(--serif); font-size:16px; padding:13px 15px}
+  .writein textarea{min-height:120px; resize:vertical}
+  .numin input:focus, .writein textarea:focus{outline:none; border-color:var(--stone)}
+  .secintro{font-family:var(--grot); font-size:12.5px; line-height:1.6; color:var(--text-dim); border-left:2px solid var(--stone-deep); padding:2px 0 2px 12px; margin-bottom:18px}
+  .passage{background:#0d0d0e; border:1px solid var(--line); border-radius:3px; padding:16px 18px; font-size:15.5px; line-height:1.6; color:var(--text-dim); margin-bottom:18px; max-height:40vh; overflow-y:auto}
+  .passage .ptitle{display:block; font-family:var(--grot); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--stone-dim); margin-bottom:8px}
+  .stem{white-space:pre-line}
+  .stem .qid{font-family:var(--grot); font-size:14px; color:var(--stone); margin-right:4px}
+  .flabel{display:block; font-family:var(--grot); font-size:12px; letter-spacing:.04em; color:var(--text-dim); margin:18px 0 7px}
+  .writein textarea.work{min-height:90px}
+  .calcnote{font-family:var(--grot); font-size:11px; color:var(--stone-dim); margin-top:12px; letter-spacing:.04em}
+
+  .savenote{font-family:var(--grot); font-size:11px; color:var(--text-faint); text-align:center; margin-top:16px; letter-spacing:.04em}
+
+  /* submit / received */
+  .card{border:1px solid var(--line); border-radius:4px; background:var(--panel); padding:36px 30px; text-align:center}
+  .card h2{font-size:24px}
+  .card p{color:var(--text-dim); margin-top:12px; max-width:44ch; margin-inline:auto}
+  .card .cid{font-family:var(--grot); font-size:12px; letter-spacing:.08em; color:var(--stone); margin-top:18px}
+  .demo{font-family:var(--grot); font-size:11px; color:var(--text-faint); text-align:center; margin-top:26px; line-height:1.6}
+  [hidden]{display:none!important}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="mg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18.5" fill="none" stroke="#c4b8a4" stroke-width="1.4"/><path d="M11 27V14l5 8 4-8 4 8 5-8v13" fill="none" stroke="#c4b8a4" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+</defs></svg>
+
+<div class="top">
+  <a class="brand" href="/" style="text-decoration:none; color:inherit"><svg><use href="#mg"/></svg><b>Method Machine Studio</b></a>
+  <div class="meta" id="topmeta">Application · Stage 1</div>
+</div>
+
+<div class="wrap" id="app"></div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var app=$("#app"), topmeta=$("#topmeta");
+
+  // ---- item bank: Stage 1 candidate copy (questions only; the answer key never ships to the browser) ----
+  var SECTIONS={"A": {"name": "Character", "intro": "12 items · choose one · no explanation required. Select the option that most honestly describes how you would act, not the option you think an interviewer wants. Evaluators look for coherence across the set, not any single “correct” slogan."}, "B": {"name": "Pattern decomposition", "intro": "Find the rule, then the next or the odd one. Do not stop at the first regularity you notice. Several items contain a decoy pattern that works for the first three terms and fails on the fourth. Show the rule in one sentence before you lock the answer."}, "C": {"name": "Story interpretation", "intro": "Inference, not opinion. Answers must be licensed by the text. Do not import a worldview the passage does not support. Where the passage is silent, say so."}, "D": {"name": "Probability & uncertainty", "intro": "Show work. State assumptions. If a question is under-specified, name the missing piece instead of inventing a convenient prior. Answers without a short justification score at most half."}, "E": {"name": "Arithmetic & quantitative logic", "intro": "Calculator permitted on this section."}, "F": {"name": "Code-based logic", "intro": "Trace, do not compile in your head sloppily. Language is a simplified Python. Assume standard integer division as // and that range(n) is 0..n-1. No hidden builtins. Show the trace if the item asks."}, "G": {"name": "Multi-differential", "intro": "Pairs that look alike, plus finite differences. Each pair differs by one structural fact. Answer both members, then name, in one sentence, the fact that flipped the answer."}};
+  var FULL=[{"id": "A1", "sec": "A", "type": "mcq", "stem": "You are two weeks from a public launch. A junior teammate finds a defect that will be invisible to 97% of users but will, in rare cases, destroy a week of a user’s work. Fixing it slips the launch by ten days and embarrasses a senior stakeholder who already announced the date. You:", "opts": ["Ship on the announced date. Document the defect internally and patch after the applause.", "Slip the date, name the defect in the change note, and absorb the stakeholder heat yourself.", "Slip the date but keep the reason vague so the stakeholder’s announcement is not contradicted.", "Ship on date and assign the junior to a “fast-follow squad” so the record shows you took action."]}, {"id": "A2", "sec": "A", "type": "mcq", "stem": "A collaborator produces work that is 80% of what you would have made, on time, and they clearly own it. The remaining 20% is the part the public will praise. You:", "opts": ["Rebuild the last 20% overnight, put both names on it, and say nothing about the rewrite.", "Leave their 80% intact, add a short note of what you would change, and let their name stand alone.", "Rebuild the last 20%, keep your name first, and describe it as “a collaboration.”", "Reject the work and redo it entirely so the standard is never seen to bend."]}, {"id": "A3", "sec": "A", "type": "mcq", "stem": "You have five quiet hours and an unfinished personal craft project that no one will see this month. A group chat is filling with optional strategy chatter that will not resolve today. You:", "opts": ["Mute the chat and use the five hours on the unfinished work.", "Skim and drop a competent paragraph so you remain “in the room.”", "Join fully; presence is how influence is stored.", "Leave a voice note summarizing everyone else’s points so you appear generous and central."]}, {"id": "A4", "sec": "A", "type": "mcq", "stem": "A principle you stated publicly last year now costs you a relationship and a contract. New information has not changed the principle. You:", "opts": ["Keep the principle and accept the loss without a public performance of martyrdom.", "Soften the principle in private while keeping the public wording intact.", "Write a long explanation of your evolution so the loss looks like growth.", "Hold the principle and make the cost highly visible so others learn from your example."]}, {"id": "A5", "sec": "A", "type": "mcq", "stem": "You notice you are competing with a peer who started later than you and is now louder. The honest comparison is that their last piece is better than your last piece. You:", "opts": ["Study the piece, isolate the one craft difference, and raise your next attempt against that standard.", "Increase output volume so the comparison becomes about pace rather than quality.", "Find the structural reason their platform favored them and contest the frame.", "Congratulate them publicly and privately discount the work as luck or access."]}, {"id": "A6", "sec": "A", "type": "mcq", "stem": "A decision requires information you do not have. Waiting a week would likely produce it. Acting now looks decisive. You:", "opts": ["Wait the week unless delay itself creates irreversible harm.", "Act now and treat revision as proof of agility.", "Act now but write a memo that pretends the missing information was considered.", "Poll the room and do whatever reduces your personal exposure."]}, {"id": "A7", "sec": "A", "type": "mcq", "stem": "Someone on the team is lonely, competent, and not performing the social rituals that get people sponsored. Their work is quietly carrying a workstream. You:", "opts": ["Protect the workstream, give them the credit in the rooms they are not in, and do not force them into theater.", "Coach them to become more visible because the system only rewards visibility.", "Pair them with a more social person and let that person become the face.", "Tell them privately that loneliness is a professional liability they must fix."]}, {"id": "A8", "sec": "A", "type": "mcq", "stem": "You can take a short-cut that slightly misstates a metric everyone already treats as approximate. It will make the deck cleaner. You:", "opts": ["Leave the metric ugly and annotate the limitation in one plain sentence.", "Clean the metric and put the caveat in an appendix no one will open.", "Clean the metric. Approximate cultures should not be punished for clarity.", "Replace the metric with a qualitative claim that cannot be audited."]}, {"id": "A9", "sec": "A", "type": "mcq", "stem": "The mission, as you understood it, now requires a sacrifice no one warned you about: sleep, status, or a side identity you liked. You:", "opts": ["Recalculate whether the mission is still yours. If yes, pay the cost without advertising it. If no, leave cleanly.", "Pay the cost and narrate it so the culture learns what commitment looks like.", "Renegotiate the mission downward until it fits the life you already have.", "Stay, resent the cost, and look for a way to transfer it onto someone more junior."]}, {"id": "A10", "sec": "A", "type": "mcq", "stem": "You are asked to be a “brand ambassador” for work you only half believe in. The platform is large. You:", "opts": ["Decline the role, or accept only the slice you can stand behind without translation.", "Accept and use the platform to smuggle in the half you do believe.", "Accept fully. Platforms are scarce; belief can be grown later.", "Accept and privately brief friends that you are “playing the game.”"]}, {"id": "A11", "sec": "A", "type": "mcq", "stem": "A story you are telling about a project has a cleaner arc if you omit a mistake you made in month two. The mistake did not harm anyone. You:", "opts": ["Keep the mistake in the story at the resolution it actually had. Clean arcs are a craft tool, not a character tool.", "Omit it. The audience is buying the destination, not the accounting.", "Move the mistake onto “the process” so no individual owns it.", "Exaggerate the mistake so you appear radically honest."]}, {"id": "A12", "sec": "A", "type": "mcq", "stem": "Two paths: Path 1 is slower, privately harder, and will still be true in five years. Path 2 is faster, publicly impressive, and will need a quiet rewrite in eighteen months. You:", "opts": ["Take Path 1 unless Path 2 is required to keep the organism alive through a real constraint.", "Take Path 2 and schedule the rewrite as a future “version 2 narrative.”", "Take Path 1 and demand that everyone around you take it too, immediately.", "Take Path 2 and treat the future rewrite as someone else’s problem."]}, {"id": "B1", "sec": "B", "type": "mcq", "stem": "Sequence: 3, 8, 18, 38, 78, ?", "opts": ["158", "156", "160", "148", "158.5"], "work": "State the generating rule"}, {"id": "B2", "sec": "B", "type": "mcq", "stem": "Sequence of pairs: (2, 3), (3, 8), (5, 21), (8, 55), (13, ?)", "opts": ["144", "89", "134", "233", "148"], "work": "State both hidden sequences", "note": "Hint in the structure, not in the numbers alone."}, {"id": "B3", "sec": "B", "type": "mcq", "stem": "Which matrix does not belong? Each cell is a letter-pair.\n\nM1: AB CF    M2: DE HK    M3: IJ NQ    M4: PQ UX    M5: ST WY", "opts": ["M1", "M2", "M3", "M4", "M5"], "work": "Write the transformation you think is being applied, then name the break"}, {"id": "B4", "sec": "B", "type": "mcq", "stem": "Figures described in text (imagine a 3×3 grid of ticks):\n\nRow 1: ▲ starts top-left, rotates 90° CW each cell.\nRow 2: ▲ starts top-right, rotates 90° CCW each cell.\nRow 3: cell 1 = ▲ bottom-left; cell 2 = ▲ bottom-right; cell 3 = ?", "opts": ["▲ top-left rotating CW", "▲ top-right", "▲ bottom-left rotated 180° from cell 1 of row 3", "The orientation that completes a reflection of Row 1 across the horizontal midline", "Cannot be determined"]}, {"id": "B5", "sec": "B", "type": "mcq", "stem": "2, 3, 3, 5, 10, 13, 39, 43, 172, ?", "opts": ["176", "177", "516", "215", "181"], "work": "The rule alternates. Name both operations in order"}, {"id": "B6", "sec": "B", "type": "mcq", "stem": "Odd-one-out among coded words (same cipher, one impostor):\n\nPALE → QCNF    SOUR → TQWT    MINT → NKPV    BIRD → CJTF    COLD → DPMF\n\nWhich input–output pair is the impostor?", "opts": ["PALE", "SOUR", "MINT", "BIRD", "COLD"]}, {"id": "C1", "sec": "C", "type": "mcq", "stem": "The passage most strongly supports which claim about Mira’s motive?", "opts": ["She left because she was denied credit she believed she was owed.", "She left because the new measurement system could not see the thing she considered real work.", "She left because the colleague stole a practice she had invented.", "She left because the municipal room offered more status in the long run.", "She left because she rejected all forms of management on principle."], "passage": "Mira ran the night desk at a small archive. For three years she had been the person who stayed after the last researcher left, reshelving boxes that senior staff signed out and forgot. No one had given her the job. She had noticed that boxes left out overnight developed a faint warp along the spine, and she disliked the warp more than she disliked the extra hour. When a new director arrived, he announced a “culture of visibility”: staff would log “impact hours” in a shared sheet. Mira’s extra hour did not fit any of the dropdowns. A colleague advised her to invent a category called Stewardship and put herself at the top of it. Mira added nothing to the sheet. Two months later the director praised the colleague for “building the stewardship practice.” The boxes were still warped on mornings Mira was sick. Mira applied for a transfer to a municipal records room with no shared sheet and worse pay.", "ptitle": "Passage C-I"}, {"id": "C2", "sec": "C", "type": "mcq", "stem": "Which inference is not licensed by the passage?", "opts": ["Mira preferred an unmeasured standard to a measured one that misdescribed her work.", "The director’s praise landed on the person who made the work legible, not the person who did it.", "Mira believed warped boxes were a professional failure even when no one audited them.", "The colleague acted in bad faith and intended to take Mira’s reputation.", "Mira accepted worse pay rather than perform work for a dropdown menu."], "passage": "Mira ran the night desk at a small archive. For three years she had been the person who stayed after the last researcher left, reshelving boxes that senior staff signed out and forgot. No one had given her the job. She had noticed that boxes left out overnight developed a faint warp along the spine, and she disliked the warp more than she disliked the extra hour. When a new director arrived, he announced a “culture of visibility”: staff would log “impact hours” in a shared sheet. Mira’s extra hour did not fit any of the dropdowns. A colleague advised her to invent a category called Stewardship and put herself at the top of it. Mira added nothing to the sheet. Two months later the director praised the colleague for “building the stewardship practice.” The boxes were still warped on mornings Mira was sick. Mira applied for a transfer to a municipal records room with no shared sheet and worse pay.", "ptitle": "Passage C-I"}, {"id": "C3", "sec": "C", "type": "mcq", "stem": "If the director had created a dropdown called “Reshelving / condition control,” the passage suggests Mira would most likely have:", "opts": ["Stayed, because the system would finally have matched the work.", "Stayed only if the colleague were demoted.", "Still left; her objection was to being observed at all.", "Cannot be determined; the passage does not test that counterfactual.", "Demanded back pay for three years of unlogged hours."], "passage": "Mira ran the night desk at a small archive. For three years she had been the person who stayed after the last researcher left, reshelving boxes that senior staff signed out and forgot. No one had given her the job. She had noticed that boxes left out overnight developed a faint warp along the spine, and she disliked the warp more than she disliked the extra hour. When a new director arrived, he announced a “culture of visibility”: staff would log “impact hours” in a shared sheet. Mira’s extra hour did not fit any of the dropdowns. A colleague advised her to invent a category called Stewardship and put herself at the top of it. Mira added nothing to the sheet. Two months later the director praised the colleague for “building the stewardship practice.” The boxes were still warped on mornings Mira was sick. Mira applied for a transfer to a municipal records room with no shared sheet and worse pay.", "ptitle": "Passage C-I"}, {"id": "C4", "sec": "C", "type": "mcq", "stem": "The most precise description of the power structure in the passage is:", "opts": ["Taste was discovered collaboratively until a superior interpretation emerged.", "Language of craft (“honest,” “blood”) masked a financing hierarchy that selected the cut.", "The actor decided the scene by asking the only serious question.", "The writer surrendered authorship and therefore deserves no credit for the critic’s praise.", "The critic was manipulated by the producer’s press strategy."], "passage": "The producer said the scene needed “more blood in the mouth of the sentence.” The writer changed one verb. The producer said it was worse. The writer changed the verb back and cut a clause the producer had praised the day before. The producer said now it was honest. Neither of them could say what “honest” meant that afternoon. The actor, listening, asked whether the character knows he is lying. The writer said yes. The producer said no. They shot both. In the edit, the version where the character does not know he is lying was kept, because the producer was also the financier. The writer put the other version in a drawer and did not mention it again in the room. Six months later a critic praised the scene for its “moral opacity.” The producer forwarded the review to the writer with the line: we always knew.", "ptitle": "Passage C-II"}, {"id": "C5", "sec": "C", "type": "mcq", "stem": "“We always knew” functions in the passage as:", "opts": ["A true report of a shared prior insight.", "A retrospective claim that converts an outcome into an intention.", "An apology to the writer.", "Evidence that the producer understood moral opacity from the first day.", "A coded instruction to the writer to stay quiet."], "passage": "The producer said the scene needed “more blood in the mouth of the sentence.” The writer changed one verb. The producer said it was worse. The writer changed the verb back and cut a clause the producer had praised the day before. The producer said now it was honest. Neither of them could say what “honest” meant that afternoon. The actor, listening, asked whether the character knows he is lying. The writer said yes. The producer said no. They shot both. In the edit, the version where the character does not know he is lying was kept, because the producer was also the financier. The writer put the other version in a drawer and did not mention it again in the room. Six months later a critic praised the scene for its “moral opacity.” The producer forwarded the review to the writer with the line: we always knew.", "ptitle": "Passage C-II"}, {"id": "C6", "sec": "C", "type": "written", "stem": "Write 4–6 sentences: what does the drawer version represent, and what would it mean if the writer destroyed it rather than kept it? Stay inside the passage’s facts.", "paste_block": true, "passage": "The producer said the scene needed “more blood in the mouth of the sentence.” The writer changed one verb. The producer said it was worse. The writer changed the verb back and cut a clause the producer had praised the day before. The producer said now it was honest. Neither of them could say what “honest” meant that afternoon. The actor, listening, asked whether the character knows he is lying. The writer said yes. The producer said no. They shot both. In the edit, the version where the character does not know he is lying was kept, because the producer was also the financier. The writer put the other version in a drawer and did not mention it again in the room. Six months later a critic praised the scene for its “moral opacity.” The producer forwarded the review to the writer with the line: we always knew.", "ptitle": "Passage C-II"}, {"id": "D1", "sec": "D", "type": "mcq", "stem": "A box has 4 genuine print masters and 3 convincing forgeries. Two are drawn at random without replacement. What is the probability both are genuine?", "opts": ["2/7", "16/49", "2/7 exactly after cancellation", "12/42", "Both C and D"], "work": "Show work"}, {"id": "D2", "sec": "D", "type": "mcq", "stem": "A test for “lead-role readiness” is 90% sensitive and 80% specific. Base rate of true readiness in the applicant pool is 10%. An applicant tests positive. Approximate P(ready | positive).", "opts": ["90%", "80%", "about 33%", "about 18%", "50%"], "work": "Show the natural-frequency table (imagine 1000 applicants)"}, {"id": "D3", "sec": "D", "type": "mcq", "stem": "Three editors review a cut independently. Each catches a given defect with probability 0.6, independently. What is the probability the defect is caught by at least one editor?", "opts": ["0.60", "0.936", "0.216", "0.784", "1 − 0.4³ is not the right model"], "work": "Show work"}, {"id": "D4", "sec": "D", "type": "answer", "stem": "A scene can be scheduled on any of 5 days. Two actors each have 2 blackout days, independently and uniformly chosen among the 5 (a person may black out any 2-subset). Approximate or exact: P(there exists a day both are free). State whether you compute exact or bound it.", "label": "Probability", "work": "Working, and whether it is exact or a bound"}, {"id": "D5", "sec": "D", "type": "mcq", "stem": "You will keep rolling a fair six-sided die until you have seen every face at least once (coupon collector). Expected number of rolls?", "opts": ["6", "12", "14.7", "6 × H₆ ≈ 14.7", "C and D"], "work": "Show work"}, {"id": "D6", "sec": "D", "type": "answer", "stem": "Two competing explanations for a failed preview screening: (H1) the cut is structurally wrong; (H2) the invited audience was hostile. Prior P(H1) = 0.4. Likelihood of the observed walkouts under H1 is 0.7; under H2 is 0.5. A second, differently composed audience walks out at a similar rate. Treat the second observation as independent with the same likelihoods. What is the posterior P(H1 | both observations)? Work in odds or Bayes.", "label": "Posterior P(H1 | both)", "work": "Working"}, {"id": "E1", "sec": "E", "type": "mcq", "stem": "A production day is budgeted at $18,400. Overtime is 1.5× after 10 hours on a $2,200/hour fully loaded stage. The day runs 13 hours. Other costs stay fixed at the budgeted amount (they already assumed 10 hours of stage). What is the overrun?", "opts": ["$3,300", "$6,600", "$9,900", "$4,400", "$2,200 × 3"]}, {"id": "E2", "sec": "E", "type": "mcq", "stem": "A sequence of cuts reduces runtime: 142 min → 6% cut → then 11 minutes removed → then 8% cut. Final runtime, to nearest minute?", "opts": ["112", "113", "116", "118", "121"]}, {"id": "E3", "sec": "E", "type": "mcq", "stem": "Four printers finish a job in 6 hours. How long would seven identical printers take, assuming linear scaling and no overhead?", "opts": ["3 h 26 min", "3 h 25.7 min", "24/7 hours", "A, B, and C", "3.5 hours"]}, {"id": "E4", "sec": "E", "type": "mcq", "stem": "A rights split: Writer 28%, Director 22%, Lead 18%, House 32%. A $40,000 bonus pool is paid only to Writer and Director in the same internal ratio they already have to each other. How much does the Director receive from the pool?", "opts": ["$17,600", "$8,800", "$17,600 is the trap", "$40,000 × 22/50 = $17,600", "C and D are both true and the amount is $17,600"]}, {"id": "E5", "sec": "E", "type": "mcq", "stem": "Compound: a catalogue grows 12% in year 1, shrinks 12% in year 2, grows 12% in year 3. Start = 1,000 titles. End of year 3?", "opts": ["1,000", "1,120", "1,048", "1,000 × 1.12³", "1,000 × 1.12 × 0.88 × 1.12"], "work": "Compute the integer number of titles if fractional titles are kept until the end and then floored"}, {"id": "E6", "sec": "E", "type": "answer", "stem": "Work-rate: Editor A alone = 10 days; B alone = 15 days; C alone = 30 days. A and B work 3 days, then A leaves and C joins B. How many additional days to finish?", "label": "Additional days", "work": "Working"}, {"id": "F1", "sec": "F", "type": "mcq", "stem": "What does this print?", "opts": ["15", "25", "29", "35", "21"], "code": "s = 0\nfor i in range(1, 6):\n    if i % 2 == 0:\n        s += i * i\n    else:\n        s += i\nprint(s)"}, {"id": "F2", "sec": "F", "type": "mcq", "stem": "After this runs, what is `a`?", "opts": ["[9, 2, 3, 4]", "[1, 2, 3, 4]", "[9, 2, 3, 4, 5]", "[9, 2, 3]", "[1, 2, 3, 5]"], "code": "a = [1, 2, 3]\nb = a\nc = a[:]\nb.append(4)\nc.append(5)\na[0] = 9", "work": "Also state the final values of b and c"}, {"id": "F3", "sec": "F", "type": "mcq", "stem": "Function mystery. What is mystery(5)?", "opts": ["5", "8", "11", "15", "7"], "code": "def mystery(n):\n    if n <= 1:\n        return n\n    return mystery(n - 1) + mystery(n - 2) + 1", "work": "Draw the call tree or a bottom-up table. The +1 is the whole point"}, {"id": "F4", "sec": "F", "type": "mcq", "stem": "Invariant question. What does this print?", "opts": ["0", "6", "3", "18", "12"], "code": "x, y = 18, 12\nwhile y != 0:\n    x, y = y, x % y\nprint(x)", "work": "Name the algorithm in one word and the invariant that makes the answer inevitable"}, {"id": "F5", "sec": "F", "type": "mcq", "stem": "Bug hunt. Intended: return the second-largest unique value in a non-empty list of integers. If all values equal, return None. Which statement is most accurate?", "opts": ["Correct for all specified inputs.", "Fails only when all values are equal (throws), otherwise correct.", "Fails when all equal, and also fails when the maximum is unique but the second-max is duplicated — wait, no, max(ys) still works.", "B is true; C’s second clause is a false alarm. The real remaining issue is empty-after-filter only.", "B and D together: the only specified miss is the all-equal case, which should return None and instead errors."], "code": "def second_unique_max(xs):\n    m = max(xs)\n    ys = [x for x in xs if x != m]\n    return max(ys)"}, {"id": "G1a", "sec": "G", "type": "mcq", "stem": "A train 180 m long passes a pole in 9 seconds. Speed of the train?", "opts": ["20 m/s", "18 m/s", "72 km/h and 20 m/s", "15 m/s", "A and C"]}, {"id": "G1b", "sec": "G", "type": "mcq", "stem": "The same train passes a platform 180 m long in 18 seconds. Speed of the train?", "opts": ["20 m/s still", "10 m/s", "18 m/s", "15 m/s", "30 m/s"], "work": "Differential fact: what flipped (or didn’t flip) the answer between G1a and G1b?"}, {"id": "G2a", "sec": "G", "type": "answer", "stem": "15 workers finish a wall in 10 days. How many workers to finish in 6 days, same rate, no overhead?", "label": "Workers"}, {"id": "G2b", "sec": "G", "type": "answer", "stem": "Same as G2a, except after 4 days at the original staffing the remaining work must be finished in 3 days. Additional workers needed on day 5?", "label": "Additional workers", "work": "Working. The trap is treating remaining work as full work"}, {"id": "G3a", "sec": "G", "type": "answer", "stem": "A fair coin is flipped 3 times. P(exactly two heads).", "label": "Probability"}, {"id": "G3b", "sec": "G", "type": "answer", "stem": "A fair coin is flipped until two heads have appeared or three flips have occurred, whichever first. P(the sequence contains exactly two heads).", "label": "Probability", "work": "These are not the same sample space as G3a. Say why"}, {"id": "G4a", "sec": "G", "type": "answer", "stem": "Code: print(2 + 3 * 4 ** 2)   (Python precedence: ** before * before +)", "label": "Output"}, {"id": "G4b", "sec": "G", "type": "answer", "stem": "Code: print((2 + 3) * 4 ** 2)", "label": "Output"}, {"id": "G4c", "sec": "G", "type": "answer", "stem": "Code: print(2 + 3 * 4 ** 2 / 8) — is the result int or float in Python 3, and what value?", "label": "Type and value"}, {"id": "G5", "sec": "G", "type": "answer", "stem": "Finite differences. Sequence: 4, 7, 13, 25, 49, ?", "label": "Next term", "work": "First differences, then second. Are the second differences constant? Give the recurrence you used"}, {"id": "G6", "sec": "G", "type": "answer", "stem": "A catalogue’s monthly additions (titles): Jan 12, Feb 15, Mar 19, Apr 24, May 30. Assume the first difference itself increases by a constant (second difference constant). Forecast July additions, and the cumulative titles added from Jan through July inclusive.", "label": "July additions; cumulative Jan–Jul", "work": "Working"}, {"id": "G7", "sec": "G", "type": "answer", "stem": "Two statements about the same production:\nS1: “Overhead is 18% of direct cost.”\nS2: “Overhead is 18% of total cost.”\nDirect cost = $50,000. Compute overhead under S1 and under S2.", "label": "Overhead under S1; under S2", "work": "Name the differential error if someone applies S1’s arithmetic to an S2 contract"}];
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function answeredCount(){return Object.keys(S.answers).filter(function(k){return k.indexOf("~")<0 && String(S.answers[k]).trim()!==""}).length}
+
+  var DRILL_IDS=["A1","A4","A7","A8","A12","B1","B5","B6","C1","C2","C5","D1","D2","D3","D5","E1","E6","F1","F4","G1a","G1b","G2a","G3a","G4a","G5"];
+  var byId={}; FULL.forEach(function(it){byId[it.id]=it});
+  function drillItems(){return DRILL_IDS.map(function(id){return byId[id]})}
+
+  // ---- state ----
+  var S={screen:"apply", mode:null, cand:null, answers:{}, i:0, blur:0, started:0, submitted:false};
+  try{var raw=localStorage.getItem("mms_application"); if(raw){S=Object.assign(S,JSON.parse(raw)); if(S.submitted){/*fresh*/ S.screen="apply"; S.submitted=false; S.answers={}; S.i=0;}}}catch(e){}
+  function save(){try{localStorage.setItem("mms_application",JSON.stringify({mode:S.mode,cand:S.cand,answers:S.answers,i:S.i,blur:S.blur,started:S.started,submitted:S.submitted}));}catch(e){}}
+
+  // integrity: tab-blur count (logged, not shown, never auto-void)
+  window.addEventListener("blur",function(){ if(S.screen==="run"){ S.blur++; save(); try{console.log("[integrity] focus lost x"+S.blur);}catch(e){} } });
+
+  var timerH=null, autosaveH=null, remaining=0, perItem=0;
+  function clearTimers(){ if(timerH){clearInterval(timerH); timerH=null;} if(autosaveH){clearInterval(autosaveH); autosaveH=null;} }
+  function fmt(s){var m=Math.floor(s/60), ss=s%60; return String(m).padStart(2,"0")+":"+String(ss).padStart(2,"0");}
+
+  function items(){ return S.mode==="drill" ? drillItems() : FULL; }
+
+  // ---- screens ----
+  function renderApply(){
+    clearTimers(); topmeta.textContent="Application · Stage 1";
+    app.innerHTML=
+     '<span class="eyebrow">Application · Stage 0</span>'+
+     '<h1 style="font-size:30px; margin-top:12px">Apply to the studio</h1>'+
+     '<p class="lead" style="margin-top:10px">A closed instrument measures two things: whether you can hold a line of reasoning, and whether you choose the harder correct path when a softer wrong one is available. No résumé polish.</p>'+
+     '<div class="field"><label>Name</label><input id="f-name" autocomplete="name"></div>'+
+     '<div class="field"><label>Contact (email)</label><input id="f-contact" type="email" autocomplete="email"></div>'+
+     '<div class="field"><label>Work URL, or a 5-line craft note</label><textarea id="f-work" placeholder="A link, or five lines on what you make and why."></textarea></div>'+
+     '<div class="field"><label>How did you find this?</label><input id="f-src"></div>'+
+     '<div class="field"><label>Optional · 60-second unscripted voice note</label><button class="btn ghost" id="f-voice" type="button">◎ Record (stored for Stage 2, not scored)</button><div class="hint">Not part of the Stage 1 score.</div></div>'+
+     '<label class="attest-box"><input type="checkbox" id="f-attest"><span>I will not use AI or another person on the timed instruments. I understand that outsourcing answers voids my application.</span></label>'+
+     '<div class="btnrow"><span></span><button class="btn" id="f-next" disabled>Continue →</button></div>'+
+     '<p class="demo">Your name, email and note are sent to the studio when you submit the instrument.</p>';
+    var att=$("#f-attest"), nx=$("#f-next");
+    att.addEventListener("change",function(){nx.disabled=!att.checked});
+    $("#f-voice").addEventListener("click",function(){$("#f-voice").textContent="◎ (demo) voice capture happens here"});
+    nx.addEventListener("click",function(){
+      var name=$("#f-name").value.trim();
+      var contact=$("#f-contact").value.trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)){ $("#f-contact").focus(); $("#f-contact").style.borderColor="#c0392b"; return; }
+      S.cand={name:name||"Candidate", contact:contact, work:$("#f-work").value.trim(), src:$("#f-src").value.trim(), id:"c_"+Math.random().toString(36).slice(2,7)};
+      S.screen="mode"; save(); renderMode();
+    });
+  }
+
+  function renderMode(){
+    topmeta.textContent="Application · choose instrument";
+    app.innerHTML=
+     '<span class="eyebrow">Choose your instrument</span>'+
+     '<h1 style="font-size:28px; margin-top:12px">Two modes, one bank</h1>'+
+     '<p class="lead" style="margin-top:10px">The full paper is the official gate. The drill is calibration only.</p>'+
+     '<div class="modes">'+
+       '<button class="mode" data-m="full" aria-pressed="false"><b>Full paper</b><small>90 minutes · closed book · section-paged · calculator on Section E only. The official gate.</small></button>'+
+       '<button class="mode" data-m="drill" aria-pressed="false"><b>Timed drill</b><small>20 seconds per item · 25 items · one at a time. Timeout scores zero. Calibration, not official.</small></button>'+
+     '</div>'+
+     '<div class="btnrow"><button class="btn ghost" id="m-back">Back</button><button class="btn" id="m-next" disabled>Continue →</button></div>';
+    var sel=null;
+    app.querySelectorAll(".mode").forEach(function(b){b.addEventListener("click",function(){
+      app.querySelectorAll(".mode").forEach(function(x){x.setAttribute("aria-pressed","false")});
+      b.setAttribute("aria-pressed","true"); sel=b.getAttribute("data-m"); $("#m-next").disabled=false;
+    })});
+    $("#m-back").addEventListener("click",function(){S.screen="apply"; renderApply();});
+    $("#m-next").addEventListener("click",function(){S.mode=sel; S.screen="attest"; save(); renderAttest();});
+  }
+
+  function renderAttest(){
+    topmeta.textContent="Application · attestation";
+    var full=S.mode==="full";
+    app.innerHTML=
+     '<div class="attest-screen"><p>'+(full
+        ? 'This is a closed-book instrument. Ninety minutes. No AI. No second screen. Leaving the window is logged. Submitting is final.'
+        : 'Twenty seconds per item. Twenty-five items. No going back. A timeout scores the item zero. No AI. Submitting is final.')+'</p>'+
+       '<div class="sub">'+(full?'Section E permits a calculator · nothing else':'One item at a time · the clock does not stop')+'</div>'+
+       '<div style="margin-top:26px"><button class="btn" id="a-begin">I understand — begin</button></div></div>'+
+     '<div class="btnrow"><button class="btn ghost" id="a-back">Back</button><span></span></div>';
+    $("#a-back").addEventListener("click",function(){S.screen="mode"; renderMode();});
+    $("#a-begin").addEventListener("click",beginRun);
+  }
+
+  function beginRun(){
+    S.screen="run"; S.i=0; S.started=Date.now(); save();
+    topmeta.textContent="Stage 1 · in progress";
+    try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+    if(S.mode==="full"){
+      remaining=90*60;
+      timerH=setInterval(function(){ remaining--; paintClock(); if(remaining<=0){ clearTimers(); doSubmit(true); } },1000);
+      autosaveH=setInterval(save,30000);
+    }
+    renderItem();
+  }
+
+  function paintClock(){
+    var c=$("#clock"); if(!c) return;
+    if(S.mode==="full"){ c.textContent=fmt(remaining); c.classList.toggle("low", remaining<=300); }
+    else { c.textContent="00:"+String(perItem).padStart(2,"0"); c.classList.toggle("low", perItem<=5); }
+  }
+
+  function renderItem(){
+    var list=items(), it=list[S.i], sec=SECTIONS[it.sec];
+    var total=list.length, drill=S.mode==="drill";
+    var clockInit = S.mode==="full" ? fmt(remaining) : "00:20";
+    var body="", head="";
+    var cur=S.answers[it.id], curWork=S.answers[it.id+"~work"]||"";
+    var firstOfSec = S.i===0 || list[S.i-1].sec!==it.sec;
+    if(firstOfSec) head+='<p class="secintro">'+esc(sec.intro)+'</p>';
+    if(it.passage) head+='<div class="passage"><span class="ptitle">'+esc(it.ptitle)+'</span>'+esc(it.passage)+'</div>';
+    if(it.code) body+='<div class="codeblk">'+esc(it.code)+'</div>';
+    if(it.type==="mcq"){
+      body+='<div class="opts">'+it.opts.map(function(o,n){ var L="ABCDE"[n];
+        return '<button class="opt" data-v="'+L+'" aria-pressed="'+(cur===L)+'"><span class="k">'+L+'</span><span>'+esc(o)+'</span></button>';
+      }).join("")+'</div>';
+    } else if(it.type==="answer"){
+      body+='<div class="numin"><label class="flabel" for="numin">'+esc(it.label||"Answer")+'</label><input id="numin" autocomplete="off" placeholder="Your answer" value="'+esc(cur||"")+'"></div>';
+    } else if(it.type==="written"){
+      body+='<div class="writein"><textarea id="writein" placeholder="Write your answer.'+(it.paste_block?' (Pasting is disabled on this item.)':'')+'">'+esc(cur||"")+'</textarea></div>';
+    }
+    if(it.work && !drill) body+='<div class="writein"><label class="flabel" for="workin">'+esc(it.work)+'</label><textarea id="workin" class="work" placeholder="Show your reasoning.">'+esc(curWork)+'</textarea></div>';
+    if(it.note) body+='<div class="calcnote">'+esc(it.note)+'</div>';
+    if(it.sec==="E") body+='<div class="calcnote">Calculator permitted on this section.</div>';
+
+    app.innerHTML=
+     '<div class="runner"><div class="runbar"><span class="idx">'+it.id+' · '+esc(sec.name)+' · '+(S.i+1)+' / '+total+'</span>'+
+       '<span class="clock" id="clock">'+clockInit+'</span></div>'+
+       '<div class="progline"><i style="width:'+Math.round((S.i)/total*100)+'%"></i></div>'+
+       '<div class="runbody">'+head+
+         '<div class="stem"><b class="qid">'+it.id+'.</b> '+esc(it.stem)+'</div>'+body+'</div></div>'+
+     (S.mode==="full"
+        ? '<div class="btnrow"><button class="btn ghost" id="prev"'+(S.i===0?' disabled':'')+'>‹ Prev</button>'+
+          (S.i===total-1
+             ? '<button class="btn" id="submit">Review &amp; submit</button>'
+             : '<button class="btn" id="next">Next ›</button>')+'</div>'
+        : '<div class="btnrow"><span class="chrome">Timeout scores this item zero</span><button class="btn ghost" id="skip">'+(it.type==="mcq"?'Skip →':'Next →')+'</button></div>')+
+     '<p class="savenote" id="savenote">'+(S.mode==="full"?'Autosaves every 30 seconds. Your answers are kept if you navigate.':'One item at a time. The clock does not stop.')+'</p>';
+    window.scrollTo(0,0);
+    var wk=$("#workin"); if(wk) wk.addEventListener("input",function(){S.answers[it.id+"~work"]=wk.value; save();});
+
+    // wire inputs
+    app.querySelectorAll(".opt").forEach(function(b){b.addEventListener("click",function(){
+      S.answers[it.id]=b.getAttribute("data-v");
+      app.querySelectorAll(".opt").forEach(function(x){x.setAttribute("aria-pressed","false")});
+      b.setAttribute("aria-pressed","true"); save();
+      if(S.mode==="drill"){ setTimeout(advanceDrill,150); }
+    })});
+    var ni=$("#numin"); if(ni) ni.addEventListener("input",function(){S.answers[it.id]=ni.value; save();});
+    var wi=$("#writein"); if(wi){ wi.addEventListener("input",function(){S.answers[it.id]=wi.value; save();});
+      if(it.paste_block) wi.addEventListener("paste",function(e){e.preventDefault();});
+    }
+    if(S.mode==="full"){
+      var p=$("#prev"), n=$("#next"), sb=$("#submit");
+      if(p) p.addEventListener("click",function(){S.i--; save(); renderItem();});
+      if(n) n.addEventListener("click",function(){S.i++; save(); renderItem();});
+      if(sb) sb.addEventListener("click",renderReview);
+      paintClock();
+    } else {
+      // per-item 20s timer
+      perItem=20; paintClock();
+      timerH && clearInterval(timerH);
+      timerH=setInterval(function(){ perItem--; paintClock(); if(perItem<=0){ clearInterval(timerH); advanceDrill(); } },1000);
+      var sk=$("#skip"); if(sk) sk.addEventListener("click",advanceDrill);
+    }
+  }
+
+  function advanceDrill(){
+    if(timerH){clearInterval(timerH); timerH=null;}
+    var list=items();
+    if(S.i>=list.length-1){ doSubmit(false); return; }
+    S.i++; save(); renderItem();
+  }
+
+  function renderReview(){
+    clearTimers();
+    var answered=answeredCount(), total=FULL.length;
+    app.innerHTML=
+     '<div class="card"><span class="eyebrow">Before you submit</span>'+
+       '<h2 style="margin-top:12px">Submitting is final.</h2>'+
+       '<p>You have answered '+answered+' of '+total+' items. After you submit, you will see a receipt — not your answers, and not a score.</p>'+
+       '<div style="margin-top:22px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap"><button class="btn ghost" id="r-back">Keep working</button><button class="btn" id="r-submit">Submit — final</button></div></div>';
+    $("#r-back").addEventListener("click",function(){ S.screen="run";
+      // resume full-paper clock
+      if(S.mode==="full" && remaining>0){ timerH=setInterval(function(){remaining--; paintClock(); if(remaining<=0){clearTimers(); doSubmit(true);}},1000); autosaveH=setInterval(save,30000);} renderItem(); });
+    $("#r-submit").addEventListener("click",function(){doSubmit(false);});
+  }
+
+  function doSubmit(timedOut){
+    clearTimers(); S.submitted=true; save();
+    postAttempt(timedOut);
+    topmeta.textContent="Application · received";
+    app.innerHTML=
+     '<div class="card"><h2>Received.</h2>'+
+       '<p>'+(timedOut?'Time is up. ':'')+'Your attempt is closed. If you advance, you will hear from us directly. No result is shown here.</p>'+
+       '<div class="cid">Candidate '+(S.cand?S.cand.id:'c_demo')+' · '+(S.mode==="full"?"full paper":"timed drill")+' · '+answeredCount()+' items recorded'+(S.blur?' · '+S.blur+' focus events logged':'')+'</div>'+
+       '<div style="margin-top:24px"><button class="btn ghost" id="restart">Start a new attempt</button></div></div>'+
+     '<p class="demo">Your attempt has been sent for Stage 1 review. Scoring happens on our side; no result is shown here.</p>';
+    try{localStorage.removeItem("mms_application");}catch(e){}
+    $("#restart").addEventListener("click",function(){ S={screen:"apply",mode:null,cand:null,answers:{},i:0,blur:0,started:0,submitted:false}; renderApply(); });
+  }
+
+  // Send intake + attempt summary to submit.php on the host (see README). Fire-and-forget: the
+  // receipt never depends on the network, and nothing is scored in the browser.
+  function postAttempt(timedOut){
+    if(!S.cand) return;
+    try{
+      fetch("submit.php",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded","Accept":"application/json"},
+        body:new URLSearchParams({type:"application", candidate:S.cand.id, name:S.cand.name, email:S.cand.contact,
+          work:S.cand.work||"", source:S.cand.src||"", mode:S.mode||"", timed_out:timedOut?"1":"0",
+          answered:String(answeredCount()), focus_events:String(S.blur||0),
+          answers:JSON.stringify(S.answers), website:""}).toString(), keepalive:true}).catch(function(){});
+    }catch(e){}
+  }
+
+  // boot
+  renderApply();
+})();
+</script>
+</html>
