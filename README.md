@@ -6,6 +6,7 @@ Landing page, Stage 1 application, and form handling, deployed as a Cloudflare W
 | Path | Purpose |
 | --- | --- |
 | `public/` | The site: `index.html`, `method.html` (The Method in full), `apply.html`, `institute.html` (The Method Institute), `404.html`, icon, manifest, `_headers` |
+| `src/payments.js` | Stripe checkout, prices, webhook → `members` table |
 | `src/worker.js` | Handles `POST /submit.php` (waitlist, applications, institute papers), serves everything else from `public/` |
 | `wrangler.jsonc` | Worker config: static assets + D1 binding `DB` |
 | `schema.sql` | Tables in the D1 database `method-machine-studio` (already created) |
@@ -37,6 +38,28 @@ SELECT dossier FROM institute_papers WHERE id = 1;   -- a candidate's Method Dos
 ```
 
 Cloudflare Workers can't send email on their own, so there are no email alerts yet.
+
+## Payments (Stripe)
+
+Plans: Scholar, Company, Founder — monthly, or annual at 10× monthly (two months free), in the
+currency the visitor picks (USD, EUR, GBP, INR). Amounts live in `PLANS` in `src/payments.js`;
+Stripe products and prices are created automatically on first checkout.
+
+One-time setup:
+
+1. Create a Stripe account. Start in **test mode**.
+2. Worker → Settings → Variables and Secrets → add secret `STRIPE_SECRET_KEY` (`sk_test_…`).
+3. Stripe → Developers → Webhooks → Add endpoint `https://methodmachinestudio.com/api/stripe-webhook`
+   with events `checkout.session.completed`, `customer.subscription.created`,
+   `customer.subscription.updated`, `customer.subscription.deleted`. Copy its signing secret
+   into a Worker secret `STRIPE_WEBHOOK_SECRET` (`whsec_…`).
+4. Stripe → Settings → Billing → Customer portal → activate, and copy the portal login link
+   into a Worker variable `STRIPE_PORTAL_URL`.
+5. Test with card `4242 4242 4242 4242`, then repeat steps 2–4 with live keys.
+
+```sql
+SELECT email, plan, interval, currency, status, current_period_end FROM members ORDER BY updated_at DESC;
+```
 
 ## Collected Works uploads (Institute paper, Section F)
 

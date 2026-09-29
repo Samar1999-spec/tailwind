@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome — Method Machine Studio</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a0a0c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+  :root{--stage:#0a0a0c;--panel:#14151c;--ink:#ece6dd;--ink-dim:#a7a49c;--ink-faint:#6f6b63;--line:rgba(232,226,218,0.10);--line-brown:rgba(198,138,78,0.28);
+    --brown:#c68a4e;--brown-hi:#e2b681;--blue:#6098de;--blue-hi:#a3c3ef;--flag:#d2796a;
+    --f-disp:"Fraunces",Georgia,serif;--f-body:"IBM Plex Sans",system-ui,sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,monospace;color-scheme:dark}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--stage);color:var(--ink);font-family:var(--f-body);line-height:1.6;display:flex;align-items:center;justify-content:center;padding:32px 16px;
+    background-image:radial-gradient(120% 80% at 50% -10%,rgba(198,138,78,.20),transparent 55%),radial-gradient(90% 60% at 84% 6%,rgba(96,152,222,.16),transparent 60%)}
+  .card{max-width:34rem;width:100%;background:var(--panel);border:1px solid var(--line-brown);border-radius:16px;padding:40px 28px;text-align:center}
+  svg.mg{width:52px;height:52px;margin-bottom:18px}
+  .k{font-family:var(--f-mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--brown)}
+  h1{font-family:var(--f-disp);font-weight:600;font-size:clamp(28px,6vw,40px);margin:12px 0 0;line-height:1.1}
+  p{color:var(--ink-dim);margin:14px auto 0;max-width:44ch}
+  .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+  .btn{font-family:var(--f-mono);font-size:13.5px;font-weight:600;padding:13px 20px;border-radius:10px;text-decoration:none;border:1px solid transparent}
+  .btn.primary{background:var(--brown);color:var(--stage)} .btn.primary:hover{background:var(--brown-hi)}
+  .btn.ghost{border-color:rgba(96,152,222,.32);color:var(--ink)} .btn.ghost:hover{background:rgba(96,152,222,.10)}
+  .fine{font-size:12.5px;color:var(--ink-faint);margin-top:22px}
+  .err{color:var(--flag)}
+</style>
+<div class="card">
+  <svg class="mg" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5" fill="none" stroke="#c68a4e" stroke-width="1.4"/><path d="M11 27V14l5 8 4-8 4 8 5-8v13" fill="none" stroke="#c68a4e" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></svg>
+  <div class="k" id="k">Confirming your membership</div>
+  <h1 id="h">One moment…</h1>
+  <p id="p">We're checking your payment with Stripe.</p>
+  <div class="row" id="row" hidden>
+    <a class="btn primary" href="/institute">Open The Method Institute</a>
+    <a class="btn ghost" id="portal" href="#" hidden>Manage billing</a>
+  </div>
+  <p class="fine" id="fine" hidden>A receipt is on its way to <span id="email"></span>.</p>
+</div>
+<script>
+(function(){
+  "use strict";
+  var NAMES={scholar:"Scholar",company:"Company",founder:"Founder"};
+  var $=function(id){return document.getElementById(id)};
+  var id=new URLSearchParams(location.search).get("session_id")||"";
+  function fail(text){ $("k").textContent="Membership"; $("h").textContent="We couldn't confirm that payment"; $("p").innerHTML='<span class="err">'+text+'</span> If you were charged, email us and we will sort it out.'; $("row").hidden=false; }
+  if(!id){ fail("This page needs a checkout reference."); return; }
+  fetch("/api/prices").then(function(r){return r.json()}).then(function(t){ if(t&&t.portalUrl){ var a=$("portal"); a.href=t.portalUrl; a.hidden=false; } }).catch(function(){});
+  fetch("/api/checkout-status?session_id="+encodeURIComponent(id),{headers:{Accept:"application/json"}})
+    .then(function(r){return r.json()})
+    .then(function(j){
+      if(!j||!j.ok||!j.paid){ fail(j&&j.ok ? "The payment hasn't completed." : "The checkout reference wasn't recognised."); return; }
+      var name=NAMES[j.plan]||"your plan";
+      $("k").textContent="Membership confirmed";
+      $("h").textContent="Welcome to "+name+".";
+      $("p").textContent="Your "+(j.interval==="year"?"annual":"monthly")+" membership is active. Open the Institute to use everything your plan includes.";
+      $("row").hidden=false;
+      if(j.email){ $("email").textContent=j.email; $("fine").hidden=false; }
+      /* unlock the plan in this browser's Institute portal */
+      try{
+        var KEY="mms-institute-paper-v2", st=JSON.parse(localStorage.getItem(KEY)||"{}");
+        st.m=st.m||{rooms:[]}; if(NAMES[j.plan]) st.m.tier=j.plan;
+        localStorage.setItem(KEY, JSON.stringify(st));
+      }catch(e){}
+    })
+    .catch(function(){ fail("We couldn't reach the server."); });
+})();
+</script>
+</html>

@@ -596,6 +596,15 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
 .works-files .pending{opacity:.6}
 .works-rm{border:0;background:none;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--flag);padding:2px 4px}
 
+/* plan checkout controls */
+.plan-controls{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;margin:-8px 0 18px}
+.seg{display:inline-flex;border:1px solid var(--rule);background:var(--surface-2);padding:3px}
+.seg button{border:0;background:none;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);padding:8px 12px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);font-weight:700}
+.cur{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);display:inline-flex;gap:8px;align-items:center}
+.cur select{background:var(--surface-2);border:1px solid var(--rule);padding:7px 9px;font-family:var(--mono);font-size:12px;letter-spacing:0}
+.pay-msg{font-family:var(--mono);font-size:11.5px;color:var(--flag);margin-top:14px;min-height:1.2em;text-align:center}
+
 /* which path */
 .pathnote{padding:14px 26px;background:var(--accent-soft);border-bottom:1px solid var(--rule);font-size:13.5px;color:var(--text)}
 .pathnote b{font-weight:600}
@@ -753,8 +762,18 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
     <section class="panel" id="panel-membership" hidden>
       <h2>Membership</h2>
       <p class="lede">Admission is free and permanent — the paper you sat cannot be taken away. What a plan buys is depth: the library, the teaching, the company, and eventually the right to teach here yourself.</p>
+      <div class="plan-controls">
+        <div class="seg" role="group" aria-label="Billing period">
+          <button type="button" data-interval="month" aria-pressed="true">Monthly</button>
+          <button type="button" data-interval="year" aria-pressed="false">Annual · 2 months free</button>
+        </div>
+        <label class="cur">Currency
+          <select id="planCurrency"><option value="usd">USD $</option><option value="eur">EUR €</option><option value="gbp">GBP £</option><option value="inr">INR ₹</option></select>
+        </label>
+      </div>
       <div class="plans" id="plans"></div>
-      <p class="billing-note">Plans are selected here and billed at launch. No payment details are taken on this page.</p>
+      <p class="pay-msg" id="planMsg" role="status" aria-live="polite"></p>
+      <p class="billing-note">Secure checkout by Stripe. Cancel anytime from your billing portal. Taxes may apply at checkout.</p>
       <div class="standard">
         <div class="sub">Institutional membership</div>
         <p>Studios, agencies, theatres, production companies and schools join as an institution rather than as individuals: seats for a whole department, a private classroom under the institution's own name, and Studio OS against a live production. Institutional terms are agreed directly with the studio.</p>
@@ -841,6 +860,7 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
   </div>
 </div>
 
+<script src="/checkout.js"></script>
 <script>
 (function(){
   "use strict";
@@ -1450,19 +1470,48 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
       items += t.hasnt.map(function(h){ return '<li class="off"><span class="n">·</span><span>'+esc(h)+'</span></li>'; }).join("");
       return '<div class="plan'+(cur?' current':'')+'">'+
         '<div class="plan-head"><div class="plan-name">'+t.name+'</div><div class="plan-sub">'+esc(t.sub)+'</div>'+
-        '<div class="plan-price">'+(t.price?'$'+t.price:'Free')+(t.price?' <small>/ month</small>':'')+'</div></div>'+
+        '<div class="plan-price">'+priceLabel(t)+'</div></div>'+
         '<div class="plan-line">'+esc(t.line)+'</div>'+
         '<ul class="plan-list">'+items+'</ul>'+
         '<div class="plan-foot"><button class="plan-btn'+(cur?' on':'')+'" data-tier="'+t.id+'"'+(cur?' disabled':'')+'>'+
-          (cur?'Current plan':'Select '+t.name)+'</button></div>'+
+          (cur?'Current plan':(t.price?'Choose '+t.name:'Stay on '+t.name))+'</button></div>'+
       '</div>';
     }).join("");
     Array.prototype.forEach.call(document.querySelectorAll(".plan-btn[data-tier]"), function(b){
       b.addEventListener("click", function(){
-        member.tier = b.dataset.tier;
-        renderPlans(); renderRooms(); renderBuilder(); renderTA(); renderSuite(); renderStrip(); save();
+        var t = tierOf(b.dataset.tier);
+        if(!t.price || !window.MMS){
+          member.tier = b.dataset.tier;
+          renderPlans(); renderRooms(); renderBuilder(); renderTA(); renderSuite(); renderStrip(); save();
+          return;
+        }
+        var label = b.textContent, msg = document.getElementById("planMsg");
+        b.disabled = true; b.textContent = "Opening checkout…"; msg.textContent = "";
+        MMS.start(t.id, {email: contact.email, roll: window.__roll}).then(function(err){
+          if(err){ msg.textContent = err; b.disabled = false; b.textContent = label; }
+        });
       });
     });
+  }
+
+  function priceLabel(t){
+    if(!t.price) return 'Free';
+    var p = window.MMS && MMS.price(t.id);
+    if(!p) return '$'+t.price+' <small>/ month</small>';
+    return MMS.format(p.amount)+' <small>/ '+(MMS.interval==="year"?'year':'month')+'</small>';
+  }
+  if(window.MMS){
+    var curSel = document.getElementById("planCurrency");
+    var paintControls = function(){
+      curSel.value = MMS.currency;
+      Array.prototype.forEach.call(document.querySelectorAll(".plan-controls .seg button"), function(b){ b.setAttribute("aria-pressed", b.dataset.interval===MMS.interval ? "true" : "false"); });
+      if(document.getElementById("plans").children.length) renderPlans();
+    };
+    MMS.onChange(paintControls); paintControls(); MMS.load();
+    curSel.addEventListener("change", function(){ MMS.setCurrency(curSel.value); });
+    Array.prototype.forEach.call(document.querySelectorAll(".plan-controls .seg button"), function(b){ b.addEventListener("click", function(){ MMS.setInterval(b.dataset.interval); }); });
+  } else {
+    document.querySelector(".plan-controls").hidden = true;
   }
 
   /* ── teaching assistant desk ── */

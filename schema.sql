@@ -6,5 +6,7 @@ CREATE TABLE IF NOT EXISTS institute_papers (id INTEGER PRIMARY KEY AUTOINCREMEN
 CREATE INDEX IF NOT EXISTS institute_ip_time ON institute_papers (ip, submitted_at);
 CREATE TABLE IF NOT EXISTS uploads (id INTEGER PRIMARY KEY AUTOINCREMENT, submitted_at TEXT NOT NULL, r2_key TEXT NOT NULL, slot TEXT, name TEXT, size INTEGER, ip TEXT);
 CREATE INDEX IF NOT EXISTS uploads_ip_time ON uploads (ip, submitted_at);
+CREATE TABLE IF NOT EXISTS members (subscription_id TEXT PRIMARY KEY, customer_id TEXT, email TEXT, plan TEXT, interval TEXT, currency TEXT, status TEXT, current_period_end TEXT, updated_at TEXT);
+CREATE INDEX IF NOT EXISTS members_email ON members (email);
 CREATE INDEX IF NOT EXISTS waitlist_ip_time ON waitlist (ip, submitted_at);
 CREATE INDEX IF NOT EXISTS applications_ip_time ON applications (ip, submitted_at);

@@ -1,3 +1,5 @@
+import { handlePayments } from "./payments.js";
+
 // Method Machine Studio — Cloudflare Worker.
 // Serves the static site from ./public and handles form posts to /submit.php
 // (the same path the PHP host uses, so the pages work unchanged on either host).
@@ -203,6 +205,10 @@ export default {
         console.error("submit failed", err);
         return json(500, { ok: false, error: "server_error" });
       }
+    }
+    if (pathname.startsWith("/api/")) {
+      const paid = await handlePayments(request, env, pathname);
+      if (paid) return paid;
     }
     if (pathname === "/api/uploads") return json(200, { enabled: !!env.WORKS });
     if (pathname === "/api/upload") {

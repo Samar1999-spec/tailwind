@@ -111,6 +111,19 @@
   .tier ul{list-style:none; margin:16px 0 20px; padding:0; display:flex; flex-direction:column; gap:8px}
   .tier li{font-size:13px; padding-left:20px; position:relative} .tier li::before{content:"✓"; position:absolute; left:0; color:var(--blue)}
   .tier .btn{justify-content:center; margin-top:auto; width:100%; font-size:13px; padding:12px}
+  .tier li.inherit{padding-left:0; color:var(--ink-faint); font-family:var(--f-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase} .tier li.inherit::before{content:none}
+  .tier button.btn{cursor:pointer; font-family:var(--f-mono)}
+  .tier button.btn.ghost{background:transparent; color:var(--ink)} .tier button.btn.ghost:hover{background:rgba(96,152,222,.10)}
+  .tier button.btn:disabled{opacity:.6; cursor:progress}
+  .pay-controls{display:flex; flex-wrap:wrap; gap:14px 20px; align-items:center; justify-content:center; margin:-14px 0 26px}
+  .seg{display:inline-flex; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:4px}
+  .seg button{background:none; border:0; color:var(--ink-dim); font-family:var(--f-mono); font-size:13px; padding:9px 15px; border-radius:7px}
+  .seg button span{font-size:10.5px; color:var(--brown-hi); margin-left:4px}
+  .seg button[aria-pressed="true"]{background:var(--panel-2); color:var(--ink); box-shadow:inset 0 0 0 1px var(--line-brown)}
+  .cur{font-family:var(--f-mono); font-size:12px; color:var(--ink-dim); display:inline-flex; gap:9px; align-items:center}
+  .cur select{background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:8px; padding:9px 10px; font-family:var(--f-mono); font-size:13px}
+  .pay-msg{text-align:center; margin-top:18px; font-family:var(--f-mono); font-size:13px; color:var(--brown-hi); min-height:1.2em}
+  .pay-fine{text-align:center; margin-top:6px; font-size:12.5px; color:var(--ink-faint)}
   .feat-flag{font-family:var(--f-mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--stage); background:var(--brown); border-radius:5px; padding:3px 8px; align-self:flex-start; margin-bottom:10px; font-weight:600}
 
   /* apply gate */
@@ -245,21 +258,32 @@
 
   <!-- pricing -->
   <section id="pricing" class="wrap">
-    <div class="sec-head"><span class="eyebrow">Membership</span><h2>Start free. Go as deep as you want.</h2><p>One system, four tiers. Prices shown are launch pricing.</p></div>
-    <div class="tiers">
-      <div class="tier"><div class="tname">Audition</div><div class="price">$0 <small>forever</small></div><div class="tsub">Get started</div>
-        <ul><li>The framework &amp; master template</li><li>Free lineage prompts</li><li>The Director + Hagen agent</li><li>Community read access</li></ul>
-        <a class="btn ghost" href="#top">Join free</a></div>
-      <div class="tier"><div class="tname">Performer</div><div class="price">$19 <small>/mo</small></div><div class="tsub">One track, unlocked</div>
-        <ul><li>Full library for one track</li><li>All six backbones</li><li>Full agent suite</li><li>Your track's community</li></ul>
-        <a class="btn ghost" href="#top">Choose Performer</a></div>
-      <div class="tier feat"><span class="feat-flag">Most popular</span><div class="tname">Company</div><div class="price">$49 <small>/mo</small></div><div class="tsub">All tracks + workflows</div>
-        <ul><li>Every track's library</li><li>Both variable packs</li><li>Agents + chained workflows</li><li>Verified registry listing</li></ul>
-        <a class="btn primary" href="#top">Choose Company</a></div>
-      <div class="tier"><div class="tname">All-Access</div><div class="price">$99 <small>/mo</small></div><div class="tsub">The whole model</div>
-        <ul><li>Everything in Company</li><li>Business management suite</li><li>Host your own group</li><li>Founding-member badge</li></ul>
-        <a class="btn ghost" href="#top">Go All-Access</a></div>
+    <div class="sec-head"><span class="eyebrow">Membership</span><h2>Start free. Go as deep as you want.</h2><p>Admission is free and permanent. A plan buys depth: the library, the teaching, the company, and eventually the right to teach here yourself.</p></div>
+    <div class="pay-controls">
+      <div class="seg" role="group" aria-label="Billing period">
+        <button type="button" data-interval="month" aria-pressed="true">Monthly</button>
+        <button type="button" data-interval="year" aria-pressed="false">Annual <span>2 months free</span></button>
+      </div>
+      <label class="cur">Currency
+        <select id="currency" aria-label="Currency"><option value="usd">USD $</option><option value="eur">EUR €</option><option value="gbp">GBP £</option><option value="inr">INR ₹</option></select>
+      </label>
     </div>
+    <div class="tiers">
+      <div class="tier"><div class="tname">Student</div><div class="price">Free <small>forever</small></div><div class="tsub">Auditing access</div>
+        <ul><li>Entrance Paper I and your Method Dossier</li><li>The Method Prompt Framework in full</li><li>One department's public sessions</li><li>Read-only classroom directory</li></ul>
+        <a class="btn ghost" href="/institute">Sit the paper, free</a></div>
+      <div class="tier"><div class="tname">Scholar</div><div class="price" data-plan="scholar">$19 <small>/mo</small></div><div class="tsub" data-note="scholar">Premium courses</div>
+        <ul><li class="inherit">Everything in Student, plus</li><li>Premium course library, all four departments</li><li>Downloadable prompt system per paper</li><li>Recorded master sessions</li><li>Audit any classroom's open week</li></ul>
+        <button class="btn ghost" type="button" data-buy="scholar">Choose Scholar</button></div>
+      <div class="tier feat"><span class="feat-flag">Most popular</span><div class="tname">Company</div><div class="price" data-plan="company">$49 <small>/mo</small></div><div class="tsub" data-note="company">Teaching Assistant + the company</div>
+        <ul><li class="inherit">Everything in Scholar, plus</li><li>Your own Teaching Assistant</li><li>The company network: every member and teacher</li><li>Introductions, and the right to ask for them</li><li>Live note sessions with faculty</li><li>Seat priority in any classroom</li></ul>
+        <button class="btn primary" type="button" data-buy="company">Choose Company</button></div>
+      <div class="tier"><div class="tname">Founder</div><div class="price" data-plan="founder">$99 <small>/mo</small></div><div class="tsub" data-note="founder">Found your own classroom</div>
+        <ul><li class="inherit">Everything in Company, plus</li><li>Full agent suite and your own agent team</li><li>Found and run your own classrooms</li><li>Studio OS against a live production</li><li>Monthly pooled AI filmmaking credits</li><li>70% revenue share on every seat you fill</li><li>Faculty review track</li></ul>
+        <button class="btn ghost" type="button" data-buy="founder">Choose Founder</button></div>
+    </div>
+    <p class="pay-msg" id="payMsg" role="status" aria-live="polite"></p>
+    <p class="pay-fine">Secure checkout by Stripe. Cancel anytime from your billing portal. Taxes may apply at checkout.</p>
   </section>
 
   <!-- two ways in -->
@@ -354,6 +378,34 @@
     });
   }
   handle("waitlist","email"); handle("waitlist2","email2");
+})();
+</script>
+
+<script src="/checkout.js"></script>
+<script>
+(function(){
+  "use strict";
+  var MMS=window.MMS; if(!MMS) return;
+  var sel=document.getElementById("currency"), msg=document.getElementById("payMsg");
+  function paint(){
+    sel.value=MMS.currency;
+    document.querySelectorAll(".seg button").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.interval===MMS.interval?"true":"false"); });
+    document.querySelectorAll(".price[data-plan]").forEach(function(el){
+      var p=MMS.price(el.dataset.plan); if(!p) return;
+      el.innerHTML=MMS.format(p.amount)+' <small>'+(MMS.interval==="year"?"/yr":"/mo")+'</small>';
+      var note=document.querySelector('[data-note="'+el.dataset.plan+'"]');
+      if(note){ if(!note.dataset.base) note.dataset.base=note.textContent; note.textContent = MMS.interval==="year" ? "≈ "+MMS.format(Math.round(p.amount/12))+"/mo · 2 months free" : note.dataset.base; }
+    });
+  }
+  MMS.onChange(paint); paint(); MMS.load();
+  sel.addEventListener("change", function(){ MMS.setCurrency(sel.value); });
+  document.querySelectorAll(".seg button").forEach(function(b){ b.addEventListener("click", function(){ MMS.setInterval(b.dataset.interval); }); });
+  document.querySelectorAll("[data-buy]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var label=b.textContent; b.disabled=true; b.textContent="Opening checkout…"; msg.textContent="";
+      MMS.start(b.dataset.buy).then(function(err){ if(err){ msg.textContent=err; b.disabled=false; b.textContent=label; } });
+    });
+  });
 })();
 </script>
 </html>
