@@ -297,6 +297,38 @@
     .title-card{padding-bottom:36px}
     .hero-cta .btn{width:100%}
   }
+
+  /* ── top navigation: two grouped menus + one button ── */
+  nav.links{gap:6px}
+  .dd{position:relative}
+  .dd-btn{display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:12px 12px; background:none; border:0; border-radius:8px;
+    font-family:var(--f-mono); font-size:12.5px; letter-spacing:.02em; color:var(--ink-dim); cursor:pointer; transition:color .3s ease}
+  .dd-btn::after{content:""; width:6px; height:6px; border-right:1px solid currentColor; border-bottom:1px solid currentColor; transform:translateY(-2px) rotate(45deg); transition:transform .25s ease}
+  .dd-btn:hover,.dd.open .dd-btn,html:not(.js) .dd:focus-within .dd-btn{color:var(--ink)}
+  .dd.open .dd-btn::after{transform:translateY(1px) rotate(-135deg)}
+  .dd-menu{position:absolute; top:calc(100% + 8px); left:50%; min-width:196px; padding:6px; display:flex; flex-direction:column;
+    background:var(--panel); border:1px solid var(--line); border-radius:13px; box-shadow:var(--c-highlight), 0 24px 48px -20px rgba(10,10,12,0.9);
+    opacity:0; visibility:hidden; transform:translate(-50%,4px); transition:opacity .22s ease, transform .22s ease, visibility 0s .22s; z-index:60}
+  .dd-menu::before{content:""; position:absolute; left:0; right:0; top:-10px; height:10px}  /* keeps the menu open while the pointer crosses the gap */
+  /* the script owns open/closed; plain hover and focus only act as a fallback when it is not running */
+  .dd.open .dd-menu,html:not(.js) .dd:focus-within .dd-menu{opacity:1; visibility:visible; transform:translate(-50%,0); transition:opacity .22s ease, transform .22s ease}
+  @media (hover:hover){ html:not(.js) .dd:hover .dd-menu{opacity:1; visibility:visible; transform:translate(-50%,0); transition:opacity .22s ease, transform .22s ease} }
+  .dd.dismissed .dd-menu{opacity:0!important; visibility:hidden!important; transform:translate(-50%,4px)!important}
+  nav.links .dd-menu a{display:flex; align-items:center; min-height:44px; padding:10px 14px; border-radius:8px; color:var(--ink-dim); white-space:nowrap}
+  nav.links .dd-menu a:hover,nav.links .dd-menu a:focus-visible{color:var(--ink); background:rgba(236,230,221,.05)}
+  nav.links a.cta{margin-left:6px}
+
+  @media (max-width:820px){
+    /* the blurred bar is the drawer's frame, so give the drawer an explicit full-screen height */
+    nav.links{gap:0; height:100vh; height:100dvh; bottom:auto}
+    .dd{border-bottom:1px solid var(--line); padding-bottom:6px; margin-bottom:6px}
+    .dd-btn{width:100%; padding:14px 14px 6px; font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--gold); cursor:default; pointer-events:none}
+    .dd-btn::after{content:none}
+    .dd-menu,.dd.open .dd-menu,.dd.dismissed .dd-menu{position:static; opacity:1!important; visibility:visible!important; transform:none!important; transition:none; min-width:0; padding:0; background:none; border:0; box-shadow:none}
+    .dd-menu::before{content:none}
+    nav.links .dd-menu a{padding:13px 14px; font-size:15px; border-bottom:0}
+    nav.links a.cta{margin-left:0}
+  }
 </style>
 <link rel="stylesheet" href="/cinema.css">
 
@@ -312,14 +344,23 @@
       <span class="brandtxt"><b>Method Machine Studio</b><span>People · Ideas · Projects</span></span>
     </a>
     <button class="navtoggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
-    <nav class="links" id="nav-links">
-      <a href="/">Studio</a>
-      <a href="#framework">Framework</a>
-      <a href="#method">Backbones</a>
-      <a href="#tracks">Tracks</a>
-      <a href="#journey">Journey</a>
-      <a href="#packs">Packs</a>
-      <a href="#agents">Agents</a>
+    <nav class="links" id="nav-links" aria-label="The Method">
+      <div class="dd">
+        <button class="dd-btn" type="button" aria-expanded="false" aria-controls="dd-method">Method</button>
+        <div class="dd-menu" id="dd-method">
+          <a href="#framework">Framework</a>
+          <a href="#method">Backbones</a>
+          <a href="#journey">Journey</a>
+        </div>
+      </div>
+      <div class="dd">
+        <button class="dd-btn" type="button" aria-expanded="false" aria-controls="dd-company">Company</button>
+        <div class="dd-menu" id="dd-company">
+          <a href="#tracks">Tracks</a>
+          <a href="#packs">Packs</a>
+          <a href="#agents">Agents</a>
+        </div>
+      </div>
       <a href="/#apply" class="cta">Two ways in</a>
     </nav>
   </div>
@@ -646,6 +687,33 @@
       links.classList.remove("open"); tog.setAttribute("aria-expanded","false"); tog.textContent="Menu";
     }
   });
+
+  /* grouped menus: open on hover or focus, toggle on click/tap, close on Escape or outside click */
+  var drawer=window.matchMedia("(max-width:820px)"), canHover=window.matchMedia("(hover:hover)");
+  var dds=Array.prototype.slice.call(document.querySelectorAll(".dd"));
+  function setOpen(dd,open){
+    if(open) dd.classList.remove("dismissed");
+    dd.classList.toggle("open",open);
+    dd.querySelector(".dd-btn").setAttribute("aria-expanded",open?"true":"false");
+  }
+  function closeAll(except){ dds.forEach(function(d){ if(d!==except) setOpen(d,false); }); }
+  dds.forEach(function(dd){
+    var btn=dd.querySelector(".dd-btn");
+    function dismiss(){ setOpen(dd,false); dd.classList.add("dismissed"); }
+    var viaPointer=false;   /* a tap or click focuses the button first; let the click decide, not the focus */
+    btn.addEventListener("pointerdown",function(){ viaPointer=true; });
+    btn.addEventListener("click",function(){ viaPointer=false; if(drawer.matches) return; var o=(canHover.matches||dd.classList.contains("dismissed")) ? true : !dd.classList.contains("open"); closeAll(dd); setOpen(dd,o); });
+    dd.addEventListener("mouseenter",function(){ if(!drawer.matches && canHover.matches){ closeAll(dd); setOpen(dd,true); } });
+    dd.addEventListener("mouseleave",function(){ dd.classList.remove("dismissed"); if(!drawer.matches && canHover.matches && !dd.contains(document.activeElement)) setOpen(dd,false); });
+    dd.addEventListener("focusin",function(e){ if(viaPointer){ viaPointer=false; return; } if(!drawer.matches && !dd.classList.contains("dismissed")){ closeAll(dd); setOpen(dd,true); } });
+    dd.addEventListener("focusout",function(e){ if(!dd.contains(e.relatedTarget)){ if(!dd.matches(":hover")) dd.classList.remove("dismissed"); setOpen(dd,false); } });
+    dd.addEventListener("keydown",function(e){
+      if(e.key==="Escape"){ dismiss(); btn.focus(); e.stopPropagation(); }
+      if((e.key==="ArrowDown") && e.target===btn){ e.preventDefault(); setOpen(dd,true); var f=dd.querySelector(".dd-menu a"); if(f) f.focus(); }
+    });
+    dd.querySelectorAll(".dd-menu a").forEach(function(a){ a.addEventListener("click",function(){ if(drawer.matches) return; dismiss(); a.blur(); }); });
+  });
+  document.addEventListener("click",function(e){ if(!e.target.closest(".dd")) closeAll(); });
 })();
 </script>
 
