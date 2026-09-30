@@ -157,6 +157,10 @@
   .tier .btn{margin-top:auto; width:100%; font-size:13px}
   .tier button.btn{font-family:var(--f-mono)}
   .feat-flag{font-family:var(--f-mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--stage); background:var(--bronze); border-radius:5px; padding:4px 9px; align-self:flex-start; margin-bottom:12px; font-weight:600}
+  .promo{font-family:var(--f-mono); font-size:12px; color:var(--ink-dim); display:inline-flex; gap:10px; align-items:center}
+  .promo input{background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:9px; min-height:44px; width:12.5rem; padding:10px 12px; font-family:var(--f-mono); font-size:13px; letter-spacing:.06em; text-transform:uppercase; box-shadow:var(--highlight)}
+  .promo input::placeholder{color:var(--ink-faint); text-transform:none; letter-spacing:0}
+  .promo input:focus{outline:none; border-color:var(--bronze)}
   .pay-msg{text-align:center; margin-top:20px; font-family:var(--f-mono); font-size:13px; color:var(--bronze-hi); min-height:1.2em}
   .pay-fine{text-align:center; margin-top:6px; font-size:12.5px; color:var(--ink-faint)}
 
@@ -311,10 +315,13 @@
     <div class="pay-controls">
       <div class="seg" role="group" aria-label="Billing period">
         <button type="button" data-interval="month" aria-pressed="true">Monthly</button>
-        <button type="button" data-interval="year" aria-pressed="false">Annual <span>2 months free</span></button>
+        <button type="button" data-interval="year" aria-pressed="false">Annual <span id="saveTag">save 29%</span></button>
       </div>
       <label class="cur">Currency
         <select id="currency" aria-label="Currency"><option value="usd">USD $</option><option value="eur">EUR €</option><option value="gbp">GBP £</option><option value="inr">INR ₹</option></select>
+      </label>
+      <label class="promo">Promo code
+        <input id="promo" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="64" placeholder="Optional">
       </label>
     </div>
     <div class="tiers">
@@ -370,7 +377,7 @@
       <details><summary>How do the two question papers differ?</summary><p>Entrance Paper I at The Method Institute is for leading a team of your own: it produces a Method Dossier and leads to membership, an individual agent team and a classroom of your own. The Stage 1 application is for joining Method Machine Studio itself, with a career path from Assistant to Associate to team member.</p></details>
       <details><summary>Why is the careers application assessed?</summary><p>Studio members work on live productions. Stage 1 measures reasoning and character rather than presentation, so every Assistant enters against the same standard.</p></details>
       <details><summary>Where does the method come from?</summary><p>The rehearsal room. The preparation techniques of Stanislavski, Meisner, Strasberg, Adler, Chekhov and Uta Hagen, refined over a century to produce truthful, repeatable performance, are translated into procedures that direct AI output with the same rigour.</p></details>
-      <details><summary>Can membership be cancelled at any time?</summary><p>Yes. Membership runs month to month, or annually with two months included. Free-tier access remains in either case.</p></details>
+      <details><summary>Can membership be cancelled at any time?</summary><p>Yes. Membership runs month to month, or annually at a reduced rate. Free-tier access remains in either case.</p></details>
     </div>
   </section>
 
@@ -452,12 +459,13 @@
   var sel=document.getElementById("currency"), msg=document.getElementById("payMsg");
   function paint(){
     sel.value=MMS.currency;
+    var tag=document.getElementById("saveTag"), sv=MMS.annualSaving(); if(tag && sv) tag.textContent="save "+sv+"%";
     document.querySelectorAll(".seg button").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.interval===MMS.interval?"true":"false"); });
     document.querySelectorAll(".price[data-plan]").forEach(function(el){
       var p=MMS.price(el.dataset.plan); if(!p) return;
       el.innerHTML=MMS.format(p.amount)+' <small>'+(MMS.interval==="year"?"/yr":"/mo")+'</small>';
       var note=document.querySelector('[data-note="'+el.dataset.plan+'"]');
-      if(note){ if(!note.dataset.base) note.dataset.base=note.textContent; note.textContent = MMS.interval==="year" ? "≈ "+MMS.format(Math.round(p.amount/12))+"/mo · 2 months free" : note.dataset.base; }
+      if(note){ if(!note.dataset.base) note.dataset.base=note.textContent; note.textContent = MMS.interval==="year" ? "≈ "+MMS.format(Math.round(p.amount/12))+"/mo · save "+p.save+"%" : note.dataset.base; }
     });
   }
   MMS.onChange(paint); paint(); MMS.load();
@@ -466,7 +474,7 @@
   document.querySelectorAll("[data-buy]").forEach(function(b){
     b.addEventListener("click", function(){
       var label=b.textContent; b.disabled=true; b.textContent="Opening checkout…"; msg.textContent="";
-      MMS.start(b.dataset.buy).then(function(err){ if(err){ msg.textContent=err; b.disabled=false; b.textContent=label; } });
+      MMS.start(b.dataset.buy,{promo:document.getElementById("promo").value}).then(function(err){ if(err){ msg.textContent=err; b.disabled=false; b.textContent=label; } });
     });
   });
 })();

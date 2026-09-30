@@ -16,7 +16,8 @@
 const STRIPE_API = "https://api.stripe.com/v1/";
 const STRIPE_VERSION = "2024-06-20";
 
-// Monthly prices in each currency (major units). Annual = 10 × monthly (two months free).
+// Monthly prices in each currency (major units). Annual = 10 × monthly, less a further 15%,
+// rounded to whole units (ANNUAL_FACTOR below).
 // Change amounts here: new checkouts create a new Stripe price automatically because the
 // amount is part of the lookup key.
 export const CURRENCIES = {
@@ -31,6 +32,11 @@ export const PLANS = {
   founder: { name: "Founder", sub: "Found your own classroom", monthly: { usd: 99, eur: 92, gbp: 79, inr: 4999 } },
 };
 const INTERVALS = ["month", "year"];
+const ANNUAL_FACTOR = 10 * 0.85;   // 8.5 months' price for a year: about 29% below paying monthly
+
+function annualFor(monthly) {
+  return Math.round(monthly * ANNUAL_FACTOR);
+}
 
 const json = (status, body) =>
   new Response(JSON.stringify(body), {
@@ -41,7 +47,7 @@ const json = (status, body) =>
 function amountFor(plan, interval, currency) {
   const m = PLANS[plan]?.monthly?.[currency];
   if (!m) return null;
-  return interval === "year" ? m * 10 : m;
+  return interval === "year" ? annualFor(m) : m;
 }
 
 // Stripe takes form-encoded bodies with bracketed keys: a[b][0][c]=v
@@ -112,8 +118,10 @@ async function ensurePrice(env, plan, interval, currency) {
 function pricesTable(env) {
   return {
     currencies: CURRENCIES,
-    plans: Object.fromEntries(Object.entries(PLANS).map(([k, p]) => [k, { name: p.name, sub: p.sub, monthly: p.monthly }])),
-    annualMonths: 10,
+    plans: Object.fromEntries(Object.entries(PLANS).map(([k, p]) => [k, {
+      name: p.name, sub: p.sub, monthly: p.monthly,
+      annual: Object.fromEntries(Object.entries(p.monthly).map(([c, m]) => [c, annualFor(m)])),
+    }])),
     enabled: !!env.STRIPE_SECRET_KEY,
     portalUrl: env.STRIPE_PORTAL_URL || "",
   };
@@ -129,21 +137,40 @@ async function createCheckout(request, env) {
   if (!PLANS[plan]) return json(400, { ok: false, error: "bad_plan" });
   const email = String(body.email || "").trim();
 
+  // Promo code typed on the site: checked against Stripe before the visitor leaves the page.
+  // With no code, Stripe's own "Add promotion code" field stays available on the checkout page.
+  const promo = String(body.promo || "").trim();
+  let discounts;
+  if (promo) {
+    if (!/^[A-Za-z0-9_-]{2,64}$/.test(promo)) return json(400, { ok: false, error: "invalid_promo" });
+    const found = await stripe(env, "GET", "promotion_codes", { code: promo, active: "true", limit: 1 });
+    if (!found.data?.length) return json(400, { ok: false, error: "invalid_promo" });
+    discounts = [{ promotion_code: found.data[0].id }];
+  }
+
   const origin = new URL(request.url).origin;
   const price = await ensurePrice(env, plan, interval, currency);
-  const session = await stripe(env, "POST", "checkout/sessions", {
+  let session;
+  try {
+    session = await stripe(env, "POST", "checkout/sessions", {
     mode: "subscription",
     line_items: [{ price, quantity: 1 }],
     success_url: `${origin}/welcome?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/#pricing`,
-    allow_promotion_codes: "true",
+    allow_promotion_codes: discounts ? undefined : "true",
+    discounts,
     billing_address_collection: "auto",
     customer_email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : undefined,
     client_reference_id: String(body.roll || "").slice(0, 60) || undefined,
     metadata: { plan, interval, currency },
     subscription_data: { metadata: { plan, interval, currency } },
     automatic_tax: env.STRIPE_AUTOMATIC_TAX === "1" ? { enabled: "true" } : undefined,
-  });
+    });
+  } catch (e) {
+    // A real code that Stripe refuses for this plan (product restriction, minimum amount, first-time only…)
+    if (discounts && e.status === 400) return json(400, { ok: false, error: "promo_not_applicable" });
+    throw e;
+  }
   return json(200, { ok: true, url: session.url });
 }
 

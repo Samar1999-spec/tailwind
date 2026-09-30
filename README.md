@@ -41,7 +41,7 @@ Cloudflare Workers can't send email on their own, so there are no email alerts y
 
 ## Payments (Stripe)
 
-Plans: Scholar, Company, Founder — monthly, or annual at 10× monthly (two months free), in the
+Plans: Scholar, Company, Founder — monthly, or annual at 8.5× monthly (10 months less 15%, about 29% off), in the
 currency the visitor picks (USD, EUR, GBP, INR). Amounts live in `PLANS` in `src/payments.js`;
 Stripe products and prices are created automatically on first checkout.
 
@@ -60,6 +60,14 @@ One-time setup:
 ```sql
 SELECT email, plan, interval, currency, status, current_period_end FROM members ORDER BY updated_at DESC;
 ```
+
+### Promo codes
+
+Visitors can type a code in the promo box beside the prices. Create codes in Stripe
+(Product catalogue → Coupons → create a coupon, then add a customer-facing promotion code to it).
+Examples: 100% off for 12 months = a free year; restrict to specific products or first-time
+customers as needed. The site checks the code with Stripe before opening checkout; no code names
+appear anywhere on the site.
 
 ## Collected Works uploads (Institute paper, Section F)
 

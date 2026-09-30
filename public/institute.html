@@ -603,6 +603,9 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);font-weight:700}
 .cur{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);display:inline-flex;gap:8px;align-items:center}
 .cur select{background:var(--surface-2);border:1px solid var(--rule);padding:7px 9px;font-family:var(--mono);font-size:12px;letter-spacing:0}
+.cur input{background:var(--surface-2);border:1px solid var(--rule);padding:7px 9px;width:11rem;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.cur input::placeholder{text-transform:none;letter-spacing:0;color:var(--text-faint)}
+.cur input:focus{outline:none;border-color:var(--accent)}
 .pay-msg{font-family:var(--mono);font-size:11.5px;color:var(--flag);margin-top:14px;min-height:1.2em;text-align:center}
 
 /* which path */
@@ -765,10 +768,13 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
       <div class="plan-controls">
         <div class="seg" role="group" aria-label="Billing period">
           <button type="button" data-interval="month" aria-pressed="true">Monthly</button>
-          <button type="button" data-interval="year" aria-pressed="false">Annual · 2 months free</button>
+          <button type="button" data-interval="year" aria-pressed="false">Annual · <span id="planSave">save 29%</span></button>
         </div>
         <label class="cur">Currency
           <select id="planCurrency"><option value="usd">USD $</option><option value="eur">EUR €</option><option value="gbp">GBP £</option><option value="inr">INR ₹</option></select>
+        </label>
+        <label class="cur">Promo code
+          <input id="planPromo" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="64" placeholder="Optional">
         </label>
       </div>
       <div class="plans" id="plans"></div>
@@ -1487,7 +1493,7 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
         }
         var label = b.textContent, msg = document.getElementById("planMsg");
         b.disabled = true; b.textContent = "Opening checkout…"; msg.textContent = "";
-        MMS.start(t.id, {email: contact.email, roll: window.__roll}).then(function(err){
+        MMS.start(t.id, {email: contact.email, roll: window.__roll, promo: document.getElementById("planPromo").value}).then(function(err){
           if(err){ msg.textContent = err; b.disabled = false; b.textContent = label; }
         });
       });
@@ -1504,6 +1510,7 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
     var curSel = document.getElementById("planCurrency");
     var paintControls = function(){
       curSel.value = MMS.currency;
+      var ps = document.getElementById("planSave"), sv = MMS.annualSaving(); if(ps && sv) ps.textContent = "save "+sv+"%";
       Array.prototype.forEach.call(document.querySelectorAll(".plan-controls .seg button"), function(b){ b.setAttribute("aria-pressed", b.dataset.interval===MMS.interval ? "true" : "false"); });
       if(document.getElementById("plans").children.length) renderPlans();
     };
