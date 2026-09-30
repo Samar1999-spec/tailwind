@@ -9,21 +9,28 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-  :root{--stage:#0a0a0c;--ink:#ece6dd;--ink-dim:#a7a49c;--brown:#c68a4e;--brown-hi:#e2b681;--line:rgba(232,226,218,0.10);
+  :root{--stage:#0a0a0c;--ink:#ece6dd;--ink-dim:#a7a49c;--brown:#c68a4e;--brown-hi:#e2b681;--line:rgba(236,230,221,0.10);
     --f-disp:"Fraunces",Georgia,serif;--f-mono:"IBM Plex Mono",ui-monospace,monospace;color-scheme:dark}
   *{box-sizing:border-box}
   body{margin:0;min-height:100vh;background:var(--stage);color:var(--ink);
     font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;text-align:center;
     background-image:radial-gradient(120% 80% at 50% -10%,rgba(198,138,78,.20),transparent 55%),radial-gradient(90% 60% at 84% 6%,rgba(96,152,222,.16),transparent 60%)}
-  .box{padding:40px 24px;max-width:34rem}
+  .box{position:relative;width:100%;padding:clamp(48px,9vh,88px) 24px;
+    border-top:1px solid #8f5f34;border-bottom:1px solid #8f5f34;background:#0f1016;
+    background-image:radial-gradient(60% 85% at 50% -12%,rgba(198,138,78,0.30),transparent 70%),radial-gradient(40% 90% at 104% 50%,rgba(96,152,222,0.22),transparent 72%)}
+  .box > *{max-width:34rem;margin-inline:auto}
+  h1{font-weight:500;letter-spacing:-0.022em;animation:c-rise 1.2s var(--c-ease) .25s both}
+  .code{animation:c-rise 1.2s var(--c-ease) .05s both}
   svg.mg{width:52px;height:52px;margin-bottom:22px}
   .code{font-family:var(--f-mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--brown)}
   h1{font-family:var(--f-disp);font-weight:600;font-size:clamp(30px,7vw,46px);margin:14px 0 0;line-height:1.05}
   p{color:var(--ink-dim);margin:16px auto 0;max-width:44ch;line-height:1.6}
-  a.home{display:inline-flex;margin-top:28px;font-family:var(--f-mono);font-size:14px;font-weight:600;
+  a.home{display:inline-flex;align-items:center;min-height:48px;transition:background-color .45s ease;margin-top:28px;font-family:var(--f-mono);font-size:14px;font-weight:600;
     padding:13px 22px;border-radius:10px;background:var(--brown);color:var(--stage);text-decoration:none}
   a.home:hover{background:var(--brown-hi)}
+  .box h1{font-weight:500}
 </style>
+<link rel="stylesheet" href="/cinema.css">
 <div class="box">
   <svg class="mg" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5" fill="none" stroke="#c68a4e" stroke-width="1.4"/><path d="M11 27V14l5 8 4-8 4 8 5-8v13" fill="none" stroke="#c68a4e" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></svg>
   <div class="code">Error 404 · off script</div>

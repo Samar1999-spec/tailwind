@@ -1,0 +1,43 @@
+/* Method Machine Studio — shared cinematic layer for every page.
+   Palette (exact): stage #0a0a0c / #0f1016 · panels #14151c / #1b1d26 · ink #ece6dd / #a7a49c / #6f6b63
+   bronze #c68a4e / #e2b681 / #8f5f34 · steel blue #6098de / #a3c3ef / #3f66aa
+   hairlines 10% ink · bronze lines 28% bronze · blue lines 32% blue. */
+:root{
+  --c-stage:#0a0a0c; --c-stage-2:#0f1016; --c-panel:#14151c; --c-panel-2:#1b1d26;
+  --c-ink:#ece6dd; --c-ink-dim:#a7a49c; --c-ink-faint:#6f6b63;
+  --c-bronze:#c68a4e; --c-bronze-hi:#e2b681; --c-bronze-deep:#8f5f34;
+  --c-blue:#6098de; --c-blue-hi:#a3c3ef; --c-blue-deep:#3f66aa;
+  --c-line:rgba(236,230,221,0.10); --c-line-bronze:rgba(198,138,78,0.28); --c-line-blue:rgba(96,152,222,0.32);
+  --c-highlight:inset 0 1px 0 rgba(236,230,221,0.06);
+  --c-shadow:0 24px 48px -32px rgba(10,10,12,0.9);
+  --c-ease:cubic-bezier(.2,.6,.2,1);
+  --c-disp:"Fraunces",Georgia,serif; --c-body:"IBM Plex Sans",system-ui,sans-serif; --c-mono:"IBM Plex Mono",ui-monospace,monospace;
+  color-scheme:dark;
+}
+html{overflow-x:clip}
+body{background-color:var(--c-stage)}
+
+/* film grain (ink-tinted noise) and edge vignette over the whole page */
+body::before{content:""; position:fixed; inset:-50%; z-index:90; pointer-events:none; opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.925 0 0 0 0 0.902 0 0 0 0 0.867 0 0 0 1.4 -0.35'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  animation:c-grain 1.2s steps(6) infinite}
+body::after{content:""; position:fixed; inset:0; z-index:89; pointer-events:none;
+  background:radial-gradient(ellipse 120% 100% at 50% 45%, transparent 58%, rgba(10,10,12,0.62) 100%)}
+@keyframes c-grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+
+::selection{background:var(--c-line-bronze); color:var(--c-ink)}
+:focus-visible{outline:2px solid var(--c-bronze); outline-offset:3px; border-radius:4px}
+
+/* title-card motion, used once on load */
+@keyframes c-rise{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+@keyframes c-draw{from{opacity:0; transform:scaleX(0)} to{opacity:1; transform:scaleX(1)}}
+
+/* scenes enter once: fade + a few pixels of rise (never used on forms, prices or links) */
+.js .reveal{opacity:0; transform:translateY(8px); transition:opacity 1s var(--c-ease), transform 1s var(--c-ease)}
+.js .reveal.in{opacity:1; transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important; transition:none!important}
+  html{scroll-behavior:auto!important}
+  .js .reveal{opacity:1; transform:none}
+}

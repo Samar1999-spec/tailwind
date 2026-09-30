@@ -10,13 +10,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
 <style>
-  :root{--stage:#0a0a0c;--panel:#14151c;--ink:#ece6dd;--ink-dim:#a7a49c;--ink-faint:#6f6b63;--line:rgba(232,226,218,0.10);--line-brown:rgba(198,138,78,0.28);
-    --brown:#c68a4e;--brown-hi:#e2b681;--blue:#6098de;--blue-hi:#a3c3ef;--flag:#d2796a;
+  :root{--stage:#0a0a0c;--panel:#14151c;--ink:#ece6dd;--ink-dim:#a7a49c;--ink-faint:#6f6b63;--line:rgba(236,230,221,0.10);--line-brown:rgba(198,138,78,0.28);
+    --brown:#c68a4e;--brown-hi:#e2b681;--blue:#6098de;--blue-hi:#a3c3ef;--flag:#e2b681;
     --f-disp:"Fraunces",Georgia,serif;--f-body:"IBM Plex Sans",system-ui,sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,monospace;color-scheme:dark}
   *{box-sizing:border-box}
   body{margin:0;min-height:100vh;background:var(--stage);color:var(--ink);font-family:var(--f-body);line-height:1.6;display:flex;align-items:center;justify-content:center;padding:32px 16px;
     background-image:radial-gradient(120% 80% at 50% -10%,rgba(198,138,78,.20),transparent 55%),radial-gradient(90% 60% at 84% 6%,rgba(96,152,222,.16),transparent 60%)}
-  .card{max-width:34rem;width:100%;background:var(--panel);border:1px solid var(--line-brown);border-radius:16px;padding:40px 28px;text-align:center}
+  .card{position:relative;max-width:36rem;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:44px 28px;text-align:center;
+    box-shadow:inset 0 1px 0 rgba(236,230,221,0.06),0 30px 60px -34px rgba(10,10,12,0.95);
+    background-image:radial-gradient(80% 60% at 50% -10%,rgba(198,138,78,0.14),transparent 70%)}
+  .card::before,.card::after{content:"";position:absolute;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,#8f5f34,transparent)}
+  .card::before{top:-1px} .card::after{bottom:-1px}
+  h1{font-weight:500;letter-spacing:-0.022em;animation:c-rise 1.2s var(--c-ease) .2s both}
+  .k{animation:c-rise 1.2s var(--c-ease) .05s both}
+  .btn{min-height:48px;display:inline-flex;align-items:center;justify-content:center;transition:background-color .45s ease,border-color .45s ease}
   svg.mg{width:52px;height:52px;margin-bottom:18px}
   .k{font-family:var(--f-mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--brown)}
   h1{font-family:var(--f-disp);font-weight:600;font-size:clamp(28px,6vw,40px);margin:12px 0 0;line-height:1.1}
@@ -28,6 +35,7 @@
   .fine{font-size:12.5px;color:var(--ink-faint);margin-top:22px}
   .err{color:var(--flag)}
 </style>
+<link rel="stylesheet" href="/cinema.css">
 <div class="card">
   <svg class="mg" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5" fill="none" stroke="#c68a4e" stroke-width="1.4"/><path d="M11 27V14l5 8 4-8 4 8 5-8v13" fill="none" stroke="#c68a4e" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></svg>
   <div class="k" id="k">Confirming your membership</div>

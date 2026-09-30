@@ -5,88 +5,46 @@
 <title>The Method Institute — Method Machine Studio</title>
 <meta name="description" content="Sit Entrance Paper I and receive your Method Dossier: the eleven elements of the Method Prompt Framework, filled in about you.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#0D0F13">
+<meta name="theme-color" content="#0a0a0c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Spectral:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 
 <style>
 :root{
-  color-scheme: light;
-  --bg:#D6D5CE;
-  --bg-deep:#C7C6BD;
-  --surface:#FBF9F3;
-  --surface-2:#F1EDE3;
-  --surface-3:#E7E2D5;
-  --text:#1A1C21;
-  --text-dim:#6A6354;
-  --text-faint:#8B8475;
-  --rule:#D9D2C0;
-  --rule-strong:#B5AB93;
-  --accent:#8A6B21;
-  --accent-bright:#A9852C;
-  --accent-soft:#EFE5C9;
-  --on-accent:#FCF9F0;
-  --good:#3C7A51;
-  --flag:#8E3B2E;
-  --shadow-sheet:0 1px 1px rgba(26,28,33,.05), 0 18px 44px -18px rgba(26,28,33,.30);
-  --shadow-card:0 1px 2px rgba(26,28,33,.05);
-
-  --display:"Instrument Serif", "Iowan Old Style", Georgia, serif;
-  --body:"Spectral", Georgia, "Times New Roman", serif;
-  --mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    color-scheme: dark;
-    --bg:#0D0F13;
-    --bg-deep:#07080A;
-    --surface:#171A1F;
-    --surface-2:#1E222A;
-    --surface-3:#262B34;
-    --text:#ECE7DB;
-    --text-dim:#9B937F;
-    --text-faint:#7B7465;
-    --rule:#2A2E37;
-    --rule-strong:#3D434E;
-    --accent:#C9A24B;
-    --accent-bright:#E0BC68;
-    --accent-soft:#2B2517;
-    --on-accent:#12100A;
-    --good:#6FBE87;
-    --flag:#D2796A;
-    --shadow-sheet:0 1px 1px rgba(0,0,0,.5), 0 24px 60px -20px rgba(0,0,0,.75);
-    --shadow-card:0 1px 2px rgba(0,0,0,.4);
-  }
-}
-:root[data-theme="dark"]{
   color-scheme: dark;
-  --bg:#0D0F13;
-  --bg-deep:#07080A;
-  --surface:#171A1F;
-  --surface-2:#1E222A;
-  --surface-3:#262B34;
-  --text:#ECE7DB;
-  --text-dim:#9B937F;
-  --text-faint:#7B7465;
-  --rule:#2A2E37;
-  --rule-strong:#3D434E;
-  --accent:#C9A24B;
-  --accent-bright:#E0BC68;
-  --accent-soft:#2B2517;
-  --on-accent:#12100A;
-  --good:#6FBE87;
-  --flag:#D2796A;
-  --shadow-sheet:0 1px 1px rgba(0,0,0,.5), 0 24px 60px -20px rgba(0,0,0,.75);
-  --shadow-card:0 1px 2px rgba(0,0,0,.4);
-}
+  /* cinematic palette: stage, panels, ink, bronze, steel blue */
+  --bg:#0a0a0c;
+  --bg-deep:#0f1016;
+  --surface:#14151c;
+  --surface-2:#1b1d26;
+  --surface-3:#1b1d26;
+  --text:#ece6dd;
+  --text-dim:#a7a49c;
+  --text-faint:#6f6b63;
+  --rule:rgba(236,230,221,0.10);
+  --rule-strong:rgba(198,138,78,0.28);
+  --accent:#c68a4e;
+  --accent-bright:#e2b681;
+  --accent-soft:rgba(198,138,78,0.12);
+  --on-accent:#0a0a0c;
+  --good:#a3c3ef;
+  --flag:#e2b681;
+  --shadow-sheet:inset 0 1px 0 rgba(236,230,221,0.06), 0 30px 60px -34px rgba(10,10,12,0.95);
+  --shadow-card:inset 0 1px 0 rgba(236,230,221,0.06), 0 24px 48px -32px rgba(10,10,12,0.9);
 
+  --display:"Fraunces", Georgia, serif;
+  --body:"IBM Plex Sans", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, monospace;
+}
 *{box-sizing:border-box}
 [hidden]{display:none !important}
 body{
   margin:0;
   background:var(--bg);
-  background-image:radial-gradient(120% 70% at 50% -10%, var(--surface-3) 0%, var(--bg) 46%, var(--bg-deep) 100%);
+  background-image:
+    radial-gradient(70% 50% at 50% -8%, rgba(198,138,78,0.18), transparent 62%),
+    radial-gradient(40% 60% at 104% 30%, rgba(96,152,222,0.14), transparent 70%);
   background-attachment:fixed;
   color:var(--text);
   font-family:var(--body);
@@ -611,7 +569,7 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
 /* which path */
 .pathnote{padding:14px 26px;background:var(--accent-soft);border-bottom:1px solid var(--rule);font-size:13.5px;color:var(--text)}
 .pathnote b{font-weight:600}
-.pathnote a{color:var(--accent);font-weight:500}
+.pathnote a{color:var(--accent);font-weight:500;padding:14px 0}
 
 /* contact + studio link */
 .contact{display:grid;gap:0 16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-bottom:6px}
@@ -628,7 +586,44 @@ textarea:focus{outline:none;border-bottom-color:var(--accent)}
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important;transition-duration:.001ms !important}
 }
+
+/* ── cinematic treatment ── */
+body{line-height:1.65}
+h1,h2,h3,h4{font-weight:500; letter-spacing:-0.018em; font-optical-sizing:auto}
+.strip{background:rgba(10,10,12,0.82); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px)}
+.mark{letter-spacing:.24em}
+.sheet{border-radius:13px; overflow:hidden; border-color:var(--rule)}
+.sheet-head{border-bottom:1px solid var(--accent); background:
+  radial-gradient(70% 120% at 50% -30%, rgba(198,138,78,0.20), transparent 70%),
+  radial-gradient(40% 120% at 106% 50%, rgba(96,152,222,0.14), transparent 70%)}
+.sheet-head h1{font-weight:500; letter-spacing:-0.024em; font-variation-settings:"opsz" 144; animation:c-rise 1.2s var(--c-ease) .2s both}
+.sheet-head .crest{animation:c-rise 1.2s var(--c-ease) .05s both}
+.sheet-head .paper-no{animation:c-rise 1.2s var(--c-ease) .9s both}
+.pathnote{background:rgba(198,138,78,0.08)}
+.sect-bar{border-bottom-color:var(--rule-strong)}
+.sect-bar h2{font-size:26px}
+.q{border-bottom-color:var(--rule)}
+.opt,.room,.dept,.wing,.plan,.card,.loop-node,.loop-detail,.agent,.money,.dossier,.candidate,.locked,.standard,.works-files li{border-radius:13px}
+.opt{border-radius:10px}
+.dept,.wing,.plan,.room,.card,.candidate{box-shadow:var(--shadow-card)}
+.btn,.plan-btn,.works-pick{border-radius:10px; min-height:48px; display:inline-flex; align-items:center; justify-content:center; transition:background-color .45s ease, border-color .45s ease, color .45s ease, opacity .2s}
+.btn:hover:not(:disabled){opacity:1; background:var(--accent-bright); border-color:var(--accent-bright)}
+.btn.ghost:hover{background:var(--accent-soft); border-color:var(--accent)}
+.plan-btn{min-height:44px; width:100%}
+.tab{min-height:44px}
+.chip,.seg button,.cur select,.cur input,.works-rm,.home-link{min-height:44px}
+.home-link{display:inline-flex; align-items:center}
+.works-rm{display:inline-flex; align-items:center}
+.seg{border-radius:10px; overflow:hidden}
+.field input[type=text],.field input[type=email],.field select,.works-link,textarea{border-radius:0}
+.field input[type=text],.field input[type=email],.field select,.works-link{border-radius:9px; min-height:44px}
+#assessing{background:var(--bg)}
+.assess-in h2{font-weight:500}
+.inst-head{background:var(--surface-2); background-image:radial-gradient(70% 140% at 50% -40%, rgba(198,138,78,0.18), transparent 70%); border-bottom:1px solid var(--accent)}
+.inst-head h1{font-weight:500; letter-spacing:-0.024em}
+.pill.good{border-color:var(--good); color:var(--good)}
 </style>
+<link rel="stylesheet" href="/cinema.css">
 
 <div class="strip">
   <div class="strip-in">
