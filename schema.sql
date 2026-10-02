@@ -10,3 +10,5 @@ CREATE TABLE IF NOT EXISTS members (subscription_id TEXT PRIMARY KEY, customer_i
 CREATE INDEX IF NOT EXISTS members_email ON members (email);
 CREATE INDEX IF NOT EXISTS waitlist_ip_time ON waitlist (ip, submitted_at);
 CREATE INDEX IF NOT EXISTS applications_ip_time ON applications (ip, submitted_at);
+CREATE TABLE IF NOT EXISTS studio_members (id TEXT PRIMARY KEY, name TEXT NOT NULL, plan TEXT NOT NULL, track TEXT, direction TEXT, holder TEXT, handoff TEXT, packet TEXT, group_name TEXT, discord TEXT, skool TEXT, updated_at TEXT);
+CREATE TABLE IF NOT EXISTS connection_ledger (id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL, member_id TEXT NOT NULL, site TEXT NOT NULL, plan TEXT NOT NULL);

@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The company — Method Machine Studio</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a0a0c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+  :root{
+    --stage:#0a0a0c; --panel:#14151c; --panel-2:#1b1d26; --ink:#ece6dd; --ink-dim:#a7a49c; --ink-faint:#6f6b63;
+    --copper:#c68a4e; --copper-hi:#e2b681; --blue:#6098de; --blue-hi:#a3c3ef;
+    --line:rgba(236,230,221,.10); --line-copper:rgba(198,138,78,.28); --line-blue:rgba(96,152,222,.32);
+    --f-disp:"Fraunces",Georgia,serif; --f-body:"IBM Plex Sans",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--stage); color:var(--ink); font-family:var(--f-body); font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased}
+  h1,h2,h3{margin:0; font-family:var(--f-disp); font-weight:500; letter-spacing:-.02em; line-height:1.1}
+  p{margin:0}
+  a{color:var(--blue-hi)}
+  button,input,select{font:inherit; color:inherit}
+  :focus-visible{outline:2px solid var(--blue); outline-offset:2px}
+  .lbl{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint)}
+  .wrap{max-width:1080px; margin-inline:auto; padding-inline:clamp(16px,4vw,40px)}
+
+  /* top bar */
+  .top{position:sticky; top:0; z-index:20; background:rgba(10,10,12,.86); backdrop-filter:blur(14px); border-bottom:1px solid var(--line)}
+  .top .wrap{display:flex; align-items:center; gap:12px; flex-wrap:wrap; min-height:64px; padding-block:10px}
+  .brand{display:flex; align-items:center; gap:10px; color:var(--ink); text-decoration:none; min-height:44px; margin-right:auto}
+  .brand svg{width:26px; height:26px}
+  .brand b{font-family:var(--f-disp); font-weight:500; font-size:15px}
+  .pill{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; border:1px solid var(--line); border-radius:999px; padding:6px 12px; color:var(--ink)}
+  .pill.plan{border-color:var(--line-copper); color:var(--copper-hi)}
+  .pill.ver{border-color:var(--line-blue); color:var(--blue-hi)}
+  .pill.found{background:var(--copper); border-color:var(--copper); color:var(--stage)}
+
+  .fixture{border-bottom:1px solid var(--line); background:var(--panel)}
+  .fixture .wrap{display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding-block:8px}
+  select,input[type=text],input[type=url],input[type=email]{background:var(--stage); border:1px solid var(--line); border-radius:8px; min-height:44px; padding:10px 12px; color:var(--ink)}
+  select:focus,input:focus{outline:none; border-color:var(--copper)}
+
+  /* rooms */
+  .rooms{display:flex; gap:4px; flex-wrap:wrap; margin:22px 0 26px; border-bottom:1px solid var(--line)}
+  .rooms a{display:inline-flex; align-items:center; gap:8px; min-height:48px; padding:0 16px; color:var(--ink-dim); text-decoration:none; font-family:var(--f-mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; border-bottom:2px solid transparent; margin-bottom:-1px}
+  .rooms a[aria-current="page"]{color:var(--ink); border-bottom-color:var(--copper)}
+  .rooms a .lk{color:var(--ink-faint); font-size:10px; letter-spacing:.1em}
+  main{padding-bottom:80px}
+  section[hidden]{display:none}
+
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:22px}
+  .card + .card{margin-top:16px}
+  .card h2{font-size:24px}
+  .card h3{font-size:18px}
+  .head{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:14px}
+  .note{color:var(--ink-dim); font-size:14px}
+  .locked-line{font-family:var(--f-mono); font-size:12px; letter-spacing:.06em; color:var(--ink-faint); border:1px dashed var(--line); border-radius:10px; padding:14px 16px}
+
+  .btn{display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:10px 18px; border-radius:9px; border:1px solid var(--line-blue); background:transparent; color:var(--ink); font-family:var(--f-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; cursor:pointer; text-decoration:none}
+  .btn:hover{background:rgba(96,152,222,.10)}
+  .btn.go{background:var(--copper); border-color:var(--copper); color:var(--stage)}
+  .btn.go:hover{background:var(--copper-hi)}
+  .btn:disabled{opacity:.45; cursor:not-allowed; background:transparent; color:var(--ink-dim); border-color:var(--line)}
+  .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  .row input[type=text]{flex:1; min-width:220px}
+
+  /* direction + handoff */
+  .holding{margin-top:12px; color:var(--ink-dim); font-size:14px}
+  .holding b{color:var(--ink); font-weight:500}
+  .beats{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+  .beat{border:1px solid var(--line); border-radius:10px; padding:14px; background:var(--stage)}
+  .beat.on{border-color:var(--copper); box-shadow:0 0 0 1px var(--copper) inset}
+  .beat .who{font-family:var(--f-disp); font-size:19px; margin-top:6px}
+  .beat select{width:100%; margin-top:8px}
+
+  /* cast + tracks */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px}
+  .chair{border:1px solid var(--line); border-radius:10px; padding:14px; background:var(--stage); min-height:84px}
+  .chair .who{font-family:var(--f-disp); font-size:18px}
+  .chair .st{font-family:var(--f-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; margin-top:8px; color:var(--blue-hi)}
+  .chair.off{border-style:dashed}
+  .chair.off .who{color:var(--ink-faint)}
+  .chair.off .st{color:var(--ink-faint)}
+  .facts{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px}
+  .facts div{border-top:1px solid var(--line); padding-top:10px}
+  .facts b{display:block; font-weight:500; margin-top:4px}
+
+  /* connections */
+  .group-name{margin:22px 0 8px}
+  .site{display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center; border-top:1px solid var(--line); padding:14px 0}
+  .site .nm{font-family:var(--f-disp); font-size:18px}
+  .site .ln{color:var(--ink-dim); font-size:14px}
+  .site .st{font-family:var(--f-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); margin-top:4px}
+  .site .st.saved{text-transform:none; letter-spacing:.02em; font-size:12px; color:var(--blue-hi); overflow-wrap:anywhere}
+  .packet{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px}
+  .packet label{display:flex; flex-direction:column; gap:6px}
+  .packet .wide{grid-column:1 / -1}
+  .review{border-color:var(--line-copper)}
+  .review dl{display:grid; grid-template-columns:max-content 1fr; gap:6px 16px; margin:16px 0}
+  .review dt{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-faint); padding-top:3px}
+  .review dd{margin:0; overflow-wrap:anywhere}
+  .warn{border-left:2px solid var(--copper); padding:10px 14px; background:rgba(198,138,78,.07); margin-top:12px}
+  .msg{font-family:var(--f-mono); font-size:12px; color:var(--copper-hi); min-height:1.2em; margin-top:10px}
+
+  @media (max-width:640px){
+    .beats{grid-template-columns:1fr}
+    .site{grid-template-columns:1fr}
+    .review dl{grid-template-columns:1fr}
+  }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5" fill="none" stroke="#c68a4e" stroke-width="1.4"/><path d="M11 27V14l5 8 4-8 4 8 5-8v13" fill="none" stroke="#c68a4e" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></svg><b>Method Machine Studio</b></a>
+    <span class="pill plan" id="planPill">—</span>
+    <span class="pill ver" id="verPill" hidden>Verified</span>
+    <span class="pill found" id="foundPill" hidden>Founding</span>
+  </div>
+</header>
+<div class="fixture">
+  <div class="wrap">
+    <label class="lbl" for="fixture">Fixture member</label>
+    <select id="fixture"></select>
+  </div>
+</div>
+
+<main class="wrap">
+  <nav class="rooms" aria-label="Rooms">
+    <a href="#company" data-room="company">The company</a>
+    <a href="#connections" data-room="connections">Connections</a>
+    <a href="#business" data-room="business">Business <span class="lk" id="bizLock"></span></a>
+    <a href="#group" data-room="group">Your group <span class="lk" id="grpLock"></span></a>
+  </nav>
+
+  <section id="room-company"></section>
+  <section id="room-connections" hidden></section>
+  <section id="room-business" hidden></section>
+  <section id="room-group" hidden></section>
+  <p class="msg" id="msg" role="status" aria-live="polite"></p>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(id){return document.getElementById(id)};
+  var S=null, review=null;
+  var memberId=new URLSearchParams(location.search).get("member")||"fx-audition";
+
+  /* tiny DOM builder: text is always set as textContent */
+  function h(tag, attrs, kids){
+    var el=document.createElement(tag);
+    for(var k in (attrs||{})){
+      var v=attrs[k]; if(v==null||v===false) continue;
+      if(k==="text") el.textContent=v;
+      else if(k.slice(0,2)==="on") el.addEventListener(k.slice(2),v);
+      else el.setAttribute(k, v===true?"":v);
+    }
+    (kids||[]).forEach(function(c){ if(c!=null) el.appendChild(typeof c==="string"?document.createTextNode(c):c); });
+    return el;
+  }
+  function say(t){ $("msg").textContent=t||""; }
+  function castName(id){ var c=(S.cast||[]).filter(function(x){return x.id===id})[0]; return c?c.name:id; }
+  function trackName(id){ var t=(S.tracks||[]).filter(function(x){return x.id===id})[0]; return t?t.name:"—"; }
+
+  function api(path, data){
+    data.member=memberId; say("");
+    return fetch(path,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(data)})
+      .then(function(r){return r.json()})
+      .then(function(j){
+        if(j&&j.ok){ S=j; render(); return true; }
+        var why={plan_locked:"That opens on "+(j&&j.opens)+".",cast_locked:"That method opens on Performer.",track_locked:"That track is not open on your plan.",incomplete_packet:"Fill every packet field. The work link must start with https://.",bad_link:"Paste the https link from that site.",empty_direction:"Write the direction first.",empty_name:"Name the group first."};
+        say(why[j&&j.error]||"That didn't save. Try again."); return false;
+      })
+      .catch(function(){ say("We couldn't reach the server."); return false; });
+  }
+
+  /* ---------- the company ---------- */
+  function renderCompany(){
+    var root=$("room-company"); root.textContent="";
+    var d=S.direction;
+    var openCast=S.cast.filter(function(c){return c.open});
+    var line=h("input",{type:"text",id:"dirLine",value:d.line,maxlength:"280","aria-label":"Today's direction"});
+    var holder=h("select",{id:"dirHolder","aria-label":"Who is holding it"},openCast.map(function(c){return h("option",{value:c.id,selected:c.id===d.holder,text:c.name})}));
+    root.appendChild(h("div",{class:"card"},[
+      h("div",{class:"head"},[h("h2",{text:"Today's direction"}),h("span",{class:"lbl",text:S.member.name})]),
+      h("div",{class:"row"},[line,holder,h("button",{class:"btn go",type:"button",text:"Direct",onclick:function(){ api("/api/company/direction",{line:$("dirLine").value,holder:$("dirHolder").value}); }})]),
+      h("p",{class:"holding"},["Held by ",h("b",{text:castName(d.holder)})])
+    ]));
+
+    /* handoff strip */
+    var hc=h("div",{class:"card"},[h("div",{class:"head"},[h("h2",{text:"Handoff"}),h("span",{class:"lbl",text:"Who started · who has it · who is next"})])]);
+    if(!S.handoff.open){
+      hc.appendChild(h("p",{class:"locked-line",text:S.handoff.line}));
+    } else {
+      var ho=d.handoff||{started:"director",has:"",next:""};
+      var methods=S.cast.filter(function(c){return c.id!=="director"});
+      function pick(id,val){ return h("select",{id:id,"aria-label":id==="hoHas"?"Who has it":"Who is next"},[h("option",{value:"",text:"Choose a method"})].concat(methods.map(function(c){return h("option",{value:c.id,selected:c.id===val,text:c.name})}))); }
+      hc.appendChild(h("div",{class:"beats"},[
+        h("div",{class:"beat"},[h("span",{class:"lbl",text:"Started"}),h("div",{class:"who",text:"Director"})]),
+        h("div",{class:"beat on"},[h("span",{class:"lbl",text:"Has it"}),pick("hoHas",ho.has)]),
+        h("div",{class:"beat"},[h("span",{class:"lbl",text:"Next"}),pick("hoNext",ho.next)])
+      ]));
+      hc.appendChild(h("div",{class:"row",style:"margin-top:14px"},[h("button",{class:"btn",type:"button",text:"Save to today's direction",onclick:function(){ api("/api/company/handoff",{has:$("hoHas").value,next:$("hoNext").value}); }})]));
+    }
+    root.appendChild(hc);
+
+    /* cast */
+    root.appendChild(h("div",{class:"card"},[
+      h("div",{class:"head"},[h("h2",{text:"The cast"})]),
+      h("div",{class:"grid"},S.cast.map(function(c){
+        return h("div",{class:"chair"+(c.open?"":" off")},[h("div",{class:"who",text:c.name}),h("div",{class:"st",text:c.open?"In the company":"Locked · "+c.opens})]);
+      }))
+    ]));
+
+    /* tracks */
+    root.appendChild(h("div",{class:"card"},[
+      h("div",{class:"head"},[h("h2",{text:"Tracks"})]),
+      h("div",{class:"grid"},S.tracks.map(function(t){
+        return h("div",{class:"chair"+(t.open?"":" off")},[h("div",{class:"who",text:t.name}),h("div",{class:"st",text:t.open?"Library open":"Locked · "+t.opens})]);
+      }))
+    ]));
+
+    root.appendChild(h("div",{class:"card"},[h("div",{class:"facts"},[
+      h("div",{},[h("span",{class:"lbl",text:"Community"}),h("b",{text:S.plan.community})]),
+      h("div",{},[h("span",{class:"lbl",text:"Variable packs"}),h("b",{text:S.plan.packs?"Both":"Locked · Company"})]),
+      h("div",{},[h("span",{class:"lbl",text:"Registry"}),h("b",{text:S.plan.verified?"Verified listing":"Locked · Company"})])
+    ])]));
+  }
+
+  /* ---------- connections ---------- */
+  function renderConnections(){
+    var root=$("room-connections"); root.textContent=""; var C=S.connections;
+    if(review){ root.appendChild(reviewCard(review)); return; }
+
+    var pc=h("div",{class:"card"},[h("div",{class:"head"},[h("h2",{text:"Your packet"}),h("span",{class:"lbl",text:"Your own material, nothing else"})])]);
+    if(!C.canPrepare){ pc.appendChild(h("p",{class:"locked-line",text:C.locked})); }
+    else {
+      var p=C.packet||{};
+      var openTracks=S.tracks.filter(function(t){return t.open});
+      pc.appendChild(h("div",{class:"packet"},[
+        h("label",{},[h("span",{class:"lbl",text:"Name"}),h("input",{type:"text",id:"pkName",value:p.name||S.member.name,maxlength:"120"})]),
+        h("label",{},[h("span",{class:"lbl",text:"Contact"}),h("input",{type:"text",id:"pkContact",value:p.contact||"",maxlength:"160",placeholder:"Email or phone"})]),
+        h("label",{},[h("span",{class:"lbl",text:"One work URL"}),h("input",{type:"url",id:"pkWork",value:p.work||"",placeholder:"https://"})]),
+        h("label",{},[h("span",{class:"lbl",text:"Track"}),h("select",{id:"pkTrack"},openTracks.map(function(t){return h("option",{value:t.id,selected:t.id===(p.track||S.member.track),text:t.name})}))]),
+        h("label",{class:"wide"},[h("span",{class:"lbl",text:"Direction note"}),h("input",{type:"text",id:"pkNote",value:p.note||"",maxlength:"400"})])
+      ]));
+      pc.appendChild(h("div",{class:"row",style:"margin-top:14px"},[h("button",{class:"btn",type:"button",text:C.packet?"Update packet":"Save packet",onclick:function(){
+        api("/api/company/packet",{name:$("pkName").value,contact:$("pkContact").value,work:$("pkWork").value,track:$("pkTrack").value,note:$("pkNote").value});
+      }})]));
+    }
+    root.appendChild(pc);
+
+    var list=h("div",{class:"card"},[h("div",{class:"head"},[h("h2",{text:"Connections"})])]);
+    ["School","Tutoring","Work"].forEach(function(g){
+      list.appendChild(h("h3",{class:"group-name lbl",text:g}));
+      C.sites.filter(function(s){return s.group===g}).forEach(function(s){
+        list.appendChild(h("div",{class:"site"},[
+          h("div",{},[h("div",{class:"nm",text:s.name}),h("p",{class:"ln",text:s.line}),h("div",{class:"st",text:s.open?"Open":"Locked · "+s.opens})]),
+          h("button",{class:"btn",type:"button",text:"Review",onclick:function(){ review=s; say(""); renderConnections(); window.scrollTo(0,0); }})
+        ]));
+      });
+    });
+    root.appendChild(list);
+  }
+
+  function reviewCard(s){
+    var C=S.connections, p=C.packet;
+    var card=h("div",{class:"card review"},[
+      h("span",{class:"lbl",text:"Review · "+s.group}),
+      h("h2",{style:"margin-top:8px",text:s.name}),
+      h("p",{class:"note",style:"margin-top:6px",text:s.line})
+    ]);
+    if(p){
+      card.appendChild(h("dl",{},[
+        h("dt",{text:"Name"}),h("dd",{text:p.name}),
+        h("dt",{text:"Contact"}),h("dd",{text:p.contact}),
+        h("dt",{text:"Work"}),h("dd",{text:p.work}),
+        h("dt",{text:"Track"}),h("dd",{text:trackName(p.track)}),
+        h("dt",{text:"Note"}),h("dd",{text:p.note})
+      ]));
+    } else {
+      card.appendChild(h("p",{class:"note",style:"margin-top:16px",text:C.canPrepare?"No packet saved yet. Save your packet before opening a site.":"No packet."}));
+    }
+    card.appendChild(h("p",{class:"warn",text:s.must}));
+    if(!C.canPrepare) card.appendChild(h("p",{class:"locked-line",style:"margin-top:12px",text:C.locked}));
+
+    var canOpen=C.canPrepare && !!p;
+    /* a real form post: the server checks the plan, writes the ledger line, then redirects this new tab to the official site */
+    var form=h("form",{method:"post",action:"/api/company/open",target:"_blank",rel:"noopener"},[
+      h("input",{type:"hidden",name:"member",value:memberId}),
+      h("input",{type:"hidden",name:"site",value:s.id}),
+      h("button",{class:"btn go",type:"submit",disabled:!canOpen,text:"Open the site"})
+    ]);
+    form.addEventListener("submit",function(){ say("Opened "+s.name+" in a new tab."); });
+    card.appendChild(h("div",{class:"row",style:"margin-top:18px"},[form,h("button",{class:"btn",type:"button",text:"Not now",onclick:function(){ review=null; renderConnections(); }})]));
+    return card;
+  }
+
+  /* ---------- business + group ---------- */
+  function renderBusiness(){
+    var root=$("room-business"); root.textContent=""; var B=S.business;
+    root.appendChild(B.open
+      ? h("div",{class:"card"},[h("h2",{text:B.title}),h("p",{class:"note",style:"margin-top:10px",text:B.body})])
+      : h("div",{class:"card"},[h("h2",{text:"Business"}),h("p",{class:"locked-line",style:"margin-top:12px",text:B.line})]));
+  }
+  function renderGroup(){
+    var root=$("room-group"); root.textContent=""; var G=S.group;
+    if(!G.open){
+      root.appendChild(h("div",{class:"card"},[h("h2",{text:"Your group"}),h("p",{class:"locked-line",style:"margin-top:12px",text:G.line})]));
+      root.appendChild(h("div",{class:"card"},G.rows.map(function(r){
+        return h("div",{class:"site"},[h("div",{},[h("div",{class:"nm",text:r.name}),h("p",{class:"ln",text:r.line})]),h("span",{class:"lbl",text:"Locked · All-Access"})]);
+      })));
+      return;
+    }
+    root.appendChild(h("div",{class:"card"},[
+      h("h2",{text:"Your group"}),
+      h("div",{class:"row",style:"margin-top:14px"},[h("input",{type:"text",id:"grpName",value:G.name,maxlength:"80",placeholder:"Name the group","aria-label":"Group name"}),
+        h("button",{class:"btn go",type:"button",text:"Host",onclick:function(){ api("/api/company/group",{name:$("grpName").value}); }})]),
+      h("p",{class:"lbl",style:"margin-top:18px",text:"Members"}),
+      h("p",{class:"note",style:"margin-top:6px",text:"No members yet."})
+    ]));
+    root.appendChild(h("div",{class:"card"},[h("div",{class:"head"},[h("h2",{text:"Build rows"}),h("span",{class:"lbl",text:"You build it. Paste the link."})])].concat(G.rows.map(function(r){
+      var inp=h("input",{type:"url",id:"ln-"+r.id,value:r.saved||"",placeholder:"https://","aria-label":r.name+" link"});
+      return h("div",{class:"site"},[
+        h("div",{},[h("div",{class:"nm",text:r.name}),h("p",{class:"ln",text:r.line}),h("div",{class:"st saved",text:r.saved||"No link yet"}),h("a",{href:r.url,target:"_blank",rel:"noopener",class:"ln",text:r.url})]),
+        h("div",{class:"row"},[inp,h("button",{class:"btn",type:"button",text:"Save link",onclick:function(){ api("/api/company/link",{kind:r.id,url:$("ln-"+r.id).value}); }})])
+      ]);
+    }))));
+  }
+
+  /* ---------- shell ---------- */
+  function room(){ var r=(location.hash||"#company").slice(1); return ["company","connections","business","group"].indexOf(r)>=0?r:"company"; }
+  function render(){
+    if(!S) return;
+    $("planPill").textContent=S.plan.name;
+    $("verPill").hidden=!S.plan.verified;
+    $("foundPill").hidden=!S.plan.founding;
+    $("bizLock").textContent=S.business.open?"":"· All-Access";
+    $("grpLock").textContent=S.group.open?"":"· All-Access";
+    var r=room();
+    document.querySelectorAll(".rooms a").forEach(function(a){ if(a.dataset.room===r) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+    ["company","connections","business","group"].forEach(function(k){ $("room-"+k).hidden=(k!==r); });
+    renderCompany(); renderConnections(); renderBusiness(); renderGroup();
+  }
+  window.addEventListener("hashchange",function(){ review=null; say(""); render(); });
+
+  fetch("/api/company").then(function(r){return r.json()}).then(function(j){
+    var sel=$("fixture");
+    (j.fixtures||[]).forEach(function(f){ sel.appendChild(h("option",{value:f.id,selected:f.id===memberId,text:f.plan+" · "+f.id})); });
+    sel.addEventListener("change",function(){ location.search="?member="+encodeURIComponent(sel.value); });
+  }).catch(function(){});
+  fetch("/api/company?member="+encodeURIComponent(memberId),{headers:{Accept:"application/json"}})
+    .then(function(r){return r.json()})
+    .then(function(j){ if(j&&j.ok){ S=j; render(); } else say("That member wasn't found."); })
+    .catch(function(){ say("We couldn't reach the server."); });
+})();
+</script>
+</html>
