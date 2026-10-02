@@ -1,5 +1,4 @@
 import { handlePayments } from "./payments.js";
-import { handleCompany } from "./company.js";
 
 // Method Machine Studio — Cloudflare Worker.
 // Serves the static site from ./public and handles form posts to /submit.php
@@ -204,14 +203,6 @@ export default {
         return await handleSubmit(request, env);
       } catch (err) {
         console.error("submit failed", err);
-        return json(500, { ok: false, error: "server_error" });
-      }
-    }
-    if (pathname.startsWith("/api/company")) {
-      try {
-        return await handleCompany(request, env, pathname);
-      } catch (err) {
-        console.error("company failed", err);
         return json(500, { ok: false, error: "server_error" });
       }
     }
