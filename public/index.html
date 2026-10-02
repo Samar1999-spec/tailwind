@@ -2,8 +2,8 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The Method Machine — Method Machine Studio</title>
-<meta name="description" content="Method Machine Studio — a cinematic institution for directing AI.">
+<title>Method Machine Studio — Train the AI before you ask it to perform</title>
+<meta name="description" content="A studio for directed AI. Rehearsal-room discipline applied to every brief: a directed prompt library, six rehearsal backbones and an orchestrated agent suite for craft, code and commerce.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#06070a">
@@ -305,6 +305,19 @@
   .pay-fine{margin-top:6px; font-size:12.5px; color:var(--silver-dim)}
   @media (max-width:560px){ .pc{width:100%; justify-content:space-between} .pc input{flex:1; width:auto} }
 
+  /* ---- previous-page copy blocks in the new set ---- */
+  .more-link{margin-top:26px}
+  .more-link a{display:inline-flex; align-items:center; min-height:44px; font-family:var(--f-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--blue-hi); border-bottom:1px solid var(--hair-blue)}
+  .more-link a:hover{color:var(--cold); border-color:var(--blue)}
+  .stage .env b{font-size:10px}
+  .portal ul.rooms-list li::before{content:"· "; color:var(--amber)}
+  .portal ol.rungs{margin:20px 0 0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:8px; counter-reset:r}
+  .portal ol.rungs li{counter-increment:r; font-family:var(--f-mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--silver); border:1px solid var(--hair-blue); border-radius:3px; padding:6px 10px}
+  .portal ol.rungs li::before{content:"0" counter(r) " "; color:var(--blue-hi)}
+  .portal .btn{margin-top:auto}
+  .portal .rooms-list,.portal ol.rungs{margin-bottom:26px}
+  .paths-note{margin-top:22px; color:var(--silver-dim); font-size:14px; max-width:70ch}
+
   .hp{position:absolute; left:-9999px; width:1px; height:1px; opacity:0}
   .wl-msg{padding:14px; font-family:var(--f-mono); font-size:12.5px; letter-spacing:.06em; color:var(--blue-hi)}
 
@@ -370,13 +383,13 @@
     </a>
     <button class="navtoggle" aria-expanded="false" aria-controls="links">Menu</button>
     <nav class="links" id="links" aria-label="Studio sections">
-      <a href="#method">The Method</a>
+      <a href="/method">The Method</a>
       <a href="#how">How it works</a>
       <a href="#tracks">Tracks</a>
       <a href="#pricing">Pricing</a>
-      <a href="#ways">Ways in</a>
-      <a href="#institute">Institute</a>
-      <a href="#careers">Careers</a>
+      <a href="#apply">Ways in</a>
+      <a href="/institute">Institute</a>
+      <a href="/apply">Careers</a>
       <a href="#top" class="cta">Join waitlist</a>
     </nav>
   </div>
@@ -444,19 +457,18 @@
       <div class="dust"></div>
       <div class="seam"></div>
     </div>
-
     <div class="bar t" aria-hidden="true"></div>
     <div class="bar b" aria-hidden="true"></div>
 
     <div class="hero-in">
       <p class="slate cue"><span class="n">Act I</span><span class="t">The Studio</span></p>
-      <span class="eyebrow cue">A creative + tech studio, run on directed AI</span>
+      <span class="eyebrow cue">A studio for directed AI · Craft, code, commerce</span>
       <h1 class="title cue">Train the AI before you ask it to <em>perform.</em></h1>
       <div class="epigraph cue d1">
         <q>Given the circumstances, do the truth.</q>
         <b>Konstantin Stanislavski</b>
       </div>
-      <p class="lede cue d2">Large language models behave like method actors — they do their best work when you direct them with role, circumstances, objective, and motivation. Method Machine Studio turns that into a working system: a directed prompt library, six master backbones, and an agent company for your craft, code, and business.</p>
+      <p class="lede cue d2">The quality of an output is decided before the first word is generated. Method Machine Studio applies the preparation discipline of the rehearsal room (role, given circumstances, objective, stakes) to every AI brief, then puts each result through a structured cycle of take, critique and revision. A directed prompt library, six rehearsal backbones and an orchestrated agent suite, built for craft, code and commerce.</p>
       <div class="term cue d3">
         <div class="term-top"><span>Studio access</span><span><i></i></span></div>
         <form class="waitlist" id="waitlist" novalidate>
@@ -465,19 +477,19 @@
           <button class="btn primary" type="submit">Join the waitlist</button>
         </form>
       </div>
-      <p class="trust cue d4" id="trust">Closed studio · applications open by cohort · no spam, one launch email.</p>
+      <p class="trust cue d4" id="trust">Closed studio · cohort-based admission · one launch notice, nothing else.</p>
     </div>
   </div>
 
   <!-- ===================== ACT II — THE METHOD ===================== -->
-  <section class="act" id="method">
+  <section class="act" id="why">
     <div class="glowwarm" aria-hidden="true"></div>
     <div class="wrap">
       <p class="slate rv"><span class="n">Act II</span><span class="t">The Method</span></p>
       <div class="act-head">
-        <span class="eyebrow rv">Why it's different</span>
-        <h2 class="rv">Not a prompt list. A directing method.</h2>
-        <p class="rv">Anyone can sell you a sentence to paste. We give you the system great directors use — so the AI gives its best take, then critiques and improves it, every time.</p>
+        <span class="eyebrow rv">The distinction</span>
+        <h2 class="rv">Not a prompt collection. A direction system.</h2>
+        <p class="rv">Prompt collections supply sentences. A direction system supplies the conditions under which a strong result becomes repeatable: specification before generation, evaluation after it, and a record of what carries forward.</p>
       </div>
 
       <div class="chain" aria-label="The direction sequence">
@@ -491,27 +503,25 @@
 
       <div class="rooms">
         <div class="room rv">
-          <span class="tag">Script room</span>
           <span class="k">Directed prompts</span>
-          <h3>Role, not keywords</h3>
-          <p>Every prompt sets a specific expert, the real circumstances, a testable objective, and the stakes — then builds in a critique-and-adjust loop. A performance, not a guess.</p>
+          <h3>Specification over keywords</h3>
+          <p>Each prompt defines the expert role, the operating context, a testable objective and the stakes, with a critique and revision pass built in. The output is directed, not guessed at.</p>
           <div class="fig" aria-hidden="true"><svg viewBox="0 0 200 46" fill="none" stroke="#c68a4e" stroke-width="1" opacity=".7"><rect x="2" y="4" width="40" height="38"/><path d="M8 12h28M8 18h28M8 24h20M8 30h26"/><rect x="54" y="4" width="40" height="38"/><path d="M60 12h28M60 18h22M60 24h28"/><rect x="106" y="4" width="40" height="38"/><path d="M112 12h28M112 18h28"/><path d="M158 23h38M190 17l6 6-6 6"/></svg></div>
         </div>
         <div class="room rv">
-          <span class="tag">Rehearsal rooms</span>
           <span class="k">Six backbones</span>
-          <h3>Direct in a master's tradition</h3>
-          <p>Hagen, Stanislavski, Meisner, Strasberg, Adler, Chekhov — each a step-by-step way to prepare the AI. Pick the one that fits the task, or let the Director choose.</p>
+          <h3>Rehearsal systems, codified</h3>
+          <p>Hagen, Stanislavski, Meisner, Strasberg, Adler and Chekhov: six preparation disciplines translated into step-by-step procedures. Selected per task, or assigned by the Director.</p>
           <div class="fig" aria-hidden="true"><svg viewBox="0 0 200 46" fill="none" stroke="#9aa6b8" stroke-width="1" opacity=".7"><rect x="2" y="6" width="28" height="34"/><rect x="36" y="6" width="28" height="34"/><rect x="70" y="6" width="28" height="34"/><rect x="104" y="6" width="28" height="34"/><rect x="138" y="6" width="28" height="34"/><rect x="172" y="6" width="26" height="34"/><circle cx="16" cy="23" r="4"/><circle cx="50" cy="23" r="4"/><circle cx="84" cy="23" r="4"/><circle cx="118" cy="23" r="4"/><circle cx="152" cy="23" r="4"/><circle cx="185" cy="23" r="4"/></svg></div>
         </div>
         <div class="room rv">
-          <span class="tag">Production floor</span>
-          <span class="k">Your AI company</span>
-          <h3>Agents that hand off</h3>
-          <p>A Director casts the right performer; each agent runs one method and passes its work to the next. Your studio, staffed by directed AI.</p>
+          <span class="k">Agent suite</span>
+          <h3>An orchestrated company</h3>
+          <p>A Director agent classifies each task and routes it to the right specialist. Every agent runs a single discipline and passes a structured brief to the next: a production pipeline, not a chat window.</p>
           <div class="fig" aria-hidden="true"><svg viewBox="0 0 200 46" fill="none" stroke="#6098de" stroke-width="1" opacity=".75"><circle cx="24" cy="23" r="9"/><circle cx="90" cy="10" r="6"/><circle cx="90" cy="36" r="6"/><circle cx="150" cy="23" r="6"/><path d="M33 19l51-7M33 27l51 7M96 12l50 9M96 34l50-9M156 23h40"/></svg></div>
         </div>
       </div>
+      <p class="more-link rv"><a href="/method">The method in full: framework, backbones, production arc and agent suite →</a></p>
     </div>
   </section>
 
@@ -521,32 +531,32 @@
     <div class="wrap">
       <p class="slate rv"><span class="n">Act III</span><span class="t">The Rehearsal</span></p>
       <div class="act-head">
-        <span class="eyebrow rv">How it works</span>
-        <h2 class="rv">Three moves, then repeat.</h2>
+        <span class="eyebrow rv">Process</span>
+        <h2 class="rv">Three stages, one loop.</h2>
       </div>
       <div class="stages">
         <article class="stage s1 rv">
           <div class="wash" aria-hidden="true"></div>
-          <p class="env"><b>Casting room</b>Nine questions<br>Rehearsal table<br>Script, unmarked</p>
+          <p class="env"><b>Stage 01</b></p>
           <div>
             <h3>Audition</h3>
-            <p>Answer nine plain questions about what you actually want. The system specifies the performance before it produces a word.</p>
+            <p>Nine structured questions establish what is actually required. The performance is fully specified before a word is produced.</p>
           </div>
         </article>
         <article class="stage s2 rv">
           <div class="wash" aria-hidden="true"></div>
-          <p class="env"><b>Command station</b>Track selected<br>Backbone selected<br>Circumstances set</p>
+          <p class="env"><b>Stage 02</b></p>
           <div>
             <h3>Direct</h3>
-            <p>Choose your track and a backbone. Copy a prompt that's already built to the framework, fill the blanks, and run it.</p>
+            <p>A track and a backbone are selected. A prompt pre-built to the framework is completed with the project's specifics and run.</p>
           </div>
         </article>
         <article class="stage s3 rv">
           <div class="wash" aria-hidden="true"></div>
-          <p class="env"><b>The stage</b>Lights up<br>Rolling<br>Take one</p>
+          <p class="env"><b>Stage 03</b></p>
           <div>
             <h3>Perform</h3>
-            <p>Get a first take, an honest critique, and a stronger revision — with a handoff into the next step of your project.</p>
+            <p>A first take is delivered, critiqued against the objective and revised, then handed forward as the brief for the project's next stage.</p>
             <div class="loop" aria-label="The performance loop">
               <span class="on">Take</span><em>→</em><span>Critique</span><em>→</em><span>Revision</span><em>→</em><span>Next brief</span><em>↻</em>
             </div>
@@ -562,91 +572,44 @@
     <div class="wrap">
       <p class="slate rv"><span class="n">Act IV</span><span class="t">The Departments</span></p>
       <div class="act-head">
-        <span class="eyebrow rv">Who it's for</span>
-        <h2 class="rv">Five tracks, one method.</h2>
-        <p class="rv">The same directing system, tuned to how you actually work.</p>
+        <span class="eyebrow rv">Disciplines</span>
+        <h2 class="rv">Five tracks. One method.</h2>
+        <p class="rv">The same direction system, calibrated to the working realities of each field.</p>
       </div>
       <div class="depts">
         <div class="dept rv" style="--tc:var(--actor)">
           <div class="tk">Actor</div><h3>Craft &amp; auditions</h3>
-          <p>Scene work, character build, self-tape notes, casting research.</p>
-          <p class="room-note">Rehearsal room · casting monitors</p>
+          <p>Scene analysis, character construction, self-tape review, casting research.</p>
         </div>
         <div class="dept rv" style="--tc:var(--writer)">
           <div class="tk">Writer / Filmmaker</div><h3>Story to screen</h3>
-          <p>Premise tests, beat sheets, pitch packages, distribution.</p>
-          <p class="room-note">Story board · cutting room</p>
+          <p>Premise stress-tests, beat architecture, pitch packages, distribution strategy.</p>
         </div>
         <div class="dept rv" style="--tc:var(--engineer)">
           <div class="tk">Engineer / Tech</div><h3>Learn &amp; ship</h3>
-          <p>Learning paths, design reviews, prototyping, product specs.</p>
-          <p class="room-note">Laboratory · system architecture</p>
+          <p>Structured learning paths, design review, prototyping, product specification.</p>
         </div>
         <div class="dept rv" style="--tc:var(--founder)">
           <div class="tk">Entrepreneur</div><h3>Idea to venture</h3>
-          <p>Problem validation, business models, pitch and funding prep.</p>
-          <p class="room-note">Strategy room · venture boards</p>
+          <p>Problem validation, business modelling, investor narrative, raise preparation.</p>
         </div>
         <div class="dept rv" style="--tc:var(--solver)">
           <div class="tk">Problem-Solver</div><h3>Any field</h3>
-          <p>Frame, diagnose, decide — eight solving methods for hard problems.</p>
-          <p class="room-note">Analysis room · decision architecture</p>
+          <p>Frame, diagnose, decide: eight formal problem-solving methods for hard problems.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== ACT V — THE COMPANY ===================== -->
-  <section class="act" id="company">
-    <div class="glowcold" aria-hidden="true"></div>
-    <div class="wrap">
-      <p class="slate rv"><span class="n">Act V</span><span class="t">The Company</span></p>
-      <div class="act-head">
-        <span class="eyebrow rv">The agent suite</span>
-        <h2 class="rv">An orchestrated company.</h2>
-        <p class="rv">The Director reads the brief and casts the work. Each specialist runs one method, then hands a structured brief to the next. Nothing performs until the circumstances are set.</p>
-      </div>
-      <div class="crew">
-        <div class="crewfig rv" id="crewfig">
-          <svg viewBox="0 0 420 300" role="img" aria-label="The Director agent at the centre, handing work to five specialist agents.">
-            <g class="edge draw" pathLength="1">
-              <path d="M210 150 86 70"/><path d="M210 150 86 230"/>
-              <path d="M210 150 334 70"/><path d="M210 150 334 230"/>
-              <path d="M210 150 210 282"/>
-            </g>
-            <circle class="hub" cx="210" cy="150" r="36"/>
-            <circle class="hub" cx="210" cy="150" r="46" opacity=".4"/>
-            <text class="c" x="210" y="153" text-anchor="middle">Director</text>
-            <g>
-              <circle class="spec" cx="86" cy="70" r="24"/><text x="86" y="73" text-anchor="middle">Hagen</text>
-              <circle class="spec" cx="334" cy="70" r="24"/><text x="334" y="73" text-anchor="middle">Adler</text>
-              <circle class="spec" cx="86" cy="230" r="24"/><text x="86" y="233" text-anchor="middle">Meisner</text>
-              <circle class="spec" cx="334" cy="230" r="24"/><text x="334" y="233" text-anchor="middle">Chekhov</text>
-              <circle class="spec" cx="210" cy="282" r="18"/><text x="210" y="285" text-anchor="middle">+2</text>
-            </g>
-          </svg>
-        </div>
-        <div>
-          <div class="flow rv">
-            <div><span>01 — Intake</span><b>Director</b></div>
-            <div><span>02 — Casting</span><b>Specialist agents</b></div>
-            <div><span>03 — Handoff</span><b>Structured brief</b></div>
-            <div><span>04 — Call</span><b>Next stage</b></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== ACT VI — THE INSTITUTION ===================== -->
+  <!-- ===================== ACT V — THE INSTITUTION ===================== -->
   <section class="act" id="pricing">
     <div class="glowcold" aria-hidden="true"></div>
     <div class="wrap">
-      <p class="slate rv"><span class="n">Act VI</span><span class="t">The Institution</span></p>
+      <p class="slate rv"><span class="n">Act V</span><span class="t">The Institution</span></p>
       <div class="act-head">
         <span class="eyebrow rv">Membership</span>
         <h2 class="rv">Start free. Go as deep as you want.</h2>
-        <p class="rv">One system, four tiers. Prices shown are launch pricing.</p>
+        <p class="rv">Admission is free and permanent. Each plan adds depth: the full library, direct teaching, access to the company and, ultimately, the right to teach.</p>
       </div>
       <div class="pay-controls rv">
         <div class="seg" role="group" aria-label="Billing period">
@@ -662,7 +625,6 @@
       </div>
       <div class="tiers">
         <div class="tier d1 rv">
-          <span class="access">Level 01 — Observe</span>
           <div class="tname">Student</div>
           <div class="price">Free <small>forever</small></div>
           <div class="tsub">Auditing access</div>
@@ -670,7 +632,6 @@
           <a class="btn ghost" href="/institute">Sit the paper, free</a>
         </div>
         <div class="tier d2 rv">
-          <span class="access">Level 02 — Study</span>
           <div class="tname">Scholar</div>
           <div class="price" data-plan="scholar">$19 <small>/mo</small></div>
           <div class="tsub" data-note="scholar">Premium courses</div>
@@ -679,7 +640,6 @@
         </div>
         <div class="tier d3 rv">
           <span class="flag">Most popular</span>
-          <span class="access">Level 03 — Participate</span>
           <div class="tname">Company</div>
           <div class="price" data-plan="company">$49 <small>/mo</small></div>
           <div class="tsub" data-note="company">Teaching Assistant + the company</div>
@@ -687,7 +647,6 @@
           <button class="btn primary" type="button" data-buy="company">Choose Company</button>
         </div>
         <div class="tier d4 rv">
-          <span class="access">Level 04 — Direct</span>
           <div class="tname">Founder</div>
           <div class="price" data-plan="founder">$99 <small>/mo</small></div>
           <div class="tsub" data-note="founder">Found your own classroom</div>
@@ -700,91 +659,35 @@
     </div>
   </section>
 
-  <!-- Ways in — two portals -->
-  <section class="act" id="ways">
+  <!-- ===================== ACT VI — TWO WAYS IN ===================== -->
+  <section class="act" id="apply">
     <div class="glowwarm" aria-hidden="true"></div>
     <div class="wrap">
-      <div class="act-head" style="margin-top:0">
-        <span class="eyebrow rv">Ways in</span>
+      <p class="slate rv"><span class="n">Act VI</span><span class="t">Two Ways In</span></p>
+      <div class="act-head">
+        <span class="eyebrow rv">Two ways in</span>
         <h2 class="rv">Build your own team, or join ours.</h2>
+        <p class="rv">Two assessments, two destinations. Choose the one aligned with your intent.</p>
       </div>
       <div class="portals">
-        <a class="portal inst rv" href="/institute">
+        <div class="portal inst rv">
           <div class="door" aria-hidden="true"></div>
-          <span class="pk">Door one</span>
-          <h3>The Method Institute</h3>
-          <p>Learn the method and build your own company of directed agents. You direct; the studio teaches.</p>
-          <p class="rooms-list">Rehearsal halls<br>Lecture rooms<br>Examination room<br>Archive</p>
-          <span class="btn ghost-warm">Enter the Institute</span>
-        </a>
-        <a class="portal studio rv" href="/apply">
+          <span class="pk">The Method Institute · Entrance Paper I</span>
+          <h3>Form a team of your own</h3>
+          <p>For actors, writers, directors, producers and organisations running their own work on the method. The paper produces a Method Dossier, the foundation for an individual agent team and a classroom of your own.</p>
+          <ul class="rooms-list"><li>Open to everyone</li><li>No wrong answers, no time limit</li><li>Leads to membership and your own team</li></ul>
+          <a class="btn warm" href="/institute">Sit Entrance Paper I</a>
+        </div>
+        <div class="portal studio rv">
           <div class="door" aria-hidden="true"></div>
-          <span class="pk">Door two</span>
-          <h3>Method Machine Studio</h3>
-          <p>Join the company itself and work the production floor on real projects, directing alongside the crew.</p>
-          <p class="rooms-list">Production floor<br>Command center<br>Cutting room<br>Registry</p>
-          <span class="btn ghost">Enter the Studio</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Institute -->
-  <section class="act" id="institute">
-    <div class="glowwarm" aria-hidden="true"></div>
-    <div class="wrap">
-      <div class="act-head" style="margin-top:0">
-        <span class="eyebrow rv">The Institute</span>
-        <h2 class="rv">Where the method is taught.</h2>
-        <p class="rv">A film institute, a theatre conservatory and a research laboratory under one roof. You read the tradition, rehearse the procedure, and sit the examination before you direct anything that matters.</p>
-      </div>
-      <div class="rooms">
-        <div class="room rv">
-          <span class="tag">Hall one</span><span class="k">Study</span>
-          <h3>The tradition</h3>
-          <p>Six backbones read in the original, then reduced to the procedure each one actually prescribes.</p>
-        </div>
-        <div class="room rv">
-          <span class="tag">Hall two</span><span class="k">Rehearse</span>
-          <h3>The procedure</h3>
-          <p>Supervised rehearsal on your own material, with critique that names what the take was missing.</p>
-        </div>
-        <div class="room rv">
-          <span class="tag">Hall three</span><span class="k">Examine</span>
-          <h3>The assessment</h3>
-          <p>Stage 1 under conditions. Reasoning and character, held to a line, with a read that points you to your track.</p>
+          <span class="pk">Careers · Stage 1 Application</span>
+          <h3>Join Method Machine Studio</h3>
+          <p>For those building a career inside the studio. The Stage 1 paper is a timed aptitude-and-character assessment covering logic, pattern recognition, probability, code and narrative inference. Reasoning is the filter, not credentials.</p>
+          <ol class="rungs"><li>Assistant</li><li>Associate</li><li>Team member</li></ol>
+          <a class="btn primary" href="/apply">Apply to join the studio</a>
         </div>
       </div>
-      <div style="margin-top:28px"><a class="btn ghost-warm rv" href="/institute">Enter the Institute</a></div>
-    </div>
-  </section>
-
-  <!-- Careers -->
-  <section class="act" id="careers">
-    <div class="glowcold" aria-hidden="true"></div>
-    <div class="wrap">
-      <div class="act-head" style="margin-top:0">
-        <span class="eyebrow rv">Careers</span>
-        <h2 class="rv">Enter the studio workforce.</h2>
-        <p class="rv">Three positions on the floor, each a deeper seat in the room. You start by observing takes and end by calling them.</p>
-      </div>
-      <div class="ladder">
-        <div class="rung rv"><span class="st">Position 01</span><h4>Assistant</h4><p>On the floor. You run briefs the crew has already set, and learn the house procedure take by take.</p></div>
-        <div class="rung rv"><span class="st">Position 02</span><h4>Associate</h4><p>You set circumstances on live projects and own the critique pass on your own work.</p></div>
-        <div class="rung rv"><span class="st">Position 03</span><h4>Team member</h4><p>You direct. Casting, handoffs and the final call on what ships belong to you.</p></div>
-      </div>
-
-      <div style="margin-top:46px">
-        <div class="pane rv" style="padding:clamp(30px,4.6vw,52px); background:linear-gradient(140deg,var(--slate),rgba(6,7,10,.6))">
-          <span class="eyebrow">Closed studio</span>
-          <h2 style="font-size:clamp(25px,4vw,38px); margin-top:16px">Membership is by application.</h2>
-          <p style="color:var(--silver); margin-top:16px; max-width:58ch">We keep the studio high-signal. Stage 1 is a short aptitude-and-character assessment — logic, patterns, probability, code, story inference — plus a read that points you to your track. No résumé polish. Just whether you can hold a line of reasoning and choose the harder correct path.</p>
-          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:28px">
-            <a class="btn primary" href="/apply">Request an invite</a>
-            <a class="btn ghost" href="#how">See how it works</a>
-          </div>
-        </div>
-      </div>
+      <p class="paths-note rv">Leading a team of your own: sit the Institute paper. Building a career inside Method Machine Studio: apply.</p>
     </div>
   </section>
 
@@ -797,24 +700,28 @@
       </div>
       <div class="notebook">
         <details>
-          <summary><span class="ch">Ch. 01</span><h3>Do I need to be technical?</h3><span class="pm">+</span></summary>
-          <p>No. The method is a directing procedure — nine plain questions and a set of backbones. Engineers, actors, writers, founders, and problem-solvers each get a track tuned to their work.</p>
+          <summary><span class="ch">Ch. 01</span><h3>Is a technical background required?</h3><span class="pm">+</span></summary>
+          <p>No. The method is a direction procedure: nine structured questions and a set of backbones. Engineers, actors, writers, founders and problem-solvers each work from a track calibrated to their field.</p>
         </details>
         <details>
-          <summary><span class="ch">Ch. 02</span><h3>What's actually in the membership?</h3><span class="pm">+</span></summary>
-          <p>A directed prompt library for your track, six master backbones, an agent suite that chains into workflows, a community, and — on higher tiers — a verified member registry and business tools.</p>
+          <summary><span class="ch">Ch. 02</span><h3>What does membership include?</h3><span class="pm">+</span></summary>
+          <p>A directed prompt library for your track, six rehearsal backbones, an agent suite that chains into production workflows, a practitioner community and, on higher plans, a verified member registry and business tooling.</p>
         </details>
         <details>
-          <summary><span class="ch">Ch. 03</span><h3>Why an application and an assessment?</h3><span class="pm">+</span></summary>
-          <p>A closed studio stays valuable only if the room stays sharp. Stage 1 measures reasoning and character, not polish, so the community and registry mean something.</p>
+          <summary><span class="ch">Ch. 03</span><h3>How do the two question papers differ?</h3><span class="pm">+</span></summary>
+          <p>Entrance Paper I at The Method Institute is for leading a team of your own: it produces a Method Dossier and leads to membership, an individual agent team and a classroom of your own. The Stage 1 application is for joining Method Machine Studio itself, with a career path from Assistant to Associate to team member.</p>
         </details>
         <details>
-          <summary><span class="ch">Ch. 04</span><h3>Where does the method come from?</h3><span class="pm">+</span></summary>
-          <p>From the step-by-step techniques of Stanislavski, Meisner, Strasberg, Adler, Chekhov, and Uta Hagen.</p>
+          <summary><span class="ch">Ch. 04</span><h3>Why is the careers application assessed?</h3><span class="pm">+</span></summary>
+          <p>Studio members work on live productions. Stage 1 measures reasoning and character rather than presentation, so every Assistant enters against the same standard.</p>
         </details>
         <details>
-          <summary><span class="ch">Ch. 05</span><h3>Can I cancel anytime?</h3><span class="pm">+</span></summary>
-          <p>Yes. Membership is month-to-month, or annual at a lower rate. Your free-tier access remains.</p>
+          <summary><span class="ch">Ch. 05</span><h3>Where does the method come from?</h3><span class="pm">+</span></summary>
+          <p>The rehearsal room. The preparation techniques of Stanislavski, Meisner, Strasberg, Adler, Chekhov and Uta Hagen, refined over a century to produce truthful, repeatable performance, are translated into procedures that direct AI output with the same rigour.</p>
+        </details>
+        <details>
+          <summary><span class="ch">Ch. 06</span><h3>Can membership be cancelled at any time?</h3><span class="pm">+</span></summary>
+          <p>Yes. Membership runs month to month, or annually at a reduced rate. Free-tier access remains in either case.</p>
         </details>
       </div>
     </div>
@@ -827,7 +734,7 @@
       <p class="slate rv"><span class="n">Act VII</span><span class="t">The Next Act</span></p>
       <span class="eyebrow rv" style="margin-top:28px">Your next act</span>
       <h2 class="rv">Starts here.</h2>
-      <p class="sub rv">Join the waitlist and you'll get the launch invite and first crack at a cohort.</p>
+      <p class="sub rv">Waitlist members receive the launch invitation and first access to each new cohort.</p>
       <div class="term rv">
         <div class="term-top"><span>Studio access</span><span><i></i></span></div>
         <form class="waitlist" id="waitlist2" novalidate>
@@ -847,17 +754,15 @@
       <p class="ftag" style="margin-top:16px">Same human spirit, new possibilities.</p>
     </div>
     <nav class="fnav" aria-label="Footer">
-      <a href="#method">The Method</a>
+      <a href="/method">The Method</a>
       <a href="#how">How it works</a>
       <a href="#tracks">Tracks</a>
       <a href="#pricing">Pricing</a>
-      <a href="#ways">Ways in</a>
-      <a href="/method">Method guide</a>
-      <a href="/institute">Institute</a>
+      <a href="/institute">The Method Institute</a>
       <a href="/apply">Careers</a>
     </nav>
   </div>
-  <p class="fine">Method Machine Studio™ — a prompting methodology built on the techniques of Stanislavski, Meisner, Strasberg, Adler, Chekhov, and Uta Hagen. People · Ideas · Projects · Opportunities.</p>
+  <p class="fine">Method Machine Studio™ is a direction methodology for AI, built on the preparation techniques of Stanislavski, Meisner, Strasberg, Adler, Chekhov and Uta Hagen. People · Ideas · Projects · Opportunities.</p>
 </footer>
 
 <script>
