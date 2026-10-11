@@ -27,6 +27,15 @@ Without it, applications are still saved, just not auto-scored.
 
 ## Reading submissions
 
+The quickest way is **/admin** on the live site (for example methodmachinestudio.com/admin).
+It lists the waitlist, careers applications, Institute papers, paid members and uploads,
+with a filter, full detail per row and CSV download. It is read-only.
+
+One-time setup: Worker → Settings → Variables and Secrets → add a **Secret** named
+`ADMIN_PASSWORD` with a long password of your choice. Until it is set, /admin refuses
+every request. Five wrong attempts lock that address out for ten minutes.
+
+You can also query the database directly:
 Cloudflare dashboard → Storage & Databases → D1 → `method-machine-studio` → Console:
 
 ```sql
