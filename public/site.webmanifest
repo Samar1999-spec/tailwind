@@ -1,0 +1,12 @@
+{
+  "name": "Method Machine Studio",
+  "short_name": "MMS",
+  "description": "Train the AI before you ask it to perform.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0c",
+  "theme_color": "#0a0a0c",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" }
+  ]
+}
