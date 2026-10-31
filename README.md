@@ -100,3 +100,10 @@ npx wrangler d1 execute method-machine-studio --local --file schema.sql
 echo "ANSWER_KEY=$(cat answer_key.json)" > .dev.vars   # optional, git-ignored
 npx wrangler dev
 ```
+
+## Legacy demo file
+
+The repo root also has an old standalone `index.html` (a tailblocks.cc demo page, unrelated
+to the Method Machine Studio site above). It is not part of the deployed app — the live
+site is served from `public/`. Its source is split into partials under `sections/`; run
+`node build.js` to regenerate it after editing a partial.
