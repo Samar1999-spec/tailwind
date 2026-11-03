@@ -17,7 +17,7 @@
     --blue:#6098de; --blue-hi:#a3c3ef; --blue-deep:#3f66aa; --line-blue:rgba(96,152,222,0.32);
     --ink:#ece6dd; --ink-dim:#a7a49c; --ink-faint:#6f6b63;
     --gold:#c68a4e; --gold-hi:#e2b681; --gold-deep:#8f5f34;
-    --actor:#c17a45; --writer:#d8a86a; --engineer:#6098de; --founder:#5478bd; --solver:#a98a6a;
+    --actor:#c17a45; --writer:#d8a86a; --engineer:#6098de; --founder:#5478bd; --solver:#a98a6a; --musician:#a3c3ef;
     --maxw:1140px;
     --f-disp:"Fraunces",Georgia,"Times New Roman",serif;
     --f-body:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
@@ -146,7 +146,9 @@
   .finder-out b{color:var(--gold); font-family:var(--f-disp); font-style:italic; font-size:19px}
 
   /* tracks */
-  .tracks{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px}
+  .tracks{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+  @media (max-width:940px){ .tracks{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:560px){ .tracks{grid-template-columns:1fr} }
   .track{background:var(--panel); border:1px solid var(--line); border-top:3px solid var(--tc); border-radius:12px; padding:20px 20px 22px}
   .track .tk{font-family:var(--f-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--tc); font-weight:600}
   .track h3{font-size:20px; margin-top:9px}
@@ -433,7 +435,7 @@
     <div class="sec-head">
       <span class="eyebrow">Disciplines</span>
       <h2>Inside each track</h2>
-      <p>One method, calibrated to five fields of work. Each track's library covers the following, paired with the backbone the moment calls for.</p>
+      <p>One method, calibrated to six fields of work. Each track's library covers the following, paired with the backbone the moment calls for.</p>
     </div>
     <div class="tracks" id="tracksgrid"></div>
   </section>
@@ -569,6 +571,7 @@
     {tk:"Writer / Filmmaker",c:"var(--writer)",items:["Development and script architecture","Production planning and scheduling","Distribution strategy","Pitch and market materials"]},
     {tk:"Engineer / Tech",c:"var(--engineer)",items:["Structured learning paths","Technical research","Coding and prototyping","Product development"]},
     {tk:"Entrepreneur",c:"var(--founder)",items:["Market research","Business modelling","Customer discovery","Investor narrative and raise preparation"]},
+    {tk:"Musician",c:"var(--musician)",items:["Songwriting and arrangement","Session and rehearsal preparation","Release and distribution planning","Live performance and tour materials"]},
     {tk:"Problem-Solver",c:"var(--solver)",items:["Field-agnostic method","Frame · diagnose · decide","Eight formal solving lineages","Cross-domain reasoning"]}
   ];
 

@@ -22,7 +22,7 @@
     --blue:#6098de; --blue-hi:#a3c3ef; --blue-deep:#3f66aa;
     --amber:#c68a4e; --amber-hi:#e2b681;
     --hair:rgba(238,242,247,0.09); --hair-blue:rgba(96,152,222,0.30); --hair-amber:rgba(198,138,78,0.26);
-    --actor:#c17a45; --writer:#d8a86a; --engineer:#6098de; --founder:#5478bd; --solver:#a98a6a;
+    --actor:#c17a45; --writer:#d8a86a; --engineer:#6098de; --founder:#5478bd; --solver:#a98a6a; --musician:#a3c3ef;
     --maxw:1180px; --gut:clamp(18px,4vw,52px);
     --f-disp:"Fraunces",Georgia,"Times New Roman",serif;
     --f-body:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
@@ -180,7 +180,9 @@
   .loop em{font-style:normal; color:var(--silver-dim); font-family:var(--f-mono); font-size:11px}
 
   /* ---- departments (act IV) ---- */
-  .depts{margin-top:46px; display:grid; grid-template-columns:repeat(auto-fit,minmax(206px,1fr)); gap:14px}
+  .depts{margin-top:46px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+  @media (max-width:940px){ .depts{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:560px){ .depts{grid-template-columns:1fr} }
   .dept{padding:24px 22px 26px; border-radius:4px; background:var(--charcoal); border:1px solid var(--hair); border-top:2px solid var(--tc); position:relative; overflow:hidden; transition:background .5s ease}
   .dept::after{content:""; position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .6s ease;
     background:radial-gradient(70% 60% at 50% 0%, color-mix(in srgb, var(--tc) 20%, transparent), transparent 70%)}
@@ -573,7 +575,7 @@
       <p class="slate rv"><span class="n">Act IV</span><span class="t">The Departments</span></p>
       <div class="act-head">
         <span class="eyebrow rv">Disciplines</span>
-        <h2 class="rv">Five tracks. One method.</h2>
+        <h2 class="rv">Six tracks. One method.</h2>
         <p class="rv">The same direction system, calibrated to the working realities of each field.</p>
       </div>
       <div class="depts">
@@ -592,6 +594,10 @@
         <div class="dept rv" style="--tc:var(--founder)">
           <div class="tk">Entrepreneur</div><h3>Idea to venture</h3>
           <p>Problem validation, business modelling, investor narrative, raise preparation.</p>
+        </div>
+        <div class="dept rv" style="--tc:var(--musician)">
+          <div class="tk">Musician</div><h3>Sound to stage</h3>
+          <p>Songwriting and arrangement, session preparation, release planning, live-show direction.</p>
         </div>
         <div class="dept rv" style="--tc:var(--solver)">
           <div class="tk">Problem-Solver</div><h3>Any field</h3>
@@ -701,7 +707,7 @@
       <div class="notebook">
         <details>
           <summary><span class="ch">Ch. 01</span><h3>Is a technical background required?</h3><span class="pm">+</span></summary>
-          <p>No. The method is a direction procedure: nine structured questions and a set of backbones. Engineers, actors, writers, founders and problem-solvers each work from a track calibrated to their field.</p>
+          <p>No. The method is a direction procedure: nine structured questions and a set of backbones. Engineers, actors, writers, musicians, founders and problem-solvers each work from a track calibrated to their field.</p>
         </details>
         <details>
           <summary><span class="ch">Ch. 02</span><h3>What does membership include?</h3><span class="pm">+</span></summary>
